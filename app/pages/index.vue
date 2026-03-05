@@ -44,6 +44,11 @@ const features = [
     title: 'Learn Anywhere',
     description: 'Responsive design works on desktop, tablet, and mobile. Learn on your terms.',
   },
+  {
+    icon: 'mdi:robot-outline',
+    title: 'AI-Powered Development',
+    description: 'With AI, building courses as code is faster than any drag-and-drop LMS. We\'re developers — we play to our strengths.',
+  },
 ]
 </script>
 

@@ -5,7 +5,7 @@
 ![Nuxt](https://img.shields.io/badge/Nuxt-4-00DC82?style=flat-square&logo=nuxt.js)
 ![Vue](https://img.shields.io/badge/Vue-3-4FC08D?style=flat-square&logo=vue.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
+![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=flat-square)
 
 > **Deployment:** This LMS will be deployed to replace the current Moodle instance at **[https://dojo.skill-wanderer.com/](https://dojo.skill-wanderer.com/)**
 
@@ -17,8 +17,9 @@ Traditional LMS platforms like Moodle are heavy, slow, and often locked behind i
 
 - **100% Free** — No paywalls, no premium tiers, no gatekeeping
 - **SEO-Friendly** — Server-side rendered, publicly crawlable by search engines
-- **Open Source** — MIT licensed, community-driven
+- **Open Source** — Apache 2.0 licensed, community-driven
 - **Modern Stack** — Nuxt 4 + Vue 3 + Tailwind + TypeScript
+- **AI-Powered Course Development** — With AI, writing courses as code is dramatically faster than dragging and dropping blocks in platforms like Moodle. We're software developers — instead of fighting clunky UIs, we play to our strengths and build content the way we build software: in code, with version control, at speed
 
 ## Features
 
@@ -177,7 +178,7 @@ Contributions are welcome! This is an open-source project.
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the Apache License 2.0 — see the [LICENSE](./LICENSE) file for details.
 
 ---
 

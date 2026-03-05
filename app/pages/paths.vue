@@ -38,8 +38,11 @@ const paths = [
     description: 'Learn manual and automated testing strategies, test frameworks, and quality assurance best practices.',
     difficulty: 'beginner',
     icon: 'mdi:bug-check-outline',
-    estimatedDuration: 'Coming Soon',
-    courseCount: 0,
+    estimatedDuration: '4h 30m',
+    courseCount: 1,
+    courses: [
+      { title: 'Manual Software Testing with Black Box Techniques', slug: 'manual-software-testing-black-box-techniques' },
+    ],
   },
   {
     title: 'Software Development Roles & Career Path',
@@ -97,6 +100,20 @@ const paths = [
   },
 ]
 
+const searchQuery = ref('')
+const selectedDifficulty = ref('')
+
+const filteredPaths = computed(() => {
+  return paths.filter((path) => {
+    const matchesSearch = !searchQuery.value.trim()
+      || path.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+      || path.description.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const matchesDifficulty = !selectedDifficulty.value
+      || path.difficulty === selectedDifficulty.value
+    return matchesSearch && matchesDifficulty
+  })
+})
+
 const difficultyClass = (d: string) => {
   switch (d) {
     case 'beginner': return 'badge-beginner'
@@ -117,8 +134,59 @@ const difficultyClass = (d: string) => {
     />
 
     <section class="section">
-      <div class="paths-list">
-        <div v-for="path in paths" :key="path.slug" class="glass-card path-card">
+      <!-- Search & Filter Bar -->
+      <div class="paths-search-bar">
+        <div class="paths-search-input-wrapper">
+          <Icon name="mdi:magnify" class="paths-search-icon" />
+          <input
+            v-model="searchQuery"
+            type="search"
+            placeholder="Search learning paths…"
+            class="paths-search-input"
+            aria-label="Search learning paths"
+          />
+        </div>
+        <div class="paths-filter-group">
+          <button
+            :class="['filter-btn', { active: selectedDifficulty === '' }]"
+            @click="selectedDifficulty = ''"
+          >
+            All
+          </button>
+          <button
+            :class="['filter-btn filter-beginner', { active: selectedDifficulty === 'beginner' }]"
+            @click="selectedDifficulty = 'beginner'"
+          >
+            Beginner
+          </button>
+          <button
+            :class="['filter-btn filter-intermediate', { active: selectedDifficulty === 'intermediate' }]"
+            @click="selectedDifficulty = 'intermediate'"
+          >
+            Intermediate
+          </button>
+          <button
+            :class="['filter-btn filter-advanced', { active: selectedDifficulty === 'advanced' }]"
+            @click="selectedDifficulty = 'advanced'"
+          >
+            Advanced
+          </button>
+        </div>
+      </div>
+
+      <!-- Results count -->
+      <p v-if="searchQuery.trim() || selectedDifficulty" class="paths-results-label">
+        {{ filteredPaths.length }} path{{ filteredPaths.length !== 1 ? 's' : '' }} found
+        <template v-if="searchQuery.trim()">
+          for <strong class="text-brand-orange">"{{ searchQuery }}"</strong>
+        </template>
+        <template v-if="selectedDifficulty">
+          in <strong class="text-brand-orange">{{ selectedDifficulty }}</strong>
+        </template>
+      </p>
+
+      <div v-if="filteredPaths.length" class="paths-list">
+        <div v-for="path in filteredPaths" :key="path.slug" class="glass-card path-card">
           <div class="path-header">
             <Icon :name="path.icon" class="path-icon" />
             <div>
@@ -138,17 +206,144 @@ const difficultyClass = (d: string) => {
             </div>
           </div>
 
-          <div class="path-coming-soon">
+          <!-- Course list when available -->
+          <div v-if="path.courses && path.courses.length" class="path-courses">
+            <div
+              v-for="(course, index) in path.courses"
+              :key="course.slug"
+              class="path-course-item"
+            >
+              <span class="path-course-number">{{ index + 1 }}</span>
+              <NuxtLink :to="`/courses/${course.slug}`" class="path-course-link">
+                {{ course.title }}
+              </NuxtLink>
+            </div>
+          </div>
+
+          <!-- Coming soon when no courses yet -->
+          <div v-else class="path-coming-soon">
             <Icon name="mdi:hammer-wrench" class="text-brand-orange text-lg" />
             <span class="text-sm text-gray-400">Courses for this path are being developed. Stay tuned!</span>
           </div>
         </div>
+      </div>
+
+      <!-- Empty state -->
+      <div v-else class="empty-state">
+        <Icon name="mdi:magnify-close" class="text-gray-600 text-5xl mb-4" />
+        <h3 class="text-xl font-semibold mb-2">No paths found</h3>
+        <p class="text-gray-500 mb-4">Try a different search term or clear your filters.</p>
+        <button class="btn btn-outline btn-sm" @click="searchQuery = ''; selectedDifficulty = ''">
+          Clear Filters
+        </button>
       </div>
     </section>
   </div>
 </template>
 
 <style scoped>
+.paths-search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.paths-search-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 220px;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 50px;
+  padding: 10px 20px;
+  transition: border-color 0.3s ease;
+}
+
+.paths-search-input-wrapper:focus-within {
+  border-color: var(--primary-orange);
+}
+
+.paths-search-icon {
+  color: rgba(224, 224, 224, 0.4);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.paths-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--light-text);
+  font-size: 1rem;
+  outline: none;
+}
+
+.paths-search-input::placeholder {
+  color: rgba(224, 224, 224, 0.35);
+}
+
+.paths-filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: rgba(224, 224, 224, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: rgba(255, 107, 53, 0.4);
+  color: var(--light-text);
+}
+
+.filter-btn.active {
+  background: rgba(255, 107, 53, 0.15);
+  border-color: var(--primary-orange);
+  color: var(--primary-orange);
+}
+
+.filter-beginner.active {
+  background: rgba(76, 175, 80, 0.15);
+  border-color: #4caf50;
+  color: #4caf50;
+}
+
+.filter-intermediate.active {
+  background: rgba(255, 152, 0, 0.15);
+  border-color: #ff9800;
+  color: #ff9800;
+}
+
+.filter-advanced.active {
+  background: rgba(244, 67, 54, 0.15);
+  border-color: #f44336;
+  color: #f44336;
+}
+
+.paths-results-label {
+  font-size: 0.95rem;
+  color: rgba(224, 224, 224, 0.6);
+  margin-bottom: 24px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
 .paths-list {
   display: flex;
   flex-direction: column;
@@ -183,6 +378,54 @@ const difficultyClass = (d: string) => {
   border: 1px dashed rgba(255, 107, 53, 0.2);
 }
 
+.path-courses {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.path-course-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.path-course-item:hover {
+  background: rgba(255, 107, 53, 0.06);
+  border-color: rgba(255, 107, 53, 0.2);
+}
+
+.path-course-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 107, 53, 0.12);
+  color: var(--primary-orange);
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.path-course-link {
+  color: var(--light-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.path-course-link:hover {
+  color: var(--primary-orange);
+}
+
 @media (max-width: 768px) {
   .path-card {
     padding: 20px;
@@ -195,11 +438,29 @@ const difficultyClass = (d: string) => {
   .path-icon {
     font-size: 1.6rem;
   }
+
+  .paths-search-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .paths-filter-group {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
   .path-card {
     padding: 16px;
+  }
+
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .empty-state {
+    padding: 40px 12px;
   }
 }
 </style>
