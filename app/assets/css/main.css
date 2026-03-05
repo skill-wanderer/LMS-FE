@@ -1,0 +1,262 @@
+/* ========================================
+   Skill-Wanderer Dojo — Design Tokens & Base
+   ======================================== */
+
+:root {
+  /* Brand */
+  --primary-orange: #FF6B35;
+  --deep-orange: #E85D25;
+  --accent-yellow: #FFD93D;
+
+  /* Surfaces */
+  --dark-bg: #1a1a1a;
+  --darker-bg: #0f0f0f;
+  --light-text: #e0e0e0;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-hover: rgba(255, 255, 255, 0.08);
+
+  /* Semantic */
+  --success-green: #4CAF50;
+  --failure-red: #f44336;
+  --wisdom-purple: #9C27B0;
+  --growth-blue: #2196F3;
+  --premium-gold: #FFC107;
+  --lock-silver: #9E9E9E;
+}
+
+/* ---- Reset & Base ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--dark-bg);
+  color: var(--light-text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--primary-orange);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-yellow);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---- Utility: Gradient Heading ---- */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary-orange), var(--accent-yellow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-orange), var(--deep-orange));
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.45);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--primary-orange);
+  border: 2px solid var(--primary-orange);
+}
+
+.btn-secondary:hover {
+  background: var(--primary-orange);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--light-text);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+}
+
+.btn-outline:hover {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: var(--primary-orange);
+  color: var(--primary-orange);
+}
+
+.btn-sm {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+}
+
+/* ---- Cards ---- */
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 107, 53, 0.4);
+  background: var(--card-hover);
+}
+
+/* ---- Grid ---- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* ---- Section ---- */
+.section {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-narrow {
+  max-width: 800px;
+}
+
+/* ---- Section Backgrounds ---- */
+.section-glow {
+  position: relative;
+}
+
+.section-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 107, 53, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- Progress Bar ---- */
+.progress-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-orange), var(--accent-yellow));
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+/* ---- Tags / Badges ---- */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-beginner {
+  background: rgba(76, 175, 80, 0.15);
+  color: var(--success-green);
+}
+
+.badge-intermediate {
+  background: rgba(33, 150, 243, 0.15);
+  color: var(--growth-blue);
+}
+
+.badge-advanced {
+  background: rgba(156, 39, 176, 0.15);
+  color: var(--wisdom-purple);
+}
+
+.badge-free {
+  background: rgba(255, 107, 53, 0.15);
+  color: var(--primary-orange);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .section {
+    padding: 50px 16px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    padding: 12px 22px;
+    font-size: 1rem;
+  }
+
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 40px 12px;
+  }
+
+  .btn {
+    padding: 10px 18px;
+    font-size: 0.95rem;
+  }
+
+  .btn-sm {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+}
