@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { Lesson } from '~/types/course'
 
-defineProps<{
+const props = defineProps<{
   lesson: Lesson
   courseSlug: string
   index: number
 }>()
+
+const { formatDuration } = useCourses()
 </script>
 
 <template>
@@ -28,7 +30,10 @@ defineProps<{
           <Icon :name="lesson.type === 'video' ? 'mdi:play-circle-outline' : 'mdi:file-document-outline'" size="14" />
           {{ lesson.type === 'video' ? 'Video' : 'Article' }}
         </span>
-        <span class="lesson-duration">{{ lesson.duration }}</span>
+        <span v-if="lesson.durationMinutes" class="lesson-duration">
+          <Icon name="mdi:clock-outline" size="14" />
+          {{ formatDuration(lesson.durationMinutes) }}
+        </span>
       </div>
     </div>
 
@@ -88,6 +93,12 @@ defineProps<{
 }
 
 .lesson-type {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lesson-duration {
   display: flex;
   align-items: center;
   gap: 4px;

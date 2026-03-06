@@ -1,24 +1,14 @@
-import type { Course } from '~/types/course'
-
 /**
  * GET /api/courses
- * Returns all courses. Replace with database query when backend is ready.
+ *
+ * Course catalogue data is served directly from the frontend bundle
+ * (see app/data/courses/) so this endpoint is intentionally minimal.
+ *
+ * Reserved for future use — e.g. returning student-specific course state
+ * (progress, enrolment status) when authentication is added.
  */
-export default defineEventHandler(async (event) => {
-  const query = getQuery(event)
-  const { q, difficulty } = query as { q?: string; difficulty?: string }
-
-  // TODO: Replace with actual database/API call
-  // This is a placeholder that returns an empty array
-  // The real data currently lives in composables/useCourses.ts as mock data
-  const courses: Course[] = []
-
+export default defineEventHandler(async () => {
   return {
-    data: courses,
-    meta: {
-      total: courses.length,
-      query: q || null,
-      difficulty: difficulty || null,
-    },
+    message: 'Course content is served from the frontend. This endpoint is reserved for student-specific data (progress, enrolment).',
   }
 })

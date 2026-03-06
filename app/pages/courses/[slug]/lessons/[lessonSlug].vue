@@ -80,10 +80,7 @@ function toggleComplete() {
               <Icon :name="lesson.type === 'video' ? 'mdi:play-circle-outline' : 'mdi:file-document-outline'" />
               {{ lesson.type === 'video' ? 'Video' : 'Article' }}
             </span>
-            <span class="flex items-center gap-1">
-              <Icon name="mdi:clock-outline" />
-              {{ lesson.duration }}
-            </span>
+
           </div>
         </div>
 
@@ -93,8 +90,11 @@ function toggleComplete() {
           <p class="text-gray-500 mt-4">Video player will be integrated here</p>
         </div>
 
-        <!-- Article Content Placeholder -->
-        <div class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8">
+        <!-- Article Content -->
+        <div v-if="lesson.content" class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8 prose-content" v-html="lesson.content" />
+
+        <!-- Article Content Placeholder (no content yet) -->
+        <div v-else class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8">
           <p class="text-gray-400 leading-relaxed">
             This is where the lesson content for <strong>"{{ lesson.title }}"</strong> will be rendered.
             Content will be loaded from the API and can include formatted text, code snippets,
@@ -102,15 +102,17 @@ function toggleComplete() {
           </p>
         </div>
 
-        <!-- Mark Complete -->
+        <!-- Mark Complete (Feature in Development) -->
         <div class="lesson-actions">
           <button
-            :class="['btn', isCompleted ? 'btn-outline' : 'btn-primary']"
-            @click="toggleComplete"
+            class="btn btn-outline"
+            disabled
+            title="Feature in development"
           >
-            <Icon :name="isCompleted ? 'mdi:check-circle' : 'mdi:check-circle-outline'" />
-            {{ isCompleted ? 'Completed' : 'Mark as Complete' }}
+            <Icon name="mdi:check-circle-outline" />
+            Mark as Complete
           </button>
+          <span class="dev-note">🚧 Feature in development</span>
         </div>
 
         <!-- Prev / Next Navigation -->
@@ -255,6 +257,19 @@ function toggleComplete() {
 
 .lesson-actions {
   margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lesson-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dev-note {
+  font-size: 0.8rem;
+  color: rgba(224, 224, 224, 0.4);
 }
 
 .lesson-nav {
@@ -327,5 +342,209 @@ function toggleComplete() {
   .lesson-nav-title {
     font-size: 0.85rem;
   }
+}
+
+/* Prose content styles for rendered lesson HTML */
+.prose-content {
+  color: rgba(224, 224, 224, 0.85);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.prose-content :deep(h2) {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--light-text);
+  border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+  padding-bottom: 0.5rem;
+}
+
+.prose-content :deep(h2:first-child) {
+  margin-top: 0;
+}
+
+.prose-content :deep(h3) {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--light-text);
+}
+
+.prose-content :deep(p) {
+  margin-bottom: 1rem;
+}
+
+.prose-content :deep(ul),
+.prose-content :deep(ol) {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.prose-content :deep(ul) {
+  list-style-type: disc;
+}
+
+.prose-content :deep(ol) {
+  list-style-type: decimal;
+}
+
+.prose-content :deep(li) {
+  margin-bottom: 0.4rem;
+}
+
+.prose-content :deep(li ul),
+.prose-content :deep(li ol) {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.prose-content :deep(blockquote) {
+  border-left: 3px solid var(--primary-orange);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  background: rgba(255, 107, 53, 0.05);
+  border-radius: 0 8px 8px 0;
+}
+
+.prose-content :deep(blockquote p) {
+  margin-bottom: 0;
+}
+
+.prose-content :deep(strong) {
+  color: var(--light-text);
+  font-weight: 600;
+}
+
+.prose-content :deep(em) {
+  color: rgba(224, 224, 224, 0.7);
+}
+
+.prose-content :deep(code) {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--primary-orange);
+}
+
+.prose-content :deep(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.prose-content :deep(thead) {
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.prose-content :deep(th) {
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--light-text);
+  border-bottom: 2px solid rgba(255, 107, 53, 0.2);
+}
+
+.prose-content :deep(td) {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.prose-content :deep(tr:hover td) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Horizontal rules */
+.prose-content :deep(hr) {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 2rem 0;
+}
+
+/* Format selector styles */
+.prose-content :deep(.format-notice) {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: rgba(255, 193, 7, 0.08);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-left: 4px solid #ffc107;
+  margin-bottom: 20px;
+}
+
+.prose-content :deep(.format-notice-icon) {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.prose-content :deep(.format-notice > div > strong) {
+  color: #ffc107;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.prose-content :deep(.format-notice p) {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(224, 224, 224, 0.7);
+}
+
+.prose-content :deep(.format-notice p strong) {
+  color: #ffc107;
+  display: inline;
+  font-size: inherit;
+}
+
+.prose-content :deep(.format-tabs) {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.prose-content :deep(.format-tab) {
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  background: transparent;
+  color: rgba(224, 224, 224, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.prose-content :deep(.format-tab:hover) {
+  border-color: var(--primary-orange);
+  color: var(--primary-orange);
+}
+
+.prose-content :deep(.format-tab.active) {
+  background: var(--primary-orange);
+  border-color: var(--primary-orange);
+  color: #fff;
+}
+
+.prose-content :deep(.video-embed iframe),
+.prose-content :deep(.audio-embed iframe),
+.prose-content :deep(.slides-embed iframe) {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-width: 100%;
+}
+
+.prose-content :deep(.format-content img) {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 </style>

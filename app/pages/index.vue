@@ -60,7 +60,8 @@ const features = [
       subtitle="Welcome to Skill-Wanderer Dojo"
       description="A free, open-access learning platform replacing traditional LMS. Browse courses, track your progress, and level up — without paying a cent."
       :cta-primary="{ label: 'Browse Courses', to: '/courses' }"
-      :cta-secondary="{ label: 'About the Dojo', to: '/about' }"
+      :cta-tertiary="{ label: 'Browse Learning Paths', to: '/paths' }"
+      :cta-secondary="{ label: 'Why Custom LMS?', href: 'https://wanderings.skill-wanderer.com/blog/wanderers-log-4-goodbye-moodle-hello-custom-lms/' }"
       :stats="[
         { value: '10', label: 'Paths' },
         { value: '100%', label: 'Free' },

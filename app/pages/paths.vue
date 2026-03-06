@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { formatDuration, getCourseDuration, getCourseBySlug } = useCourses()
+
 useSeo({
   title: 'Learning Paths — Skill-Wanderer Dojo',
   description: 'Follow curated learning paths to go from beginner to advanced. Structured sequences for web development, mobile, DevOps, QA, and more.',
@@ -11,7 +13,6 @@ const paths = [
     description: 'Master HTML, CSS, JavaScript, and modern frameworks to build responsive, accessible web applications from scratch.',
     difficulty: 'beginner',
     icon: 'mdi:web',
-    estimatedDuration: 'Coming Soon',
     courseCount: 0,
   },
   {
@@ -20,7 +21,6 @@ const paths = [
     description: 'Learn to build native and cross-platform mobile apps for iOS and Android using modern tools and frameworks.',
     difficulty: 'beginner',
     icon: 'mdi:cellphone',
-    estimatedDuration: 'Coming Soon',
     courseCount: 0,
   },
   {
@@ -29,7 +29,14 @@ const paths = [
     description: 'Master CI/CD pipelines, containerization, cloud infrastructure, and automation to streamline software delivery.',
     difficulty: 'intermediate',
     icon: 'mdi:server-network',
-    estimatedDuration: 'Coming Soon',
+    courseCount: 0,
+  },
+  {
+    title: 'MLOps',
+    slug: 'mlops',
+    description: 'Learn to deploy, monitor, and maintain machine learning models in production using CI/CD, containerization, and orchestration tools.',
+    difficulty: 'intermediate',
+    icon: 'mdi:robot-outline',
     courseCount: 0,
   },
   {
@@ -38,7 +45,6 @@ const paths = [
     description: 'Learn manual and automated testing strategies, test frameworks, and quality assurance best practices.',
     difficulty: 'beginner',
     icon: 'mdi:bug-check-outline',
-    estimatedDuration: '4h 30m',
     courseCount: 1,
     courses: [
       { title: 'Manual Software Testing with Black Box Techniques', slug: 'manual-software-testing-black-box-techniques' },
@@ -50,7 +56,6 @@ const paths = [
     description: 'Understand the different roles in software development teams and map your career growth from junior to senior and beyond.',
     difficulty: 'beginner',
     icon: 'mdi:account-group-outline',
-    estimatedDuration: 'Coming Soon',
     courseCount: 0,
   },
   {
@@ -59,7 +64,6 @@ const paths = [
     description: 'Learn Agile, Scrum, Kanban, and modern project management methodologies to lead software projects effectively.',
     difficulty: 'intermediate',
     icon: 'mdi:clipboard-check-outline',
-    estimatedDuration: 'Coming Soon',
     courseCount: 0,
   },
   {
@@ -68,7 +72,6 @@ const paths = [
     description: 'Bridge the gap between business needs and technical solutions. Master requirements gathering, process modeling, and stakeholder communication.',
     difficulty: 'intermediate',
     icon: 'mdi:chart-bar',
-    estimatedDuration: 'Coming Soon',
     courseCount: 0,
   },
   {
@@ -77,7 +80,6 @@ const paths = [
     description: 'From idea validation to MVP launch — learn the essential skills to build and scale a technology start-up.',
     difficulty: 'beginner',
     icon: 'mdi:rocket-launch-outline',
-    estimatedDuration: 'Coming Soon',
     courseCount: 0,
   },
   {
@@ -86,7 +88,6 @@ const paths = [
     description: 'Deepen your expertise with advanced algorithms, data structures, system design, and performance optimization techniques.',
     difficulty: 'advanced',
     icon: 'mdi:code-braces-box',
-    estimatedDuration: 'Coming Soon',
     courseCount: 0,
   },
   {
@@ -95,7 +96,6 @@ const paths = [
     description: 'Learn architectural styles, design patterns, and principles for building scalable, maintainable software systems.',
     difficulty: 'advanced',
     icon: 'mdi:sitemap-outline',
-    estimatedDuration: 'Coming Soon',
     courseCount: 0,
   },
 ]
@@ -121,6 +121,18 @@ const difficultyClass = (d: string) => {
     case 'advanced': return 'badge-advanced'
     default: return 'badge-beginner'
   }
+}
+
+/**
+ * Compute total estimated duration for a learning path
+ * by summing durations of its linked courses.
+ */
+function getPathDuration(path: { courses?: { slug: string }[] }): number {
+  if (!path.courses?.length) return 0
+  return path.courses.reduce((total, c) => {
+    const course = getCourseBySlug(c.slug)
+    return total + (course ? getCourseDuration(course) : 0)
+  }, 0)
 }
 </script>
 
@@ -197,10 +209,10 @@ const difficultyClass = (d: string) => {
               <p class="text-gray-400 text-sm">{{ path.description }}</p>
               <div class="flex items-center gap-4 mt-2">
                 <span class="text-xs text-gray-500">
-                  <Icon name="mdi:clock-outline" class="inline" /> {{ path.estimatedDuration }}
-                </span>
-                <span class="text-xs text-gray-500">
                   <Icon name="mdi:book-open-outline" class="inline" /> {{ path.courseCount }} courses
+                </span>
+                <span v-if="getPathDuration(path)" class="text-xs text-gray-500">
+                  <Icon name="mdi:clock-outline" class="inline" /> {{ formatDuration(getPathDuration(path)) }}
                 </span>
               </div>
             </div>

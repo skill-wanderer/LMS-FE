@@ -1,13 +1,14 @@
 /**
  * GET /api/courses/:slug
- * Returns a single course by slug. Replace with database query when backend is ready.
+ *
+ * Course content is served from the frontend bundle.
+ * This endpoint is reserved for future student-specific data
+ * (e.g. lesson completion status, bookmarks) when auth is added.
  */
 export default defineEventHandler(async (event) => {
   const slug = getRouterParam(event, 'slug')
 
-  // TODO: Replace with actual database/API call
   return {
-    data: null,
-    error: `Course "${slug}" not found. Connect to backend API.`,
+    message: `Course content for "${slug}" is served from the frontend. This endpoint is reserved for student-specific data.`,
   }
 })

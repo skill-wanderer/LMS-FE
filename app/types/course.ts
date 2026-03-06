@@ -6,7 +6,6 @@ export interface Course {
   description: string
   thumbnail?: string
   difficulty: 'beginner' | 'intermediate' | 'advanced'
-  duration: string
   lessonCount: number
   lessons: Lesson[]
   tags: string[]
@@ -21,11 +20,12 @@ export interface Lesson {
   slug: string
   title: string
   type: 'video' | 'article'
-  duration: string
   content?: string
   videoUrl?: string
   completed?: boolean
   order: number
+  module?: string
+  durationMinutes?: number
 }
 
 export interface LearningPath {
@@ -34,6 +34,5 @@ export interface LearningPath {
   title: string
   description: string
   courses: Course[]
-  estimatedDuration: string
   difficulty: 'beginner' | 'intermediate' | 'advanced'
 }

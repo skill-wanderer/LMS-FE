@@ -4,7 +4,8 @@ interface Props {
   subtitle?: string
   description?: string
   ctaPrimary?: { label: string; to: string }
-  ctaSecondary?: { label: string; to: string }
+  ctaSecondary?: { label: string; to?: string; href?: string }
+  ctaTertiary?: { label: string; to?: string; href?: string }
   stats?: { label: string; value: string }[]
 }
 
@@ -18,12 +19,19 @@ defineProps<Props>()
       <p v-if="subtitle" class="hero-subtitle">{{ subtitle }}</p>
       <p v-if="description" class="hero-description">{{ description }}</p>
 
-      <div v-if="ctaPrimary || ctaSecondary" class="hero-ctas">
+      <div v-if="ctaPrimary || ctaSecondary || ctaTertiary" class="hero-ctas">
         <NuxtLink v-if="ctaPrimary" :to="ctaPrimary.to" class="btn btn-primary">
           {{ ctaPrimary.label }}
           <Icon name="mdi:arrow-right" />
         </NuxtLink>
-        <NuxtLink v-if="ctaSecondary" :to="ctaSecondary.to" class="btn btn-secondary">
+        <NuxtLink v-if="ctaTertiary?.to" :to="ctaTertiary.to" class="btn btn-primary">
+          {{ ctaTertiary.label }}
+          <Icon name="mdi:arrow-right" />
+        </NuxtLink>
+        <a v-if="ctaSecondary?.href" :href="ctaSecondary.href" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+          {{ ctaSecondary.label }}
+        </a>
+        <NuxtLink v-else-if="ctaSecondary?.to" :to="ctaSecondary.to" class="btn btn-secondary">
           {{ ctaSecondary.label }}
         </NuxtLink>
       </div>

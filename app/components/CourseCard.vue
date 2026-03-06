@@ -5,6 +5,10 @@ const props = defineProps<{
   course: Course
 }>()
 
+const { formatDuration, getCourseDuration } = useCourses()
+
+const totalDuration = computed(() => getCourseDuration(props.course))
+
 const difficultyClass = computed(() => {
   switch (props.course.difficulty) {
     case 'beginner': return 'badge-beginner'
@@ -36,19 +40,21 @@ const difficultyClass = computed(() => {
     <div class="card-body">
       <div class="card-meta">
         <span :class="['badge', difficultyClass]">{{ course.difficulty }}</span>
-        <span class="card-duration">
-          <Icon name="mdi:clock-outline" size="14" />
-          {{ course.duration }}
-        </span>
       </div>
 
       <h3 class="card-title">{{ course.title }}</h3>
       <p class="card-excerpt">{{ course.excerpt }}</p>
 
       <div class="card-footer">
-        <div class="card-lessons">
-          <Icon name="mdi:play-circle-outline" size="16" />
-          {{ course.lessonCount }} lessons
+        <div class="card-stats">
+          <div class="card-lessons">
+            <Icon name="mdi:play-circle-outline" size="16" />
+            {{ course.lessonCount }} lessons
+          </div>
+          <div v-if="totalDuration" class="card-duration">
+            <Icon name="mdi:clock-outline" size="16" />
+            {{ formatDuration(totalDuration) }}
+          </div>
         </div>
         <div v-if="course.progress !== undefined" class="card-progress-wrap">
           <div class="progress-bar">
@@ -118,14 +124,6 @@ const difficultyClass = computed(() => {
   margin-bottom: 12px;
 }
 
-.card-duration {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.8rem;
-  color: rgba(224, 224, 224, 0.5);
-}
-
 .card-title {
   font-size: 1.15rem;
   font-weight: 700;
@@ -152,7 +150,21 @@ const difficultyClass = computed(() => {
   gap: 12px;
 }
 
+.card-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .card-lessons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: rgba(224, 224, 224, 0.5);
+}
+
+.card-duration {
   display: flex;
   align-items: center;
   gap: 6px;

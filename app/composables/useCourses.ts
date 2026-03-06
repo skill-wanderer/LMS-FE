@@ -1,108 +1,38 @@
 import type { Course } from '~/types/course'
+import allCourses from '~/data/courses'
 
-// Course data — replace with API calls when backend is ready
-const mockCourses: Course[] = [
-  {
-    id: 'course-1',
-    slug: 'manual-software-testing-black-box-techniques',
-    title: 'Manual Software Testing with Black Box Techniques',
-    excerpt: 'Learn the fundamentals of manual software testing using black box techniques — from equivalence partitioning to exploratory testing.',
-    description: 'This beginner-friendly course covers the essential black box testing techniques every QA professional needs. You will learn how to design effective test cases without looking at source code, using industry-standard methods such as equivalence partitioning, boundary value analysis, decision tables, state transition testing, and exploratory testing. By the end, you will be able to confidently test any software application using structured, repeatable techniques.',
-    thumbnail: undefined,
-    difficulty: 'beginner',
-    duration: '4h 30m',
-    lessonCount: 10,
-    lessons: [
-      {
-        id: 'lesson-1-1',
-        slug: 'what-is-software-testing',
-        title: 'What Is Software Testing?',
-        type: 'article',
-        duration: '20 min',
-        order: 1,
-      },
-      {
-        id: 'lesson-1-2',
-        slug: 'black-box-vs-white-box-testing',
-        title: 'Black Box vs White Box Testing',
-        type: 'article',
-        duration: '25 min',
-        order: 2,
-      },
-      {
-        id: 'lesson-1-3',
-        slug: 'equivalence-partitioning',
-        title: 'Equivalence Partitioning',
-        type: 'article',
-        duration: '30 min',
-        order: 3,
-      },
-      {
-        id: 'lesson-1-4',
-        slug: 'boundary-value-analysis',
-        title: 'Boundary Value Analysis',
-        type: 'article',
-        duration: '30 min',
-        order: 4,
-      },
-      {
-        id: 'lesson-1-5',
-        slug: 'decision-table-testing',
-        title: 'Decision Table Testing',
-        type: 'article',
-        duration: '30 min',
-        order: 5,
-      },
-      {
-        id: 'lesson-1-6',
-        slug: 'state-transition-testing',
-        title: 'State Transition Testing',
-        type: 'article',
-        duration: '30 min',
-        order: 6,
-      },
-      {
-        id: 'lesson-1-7',
-        slug: 'use-case-testing',
-        title: 'Use Case Testing',
-        type: 'article',
-        duration: '25 min',
-        order: 7,
-      },
-      {
-        id: 'lesson-1-8',
-        slug: 'exploratory-testing',
-        title: 'Exploratory Testing',
-        type: 'article',
-        duration: '25 min',
-        order: 8,
-      },
-      {
-        id: 'lesson-1-9',
-        slug: 'writing-effective-test-cases',
-        title: 'Writing Effective Test Cases',
-        type: 'article',
-        duration: '30 min',
-        order: 9,
-      },
-      {
-        id: 'lesson-1-10',
-        slug: 'bug-reporting-best-practices',
-        title: 'Bug Reporting Best Practices',
-        type: 'article',
-        duration: '25 min',
-        order: 10,
-      },
-    ],
-    tags: ['testing', 'qa', 'black-box', 'manual-testing', 'beginner'],
-    instructor: 'Skill-Wanderer',
-    createdAt: '2026-03-05',
-    updatedAt: '2026-03-05',
-  },
-]
+/**
+ * Format a duration in minutes into a human-readable string.
+ * Examples: "15 min", "1h 23m", "2h"
+ */
+function formatDuration(totalMinutes: number): string {
+  if (totalMinutes <= 0) return '0 min'
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  if (hours === 0) return `${minutes} min`
+  if (minutes === 0) return `${hours}h`
+  return `${hours}h ${minutes}m`
+}
 
+/**
+ * Calculate total duration of a course in minutes by summing lesson durations.
+ */
+function getCourseDuration(course: Course): number {
+  return course.lessons.reduce((sum, l) => sum + (l.durationMinutes || 0), 0)
+}
+
+/**
+ * Composable for accessing course catalogue data.
+ *
+ * Course content (lessons, descriptions, metadata) is bundled on the frontend
+ * for instant access with zero network latency. The backend is only used for
+ * student-specific actions (progress tracking, assignment submissions, etc.).
+ *
+ * To add a new course, create a file in ~/data/courses/ and register it in
+ * ~/data/courses/index.ts.
+ */
 export function useCourses() {
-  const courses = ref<Course[]>(mockCourses)
+  const courses = ref<Course[]>(allCourses)
 
   function getCourseBySlug(slug: string): Course | undefined {
     return courses.value.find(c => c.slug === slug)
@@ -131,5 +61,7 @@ export function useCourses() {
     getCoursesByTag,
     getCoursesByDifficulty,
     searchCourses,
+    formatDuration,
+    getCourseDuration,
   }
 }
