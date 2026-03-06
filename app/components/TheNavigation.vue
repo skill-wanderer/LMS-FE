@@ -24,7 +24,7 @@ const navLinks = [
 ]
 
 const ecosystemLinks = [
-  { label: 'Main Site', href: 'https://skill-wanderer.com/', icon: 'mdi:home' },
+  { label: 'Hub', href: 'https://skill-wanderer.com/', icon: 'mdi:home' },
   { label: 'Dojo', to: '/', icon: 'mdi:fire', current: true },
   { label: 'Blog', href: 'https://wanderings.skill-wanderer.com/', icon: 'mdi:post' },
 ]
