@@ -15,6 +15,12 @@ export interface Course {
   updatedAt: string
 }
 
+export interface QuizQuestion {
+  question: string
+  options: Record<string, string>
+  answer: string
+}
+
 export interface Lesson {
   id: string
   slug: string
@@ -26,6 +32,10 @@ export interface Lesson {
   order: number
   module?: string
   durationMinutes?: number
+  quiz?: {
+    title?: string
+    questions: QuizQuestion[]
+  }
 }
 
 export interface LearningPath {

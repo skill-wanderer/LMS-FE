@@ -25,16 +25,87 @@ const currentIndex = course.lessons.findIndex(l => l.slug === lessonSlug)
 const prevLesson = currentIndex > 0 ? course.lessons[currentIndex - 1] : null
 const nextLesson = currentIndex < course.lessons.length - 1 ? course.lessons[currentIndex + 1] : null
 
-const isCompleted = ref(lesson.completed ?? false)
+const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
+const config = useRuntimeConfig()
+const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
 
-function toggleComplete() {
-  isCompleted.value = !isCompleted.value
-  // TODO: persist to API
+const isCompleted = ref(lesson.completed ?? false)
+const isLoading = ref(false)
+const showLoginModal = ref(false)
+const errorToast = ref('')
+let errorTimer: ReturnType<typeof setTimeout> | null = null
+
+function showError(msg: string) {
+  errorToast.value = msg
+  if (errorTimer) clearTimeout(errorTimer)
+  errorTimer = setTimeout(() => { errorToast.value = '' }, 5000)
+}
+
+function buildCompletionUrl() {
+  return `${apiBaseUrl}/api/courses/${courseSlug}/lessons/${lessonSlug}/complete`
+}
+
+function buildAuthHeaders(): Record<string, string> {
+  const headers: Record<string, string> = {}
+  if (accessToken.value) {
+    headers.Authorization = `Bearer ${accessToken.value}`
+  }
+  return headers
+}
+
+// Fetch completion status on mount if user is authenticated
+onMounted(async () => {
+  if (!apiBaseUrl || !isAuthenticated.value) return
+  try {
+    const data = await $fetch<{ completed: boolean }>(buildCompletionUrl(), {
+      headers: buildAuthHeaders(),
+    })
+    isCompleted.value = data.completed
+  }
+  catch {
+    showError('Failed to load completion status. Please try again later.')
+  }
+})
+
+async function toggleComplete() {
+  // If auth is enabled but user is not logged in, show login modal
+  if (isAuthEnabled.value && !isAuthenticated.value) {
+    showLoginModal.value = true
+    return
+  }
+
+  const newState = !isCompleted.value
+  isLoading.value = true
+
+  try {
+    if (newState) {
+      await $fetch(buildCompletionUrl(), { method: 'POST', headers: buildAuthHeaders() })
+    }
+    else {
+      await $fetch(buildCompletionUrl(), { method: 'DELETE', headers: buildAuthHeaders() })
+    }
+    isCompleted.value = newState
+  }
+  catch {
+    showError('Something went wrong. Please try again later.')
+  }
+  finally {
+    isLoading.value = false
+  }
 }
 </script>
 
 <template>
   <div>
+    <!-- Error Toast -->
+    <Transition name="toast">
+      <div v-if="errorToast" class="error-toast" role="alert">
+        <Icon name="mdi:alert-circle-outline" />
+        <span>{{ errorToast }}</span>
+        <button class="error-toast-close" aria-label="Dismiss" @click="errorToast = ''">&times;</button>
+      </div>
+    </Transition>
+
     <!-- Breadcrumb -->
     <div class="section" style="padding-bottom: 0;">
       <BreadcrumbNav :items="[
@@ -90,8 +161,27 @@ function toggleComplete() {
           <p class="text-gray-500 mt-4">Video player will be integrated here</p>
         </div>
 
-        <!-- Article Content -->
-        <div v-if="lesson.content" class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8 prose-content" v-html="lesson.content" />
+        <!-- Quiz Notice (shown when lesson has a quiz) -->
+        <div v-if="lesson.quiz" class="quiz-notice glass-card mb-6">
+          <span class="quiz-notice-icon">📝</span>
+          <div>
+            <strong>This lesson includes an Optional Quiz</strong>
+            <p>After reviewing the summary below, scroll down to test your understanding of Module 1 concepts.</p>
+          </div>
+        </div>
+
+        <!-- Article Content (collapsible when quiz exists) -->
+        <details v-if="lesson.content && lesson.quiz" class="summary-collapsible glass-card mb-8" open>
+          <summary class="summary-toggle">
+            <Icon name="mdi:book-open-variant" />
+            <span>Module Summary & Takeaway</span>
+            <Icon name="mdi:chevron-down" class="summary-chevron" />
+          </summary>
+          <div class="lesson-content p-4 sm:p-6 md:p-8 prose-content" v-html="lesson.content" />
+        </details>
+
+        <!-- Article Content (normal when no quiz) -->
+        <div v-else-if="lesson.content" class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8 prose-content" v-html="lesson.content" />
 
         <!-- Article Content Placeholder (no content yet) -->
         <div v-else class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8">
@@ -102,18 +192,28 @@ function toggleComplete() {
           </p>
         </div>
 
-        <!-- Mark Complete (Feature in Development) -->
+        <!-- Optional Quiz Section -->
+        <QuizSection
+          v-if="lesson.quiz"
+          :questions="lesson.quiz.questions"
+          :title="lesson.quiz.title"
+          class="mb-8"
+        />
+
+        <!-- Mark Complete -->
         <div class="lesson-actions">
           <button
-            class="btn btn-outline"
-            disabled
-            title="Feature in development"
+            :class="['btn', isCompleted ? 'btn-completed' : 'btn-outline']"
+            :disabled="isLoading"
+            @click="toggleComplete"
           >
-            <Icon name="mdi:check-circle-outline" />
-            Mark as Complete
+            <Icon :name="isLoading ? 'mdi:loading' : isCompleted ? 'mdi:check-circle' : 'mdi:check-circle-outline'" :class="{ 'animate-spin': isLoading }" />
+            {{ isCompleted ? 'Completed' : 'Mark as Complete' }}
           </button>
-          <span class="dev-note">🚧 Feature in development</span>
         </div>
+
+        <!-- Login Required Modal -->
+        <LoginRequiredModal :visible="showLoginModal" :return-to="route.path" @close="showLoginModal = false" />
 
         <!-- Prev / Next Navigation -->
         <nav class="lesson-nav">
@@ -267,9 +367,101 @@ function toggleComplete() {
   cursor: not-allowed;
 }
 
-.dev-note {
-  font-size: 0.8rem;
-  color: rgba(224, 224, 224, 0.4);
+.btn-completed {
+  background: rgba(76, 175, 80, 0.15);
+  color: var(--success-green, #4caf50);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.btn-completed:hover {
+  background: rgba(76, 175, 80, 0.25);
+  border-color: rgba(76, 175, 80, 0.6);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Quiz Notice */
+.quiz-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  background: rgba(255, 193, 7, 0.06);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-left: 4px solid var(--primary-orange);
+  border-radius: 12px;
+}
+
+.quiz-notice-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.quiz-notice strong {
+  display: block;
+  color: var(--primary-orange);
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.quiz-notice p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(224, 224, 224, 0.6);
+}
+
+/* Collapsible Summary */
+.summary-collapsible {
+  border: 1px solid rgba(255, 107, 53, 0.15);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.summary-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--light-text);
+  background: rgba(255, 107, 53, 0.05);
+  border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+  list-style: none;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.summary-toggle:hover {
+  background: rgba(255, 107, 53, 0.08);
+}
+
+.summary-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.summary-toggle::marker {
+  content: '';
+}
+
+.summary-chevron {
+  margin-left: auto;
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+  color: var(--primary-orange);
+}
+
+.summary-collapsible[open] .summary-chevron {
+  transform: rotate(180deg);
 }
 
 .lesson-nav {
@@ -546,5 +738,50 @@ function toggleComplete() {
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Error toast */
+.error-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(220, 38, 38, 0.95);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+  max-width: 380px;
+}
+
+.error-toast-close {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.8;
+  line-height: 1;
+}
+
+.error-toast-close:hover {
+  opacity: 1;
+}
+
+.toast-enter-active,
+.toast-leave-active {
+  transition: all 0.3s ease;
+}
+
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(40px);
 }
 </style>

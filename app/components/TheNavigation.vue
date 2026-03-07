@@ -3,6 +3,9 @@ const isScrolled = ref(false)
 const isMobileOpen = ref(false)
 const isEcosystemOpen = ref(false)
 const isMobileEcosystemOpen = ref(false)
+const isUserMenuOpen = ref(false)
+
+const { isAuthEnabled, isAuthenticated, user, loginUrl, registerUrl, logout } = useKeycloak()
 
 if (import.meta.client) {
   useEventListener(window, 'scroll', () => {
@@ -17,7 +20,6 @@ watch(() => route.path, () => {
 })
 
 const navLinks = [
-  { label: 'Home', to: '/' },
   { label: 'Courses', to: '/courses' },
   { label: 'Learning Paths', to: '/paths' },
   { label: 'About', href: 'https://skill-wanderer.com/about' },
@@ -102,14 +104,65 @@ const ecosystemLinks = [
         </li>
       </ul>
 
-      <!-- Search + CTA -->
+      <!-- Search + Auth + CTA -->
       <div class="nav-actions">
         <NuxtLink to="/search" class="nav-search" aria-label="Search courses">
           <Icon name="mdi:magnify" size="22" />
         </NuxtLink>
-        <NuxtLink to="/courses" class="btn btn-primary btn-sm">
-          Start Learning
-        </NuxtLink>
+
+        <!-- Auth buttons (only when Keycloak is configured) -->
+        <template v-if="isAuthEnabled">
+          <!-- Logged-out state -->
+          <template v-if="!isAuthenticated">
+            <a :href="loginUrl()" class="btn btn-outline btn-sm">
+              <Icon name="mdi:login" size="18" />
+              Login
+            </a>
+            <a :href="registerUrl()" class="btn btn-primary btn-sm">
+              <Icon name="mdi:account-plus" size="18" />
+              Register
+            </a>
+          </template>
+
+          <!-- Logged-in state -->
+          <div
+            v-else
+            class="user-menu-dropdown"
+            @mouseenter="isUserMenuOpen = true"
+            @mouseleave="isUserMenuOpen = false"
+          >
+            <button
+              class="user-avatar-btn"
+              @click="isUserMenuOpen = !isUserMenuOpen"
+              :aria-expanded="isUserMenuOpen"
+            >
+              <span class="user-avatar">
+                {{ user?.name?.charAt(0)?.toUpperCase() || 'U' }}
+              </span>
+              <span class="user-name">{{ user?.name || 'User' }}</span>
+              <Icon
+                name="mdi:chevron-down"
+                size="18"
+                class="ecosystem-chevron"
+                :class="{ 'ecosystem-chevron--open': isUserMenuOpen }"
+              />
+            </button>
+            <Transition name="dropdown">
+              <div v-show="isUserMenuOpen" class="user-menu">
+                <div class="user-menu-header">
+                  <span class="user-menu-name">{{ user?.name }}</span>
+                  <span class="user-menu-email">{{ user?.email }}</span>
+                </div>
+                <hr class="user-menu-divider" />
+                <button class="user-menu-item" @click="logout">
+                  <Icon name="mdi:logout" size="18" />
+                  Sign Out
+                </button>
+              </div>
+            </Transition>
+          </div>
+        </template>
+
       </div>
 
       <!-- Mobile Toggle -->
@@ -183,9 +236,30 @@ const ecosystemLinks = [
         <NuxtLink to="/search" class="mobile-link">
           <Icon name="mdi:magnify" class="mr-2" /> Search
         </NuxtLink>
-        <NuxtLink to="/courses" class="btn btn-primary btn-sm mt-4 w-full justify-center">
-          Start Learning
-        </NuxtLink>
+
+        <!-- Mobile Auth buttons -->
+        <template v-if="isAuthEnabled">
+          <template v-if="!isAuthenticated">
+            <a :href="loginUrl()" class="mobile-link">
+              <Icon name="mdi:login" class="mr-2" /> Login
+            </a>
+            <a :href="registerUrl()" class="mobile-link">
+              <Icon name="mdi:account-plus" class="mr-2" /> Register
+            </a>
+          </template>
+          <template v-else>
+            <div class="mobile-user-info">
+              <span class="user-avatar user-avatar--sm">
+                {{ user?.name?.charAt(0)?.toUpperCase() || 'U' }}
+              </span>
+              <span>{{ user?.name || 'User' }}</span>
+            </div>
+            <button class="mobile-link" @click="logout">
+              <Icon name="mdi:logout" class="mr-2" /> Sign Out
+            </button>
+          </template>
+        </template>
+
       </div>
     </Transition>
   </header>
@@ -460,6 +534,127 @@ const ecosystemLinks = [
   .nav-wrapper.scrolled {
     padding: 8px 16px;
   }
+}
+
+/* ---- User Menu ---- */
+.user-menu-dropdown {
+  position: relative;
+}
+
+.user-avatar-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--light-text);
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.user-avatar-btn:hover {
+  background: rgba(255, 107, 53, 0.08);
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-orange), var(--deep-orange));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.user-avatar--sm {
+  width: 28px;
+  height: 28px;
+  font-size: 0.78rem;
+}
+
+.user-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 220px;
+  background: rgba(30, 30, 30, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 107, 53, 0.15);
+  border-radius: 10px;
+  padding: 8px 0;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.user-menu-header {
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-menu-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--light-text);
+}
+
+.user-menu-email {
+  font-size: 0.8rem;
+  color: rgba(224, 224, 224, 0.6);
+}
+
+.user-menu-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 107, 53, 0.1);
+  margin: 4px 0;
+}
+
+.user-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--light-text);
+  font-size: 0.92rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.user-menu-item:hover {
+  color: var(--primary-orange);
+  background: rgba(255, 107, 53, 0.08);
+}
+
+.mobile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  color: var(--primary-orange);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 @media (max-width: 400px) {

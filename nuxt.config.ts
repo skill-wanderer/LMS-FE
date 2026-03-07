@@ -76,6 +76,15 @@ export default defineNuxtConfig({
     '/about': { prerender: true },
   },
 
+  runtimeConfig: {
+    public: {
+      keycloakUrl: process.env.NUXT_PUBLIC_KEYCLOAK_URL || '',
+      keycloakRealm: process.env.NUXT_PUBLIC_KEYCLOAK_REALM || '',
+      keycloakClientId: process.env.NUXT_PUBLIC_KEYCLOAK_CLIENT_ID || '',
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || '',
+    },
+  },
+
   nitro: {
     compressPublicAssets: true,
   },
