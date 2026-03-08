@@ -126,7 +126,7 @@ async function toggleComplete() {
 </script>
 
 <template>
-  <div>
+  <div v-if="course && lesson">
     <!-- Error Toast -->
     <Transition name="toast">
       <div v-if="errorToast" class="error-toast" role="alert">
@@ -149,7 +149,7 @@ async function toggleComplete() {
     <!-- Lesson Content -->
     <section class="lesson-layout">
       <!-- Sidebar: Lesson list -->
-      <aside class="lesson-sidebar">
+      <aside class="lesson-sidebar sticky top-[70px] max-h-[calc(100vh-70px)] overflow-y-auto self-start">
         <h3 class="sidebar-title">{{ course.title }}</h3>
         <div class="sidebar-progress">
           <div class="progress-bar">
@@ -255,7 +255,7 @@ async function toggleComplete() {
         </div>
 
         <!-- Mark Complete -->
-        <div class="lesson-actions">
+        <div v-if="!lesson.hideCompletion" class="lesson-actions">
           <button
             :class="['btn', isCompleted ? 'btn-completed' : 'btn-outline']"
             :disabled="isLoading"
@@ -312,13 +312,7 @@ async function toggleComplete() {
   gap: 32px;
 }
 
-/* Sidebar */
-.lesson-sidebar {
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-}
+/* Sidebar — layout handled by Tailwind utilities on the element */
 
 .sidebar-title {
   font-size: 1rem;
@@ -546,7 +540,9 @@ async function toggleComplete() {
 
   .lesson-sidebar {
     position: static;
+    top: auto;
     max-height: none;
+    overflow-y: visible;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     padding-bottom: 20px;
     margin-bottom: 20px;

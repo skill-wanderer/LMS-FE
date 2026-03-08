@@ -40,6 +40,7 @@ export interface Lesson {
   completed?: boolean
   order: number
   durationMinutes?: number
+  hideCompletion?: boolean
   createdAt?: string
   updatedAt?: string
   quiz?: {
@@ -62,7 +63,7 @@ export interface AuthorInfo {
  * Get a flat array of all lessons across all modules in the course.
  */
 export function getAllLessons(course: Course): Lesson[] {
-  return course.modules.flatMap(m => m.lessons)
+  return (course.modules ?? []).flatMap(m => m.lessons)
 }
 
 export interface LearningPath {

@@ -17,9 +17,9 @@ function handleSearch() {
     <input
       v-model="query"
       type="search"
-      placeholder="Search courses, topics, skills…"
+      placeholder="Search courses, learning paths, skills…"
       class="search-input"
-      aria-label="Search courses"
+      aria-label="Search courses and learning paths"
     />
     <button type="submit" class="btn btn-primary btn-sm">Search</button>
   </form>
