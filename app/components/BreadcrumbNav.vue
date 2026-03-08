@@ -5,52 +5,17 @@ defineProps<{
 </script>
 
 <template>
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <ol class="breadcrumb-list">
-      <li v-for="(item, index) in items" :key="index" class="breadcrumb-item">
-        <NuxtLink v-if="item.to && index < items.length - 1" :to="item.to" class="breadcrumb-link">
+  <nav class="py-3" aria-label="Breadcrumb">
+    <ol class="flex items-center gap-1 list-none flex-wrap">
+      <li v-for="(item, index) in items" :key="index" class="flex items-center gap-1">
+        <NuxtLink v-if="item.to && index < items.length - 1" :to="item.to" class="text-[rgba(224,224,224,0.5)] text-sm transition-colors duration-300 hover:text-brand-orange">
           {{ item.label }}
         </NuxtLink>
-        <span v-else class="breadcrumb-current" :aria-current="index === items.length - 1 ? 'page' : undefined">
+        <span v-else class="text-[#e0e0e0] text-sm font-semibold" :aria-current="index === items.length - 1 ? 'page' : undefined">
           {{ item.label }}
         </span>
-        <Icon v-if="index < items.length - 1" name="mdi:chevron-right" class="breadcrumb-sep" />
+        <Icon v-if="index < items.length - 1" name="mdi:chevron-right" class="text-[rgba(224,224,224,0.3)] text-sm" />
       </li>
     </ol>
   </nav>
 </template>
-
-<style scoped>
-.breadcrumb {
-  padding: 12px 0;
-}
-
-.breadcrumb-list {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  list-style: none;
-  flex-wrap: wrap;
-}
-
-.breadcrumb-link {
-  color: rgba(224, 224, 224, 0.5);
-  font-size: 0.85rem;
-  transition: color 0.3s ease;
-}
-
-.breadcrumb-link:hover {
-  color: var(--primary-orange);
-}
-
-.breadcrumb-current {
-  color: var(--light-text);
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.breadcrumb-sep {
-  color: rgba(224, 224, 224, 0.3);
-  font-size: 0.9rem;
-}
-</style>

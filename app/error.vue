@@ -19,14 +19,14 @@ useSeo({
 </script>
 
 <template>
-  <div class="error-page">
-    <div class="error-inner">
-      <span class="error-code gradient-text">{{ statusCode }}</span>
-      <h1 class="error-title">{{ message }}</h1>
-      <p class="error-desc">
+  <div class="min-h-screen flex items-center justify-center p-10 max-sm:p-6 bg-surface-dark text-[#e0e0e0]">
+    <div class="text-center max-w-[500px]">
+      <span class="text-[clamp(5rem,15vw,10rem)] font-black leading-none block mb-4 gradient-text">{{ statusCode }}</span>
+      <h1 class="text-[clamp(1.3rem,4vw,1.8rem)] font-bold mb-3">{{ message }}</h1>
+      <p class="text-[rgba(224,224,224,0.6)] text-base mb-8">
         The page you're looking for doesn't exist or has been moved.
       </p>
-      <div class="error-actions">
+      <div class="flex gap-4 justify-center flex-wrap max-sm:flex-col max-sm:items-center max-sm:gap-3">
         <NuxtLink to="/" class="btn btn-primary">
           <Icon name="mdi:home" /> Go Home
         </NuxtLink>
@@ -38,58 +38,4 @@ useSeo({
   </div>
 </template>
 
-<style scoped>
-.error-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  background: var(--dark-bg);
-  color: var(--light-text);
-}
 
-.error-inner {
-  text-align: center;
-  max-width: 500px;
-}
-
-.error-code {
-  font-size: clamp(5rem, 15vw, 10rem);
-  font-weight: 900;
-  line-height: 1;
-  display: block;
-  margin-bottom: 16px;
-}
-
-.error-title {
-  font-size: clamp(1.3rem, 4vw, 1.8rem);
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.error-desc {
-  color: rgba(224, 224, 224, 0.6);
-  font-size: 1rem;
-  margin-bottom: 32px;
-}
-
-.error-actions {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-@media (max-width: 480px) {
-  .error-page {
-    padding: 24px 16px;
-  }
-
-  .error-actions {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-}
-</style>

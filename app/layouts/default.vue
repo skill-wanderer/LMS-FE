@@ -5,16 +5,17 @@ const route = useRoute()
 <template>
   <div class="min-h-screen flex flex-col">
     <!-- Active Development Banner -->
-    <div class="dev-banner">
-      <div class="dev-banner-inner">
-        <Icon name="mdi:hammer-wrench" class="dev-banner-icon" />
-        <p>
+    <div class="bg-gradient-to-r from-amber-500 to-red-500 text-white text-center px-4 py-2 text-sm leading-snug z-[100]">
+      <div class="flex items-center justify-center gap-2 max-w-[960px] mx-auto">
+        <Icon name="mdi:hammer-wrench" class="shrink-0 text-[1.15rem]" />
+        <p class="m-0">
           The new <strong>Skill-Wanderer Dojo</strong> is in active development.
           Until we finish the migration, the old dojo lives at
           <a
             href="https://legacy-dojo.skill-wanderer.com/"
             target="_blank"
             rel="noopener noreferrer"
+            class="text-white font-bold underline underline-offset-2 hover:text-amber-200"
           >legacy-dojo.skill-wanderer.com</a>.
         </p>
       </div>
@@ -29,43 +30,4 @@ const route = useRoute()
   </div>
 </template>
 
-<style scoped>
-.dev-banner {
-  background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%);
-  color: #fff;
-  text-align: center;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  line-height: 1.4;
-  z-index: 100;
-}
 
-.dev-banner-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-.dev-banner-icon {
-  flex-shrink: 0;
-  font-size: 1.15rem;
-}
-
-.dev-banner p {
-  margin: 0;
-}
-
-.dev-banner a {
-  color: #fff;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.dev-banner a:hover {
-  color: #fde68a;
-}
-</style>

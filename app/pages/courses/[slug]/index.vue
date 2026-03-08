@@ -55,31 +55,31 @@ const totalDuration = computed(() => getCourseDuration(course))
     </div>
 
     <!-- Course Header -->
-    <section class="course-header">
-      <div class="course-header-inner">
-        <div class="course-header-content">
-          <div class="course-badges">
+    <section class="px-5 pt-10 pb-[60px] max-md:px-4 max-md:pt-6 max-md:pb-10 max-sm:px-3 max-sm:pb-8">
+      <div class="max-w-content mx-auto grid grid-cols-[1fr_340px] gap-12 items-start max-[900px]:grid-cols-1 max-[900px]:gap-6">
+        <div>
+          <div class="flex gap-2 mb-4">
             <span :class="['badge', difficultyClass]">{{ course.difficulty }}</span>
             <span class="badge badge-free">Free</span>
           </div>
 
-          <h1 class="course-title gradient-text">{{ course.title }}</h1>
-          <p class="course-desc" style="white-space: pre-line;">{{ course.description }}</p>
+          <h1 class="gradient-text text-[clamp(1.8rem,4vw,2.8rem)] font-black leading-[1.15] mb-4">{{ course.title }}</h1>
+          <p class="text-[rgba(224,224,224,0.7)] text-[1.05rem] leading-[1.8] mb-5" style="white-space: pre-line;">{{ course.description }}</p>
 
-          <div class="course-meta">
-            <span class="meta-item">
+          <div class="flex gap-5 flex-wrap mb-4 max-sm:gap-3">
+            <span class="flex items-center gap-1.5 text-sm text-[rgba(224,224,224,0.6)] max-sm:text-[0.82rem]">
               <Icon name="mdi:play-circle-outline" /> {{ course.lessonCount }} lessons
             </span>
-            <span v-if="totalDuration" class="meta-item">
+            <span v-if="totalDuration" class="flex items-center gap-1.5 text-sm text-[rgba(224,224,224,0.6)] max-sm:text-[0.82rem]">
               <Icon name="mdi:clock-outline" /> {{ formatDuration(totalDuration) }}
             </span>
-            <span class="meta-item">
+            <span class="flex items-center gap-1.5 text-sm text-[rgba(224,224,224,0.6)] max-sm:text-[0.82rem]">
               <Icon name="mdi:account-outline" /> {{ course.instructor || 'Skill-Wanderer' }}
             </span>
           </div>
 
-          <div class="course-tags">
-            <span v-for="tag in course.tags" :key="tag" class="course-tag">
+          <div class="flex gap-2 flex-wrap">
+            <span v-for="tag in course.tags" :key="tag" class="py-1 px-3 rounded-full text-[0.78rem] bg-brand-orange/10 text-brand-orange border border-brand-orange/15">
               {{ tag }}
             </span>
           </div>
@@ -94,7 +94,7 @@ const totalDuration = computed(() => getCourseDuration(course))
         </div>
 
         <!-- Progress Card (sidebar) -->
-        <div class="course-sidebar">
+        <div class="sticky top-[100px] max-[900px]:static">
           <div class="glass-card p-6">
             <h3 class="text-lg font-bold mb-4">Your Progress</h3>
             <div class="progress-bar mb-2">
@@ -121,24 +121,24 @@ const totalDuration = computed(() => getCourseDuration(course))
 
     <!-- Author Bio -->
     <section v-if="course.author" class="section" style="padding-bottom: 0;">
-      <div class="author-card glass-card">
+      <div class="glass-card flex gap-5 p-6 items-start max-sm:flex-col max-sm:items-center max-sm:text-center">
         <img
           :src="course.author.avatarUrl"
           :alt="`${course.author.name} — Course Author`"
-          class="author-avatar"
+          class="w-20 h-20 rounded-full object-cover border-2 border-brand-orange/30 shrink-0"
           width="80"
           height="80"
           loading="lazy"
         />
-        <div class="author-info">
-          <h2 class="author-name">About the Author</h2>
-          <p class="author-title">{{ course.author.name }} · {{ course.author.title }}</p>
-          <p class="author-bio">{{ course.author.bio }}</p>
-          <div class="author-links">
-            <a v-if="course.author.linkedinUrl" :href="course.author.linkedinUrl" target="_blank" rel="noopener" class="author-link">
+        <div class="flex-1">
+          <h2 class="text-[1.1rem] font-bold text-[#e0e0e0] mb-1">About the Author</h2>
+          <p class="text-sm text-brand-orange mb-2 font-semibold">{{ course.author.name }} · {{ course.author.title }}</p>
+          <p class="text-sm text-[rgba(224,224,224,0.65)] leading-relaxed mb-3">{{ course.author.bio }}</p>
+          <div class="flex gap-4 max-sm:justify-center">
+            <a v-if="course.author.linkedinUrl" :href="course.author.linkedinUrl" target="_blank" rel="noopener" class="flex items-center gap-1 text-[0.85rem] text-[rgba(224,224,224,0.5)] transition-colors duration-300 hover:text-brand-orange">
               <Icon name="mdi:linkedin" /> LinkedIn
             </a>
-            <a v-if="course.author.websiteUrl" :href="course.author.websiteUrl" target="_blank" rel="noopener" class="author-link">
+            <a v-if="course.author.websiteUrl" :href="course.author.websiteUrl" target="_blank" rel="noopener" class="flex items-center gap-1 text-[0.85rem] text-[rgba(224,224,224,0.5)] transition-colors duration-300 hover:text-brand-orange">
               <Icon name="mdi:web" /> Website
             </a>
           </div>
@@ -148,11 +148,11 @@ const totalDuration = computed(() => getCourseDuration(course))
 
     <!-- Last Updated -->
     <section class="section" style="padding-top: 12px; padding-bottom: 0;">
-      <div class="course-dates">
-        <span class="date-item">
+      <div class="flex gap-5 flex-wrap">
+        <span class="flex items-center gap-1.5 text-[0.85rem] text-[rgba(224,224,224,0.45)]">
           <Icon name="mdi:calendar-outline" /> Published: {{ new Date(course.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}
         </span>
-        <span v-if="course.updatedAt !== course.createdAt" class="date-item">
+        <span v-if="course.updatedAt !== course.createdAt" class="flex items-center gap-1.5 text-[0.85rem] text-[rgba(224,224,224,0.45)]">
           <Icon name="mdi:update" /> Last updated: {{ new Date(course.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}
         </span>
       </div>
@@ -162,12 +162,12 @@ const totalDuration = computed(() => getCourseDuration(course))
     <section class="section">
       <h2 class="text-2xl font-bold mb-6">Course Content</h2>
 
-      <div v-for="mod in course.modules" :key="mod.id" class="module-group">
-        <div class="module-header">
-          <Icon name="mdi:book-open-variant" class="module-icon" />
+      <div v-for="mod in course.modules" :key="mod.id" class="mb-8 last:mb-0">
+        <div class="flex items-center gap-3 mb-4 p-3 px-4 rounded-xl bg-brand-orange/[0.06] border border-brand-orange/[0.12]">
+          <Icon name="mdi:book-open-variant" class="text-[1.4rem] text-brand-orange" />
           <div>
-            <h3 class="module-title">{{ mod.title }}</h3>
-            <span class="module-meta">
+            <h3 class="text-[1.1rem] font-bold text-[#e0e0e0]">{{ mod.title }}</h3>
+            <span class="text-[0.8rem] text-[rgba(224,224,224,0.5)]">
               {{ mod.lessons.length }} lesson{{ mod.lessons.length !== 1 ? 's' : '' }}
               <template v-if="mod.lessons.some(l => l.durationMinutes)">
                 · {{ formatDuration(mod.lessons.reduce((s, l) => s + (l.durationMinutes || 0), 0)) }}
@@ -175,7 +175,7 @@ const totalDuration = computed(() => getCourseDuration(course))
             </span>
           </div>
         </div>
-        <div class="lessons-list">
+        <div class="flex flex-col gap-2">
           <LessonItem
             v-for="lesson in mod.lessons"
             :key="lesson.id"
@@ -189,231 +189,4 @@ const totalDuration = computed(() => getCourseDuration(course))
   </div>
 </template>
 
-<style scoped>
-.course-header {
-  padding: 40px 20px 60px;
-}
 
-.course-header-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 48px;
-  align-items: start;
-}
-
-.course-badges {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.course-title {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 900;
-  line-height: 1.15;
-  margin-bottom: 16px;
-}
-
-.course-desc {
-  color: rgba(224, 224, 224, 0.7);
-  font-size: 1.05rem;
-  line-height: 1.8;
-  margin-bottom: 20px;
-}
-
-.course-meta {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.9rem;
-  color: rgba(224, 224, 224, 0.6);
-}
-
-.course-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.course-tag {
-  padding: 4px 12px;
-  border-radius: 50px;
-  font-size: 0.78rem;
-  background: rgba(255, 107, 53, 0.1);
-  color: var(--primary-orange);
-  border: 1px solid rgba(255, 107, 53, 0.15);
-}
-
-.course-sidebar {
-  position: sticky;
-  top: 100px;
-}
-
-.module-group {
-  margin-bottom: 32px;
-}
-
-.module-group:last-child {
-  margin-bottom: 0;
-}
-
-.module-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-  padding: 12px 16px;
-  border-radius: 12px;
-  background: rgba(255, 107, 53, 0.06);
-  border: 1px solid rgba(255, 107, 53, 0.12);
-}
-
-.module-icon {
-  font-size: 1.4rem;
-  color: var(--primary-orange);
-}
-
-.module-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--light-text);
-}
-
-.module-meta {
-  font-size: 0.8rem;
-  color: rgba(224, 224, 224, 0.5);
-}
-
-.lessons-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-@media (max-width: 900px) {
-  .course-header-inner {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .course-sidebar {
-    position: static;
-  }
-}
-
-@media (max-width: 768px) {
-  .course-header {
-    padding: 24px 16px 40px;
-  }
-}
-
-@media (max-width: 480px) {
-  .course-header {
-    padding: 20px 12px 32px;
-  }
-
-  .course-meta {
-    gap: 12px;
-  }
-
-  .meta-item {
-    font-size: 0.82rem;
-  }
-}
-
-/* Author Card */
-.author-card {
-  display: flex;
-  gap: 20px;
-  padding: 24px;
-  align-items: flex-start;
-}
-
-.author-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255, 107, 53, 0.3);
-  flex-shrink: 0;
-}
-
-.author-info {
-  flex: 1;
-}
-
-.author-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--light-text);
-  margin-bottom: 4px;
-}
-
-.author-title {
-  font-size: 0.9rem;
-  color: var(--primary-orange);
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.author-bio {
-  font-size: 0.9rem;
-  color: rgba(224, 224, 224, 0.65);
-  line-height: 1.7;
-  margin-bottom: 12px;
-}
-
-.author-links {
-  display: flex;
-  gap: 16px;
-}
-
-.author-link {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.85rem;
-  color: rgba(224, 224, 224, 0.5);
-  transition: color 0.3s ease;
-}
-
-.author-link:hover {
-  color: var(--primary-orange);
-}
-
-/* Course Dates */
-.course-dates {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.date-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
-  color: rgba(224, 224, 224, 0.45);
-}
-
-@media (max-width: 600px) {
-  .author-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .author-links {
-    justify-content: center;
-  }
-}
-</style>

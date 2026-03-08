@@ -129,10 +129,10 @@ async function toggleComplete() {
   <div v-if="course && lesson">
     <!-- Error Toast -->
     <Transition name="toast">
-      <div v-if="errorToast" class="error-toast" role="alert">
+      <div v-if="errorToast" class="fixed top-5 right-5 z-[9999] flex items-center gap-2 py-3 px-4 bg-red-600/95 text-white rounded-[10px] text-sm font-medium shadow-[0_4px_20px_rgba(220,38,38,0.4)] max-w-[380px]" role="alert">
         <Icon name="mdi:alert-circle-outline" />
         <span>{{ errorToast }}</span>
-        <button class="error-toast-close" aria-label="Dismiss" @click="errorToast = ''">&times;</button>
+        <button class="ml-2 bg-transparent border-none text-white text-xl cursor-pointer opacity-80 leading-none hover:opacity-100" aria-label="Dismiss" @click="errorToast = ''">&times;</button>
       </div>
     </Transition>
 
@@ -147,44 +147,49 @@ async function toggleComplete() {
     </div>
 
     <!-- Lesson Content -->
-    <section class="lesson-layout">
+    <section class="grid grid-cols-[280px_1fr] max-w-content mx-auto p-5 gap-8 max-md:grid-cols-1 max-md:p-4 max-sm:p-3 max-sm:gap-4">
       <!-- Sidebar: Lesson list -->
-      <aside class="lesson-sidebar sticky top-[70px] max-h-[calc(100vh-70px)] overflow-y-auto self-start">
-        <h3 class="sidebar-title">{{ course.title }}</h3>
-        <div class="sidebar-progress">
+      <aside class="sticky top-[70px] max-h-[calc(100vh-70px)] overflow-y-auto self-start max-md:static max-md:top-auto max-md:max-h-none max-md:overflow-y-visible max-md:border-b max-md:border-white/5 max-md:pb-5 max-md:mb-5">
+        <h3 class="text-base font-bold mb-3 text-[#e0e0e0]">{{ course.title }}</h3>
+        <div class="mb-4">
           <div class="progress-bar">
             <div class="progress-bar-fill" :style="{ width: '0%' }" />
           </div>
         </div>
-        <nav class="sidebar-lessons">
+        <nav class="flex flex-col gap-0.5">
           <template v-for="(mod, mi) in course.modules" :key="mod.id">
-            <div class="sidebar-module-header">{{ mod.title }}</div>
+            <div class="text-xs font-bold uppercase tracking-wide text-[rgba(224,224,224,0.4)] py-3 px-3 pb-1 mt-2 first:mt-0">{{ mod.title }}</div>
             <NuxtLink
               v-for="(l, li) in mod.lessons"
               :key="l.id"
               :to="`/courses/${course.slug}/lessons/${l.slug}`"
-              :class="['sidebar-lesson', { 'sidebar-lesson--active': l.slug === lessonSlug }]"
+              :class="[
+                'flex items-center gap-2.5 py-2.5 px-3 rounded-lg no-underline text-[0.85rem] transition-all duration-200',
+                l.slug === lessonSlug
+                  ? 'bg-brand-orange/10 text-brand-orange font-semibold'
+                  : 'text-[rgba(224,224,224,0.6)] hover:bg-white/5 hover:text-[#e0e0e0]'
+              ]"
             >
-              <span class="sidebar-lesson-num">{{ String(course.modules.slice(0, mi).reduce((sum, m) => sum + m.lessons.length, 0) + li + 1).padStart(2, '0') }}</span>
-              <span class="sidebar-lesson-title">{{ l.title }}</span>
+              <span :class="['shrink-0 text-xs w-6', l.slug === lessonSlug ? 'text-brand-orange' : 'text-[rgba(224,224,224,0.3)]']">{{ String(course.modules.slice(0, mi).reduce((sum, m) => sum + m.lessons.length, 0) + li + 1).padStart(2, '0') }}</span>
+              <span>{{ l.title }}</span>
             </NuxtLink>
           </template>
         </nav>
       </aside>
 
       <!-- Main content -->
-      <main class="lesson-main">
-        <div class="lesson-header">
-          <span class="lesson-label">
+      <main>
+        <div class="mb-8">
+          <span class="text-[0.85rem] text-brand-orange font-semibold uppercase tracking-wide">
             Lesson {{ currentIndex + 1 }} of {{ allLessons.length }}
           </span>
-          <h1 class="lesson-title">{{ lesson.title }}</h1>
-          <div class="lesson-meta">
+          <h1 class="text-[clamp(1.5rem,3vw,2.2rem)] font-extrabold mt-2 mb-3">{{ lesson.title }}</h1>
+          <div class="flex gap-4 text-sm text-[rgba(224,224,224,0.5)] flex-wrap">
             <span class="flex items-center gap-1">
               <Icon :name="lesson.type === 'video' ? 'mdi:play-circle-outline' : 'mdi:file-document-outline'" />
               {{ lesson.type === 'video' ? 'Video' : 'Article' }}
             </span>
-            <span v-if="lesson.updatedAt || course.updatedAt" class="flex items-center gap-1 lesson-date">
+            <span v-if="lesson.updatedAt || course.updatedAt" class="flex items-center gap-1 text-[0.82rem] text-[rgba(224,224,224,0.35)]">
               <Icon name="mdi:update" />
               Updated: {{ new Date(lesson.updatedAt || course.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }}
             </span>
@@ -192,33 +197,39 @@ async function toggleComplete() {
         </div>
 
         <!-- Video Placeholder -->
-        <div v-if="lesson.type === 'video'" class="lesson-video-placeholder">
+        <div v-if="lesson.type === 'video'" class="aspect-video bg-white/[0.03] border border-brand-orange/15 rounded-2xl flex flex-col items-center justify-center mb-8">
           <Icon name="mdi:play-circle" class="text-6xl text-brand-orange opacity-50" />
           <p class="text-gray-500 mt-4">Video player will be integrated here</p>
         </div>
 
         <!-- Tabbed layout when lesson has both content and quiz -->
-        <div v-if="lesson.content && lesson.quiz" class="lesson-tabs-wrapper mb-8">
+        <div v-if="lesson.content && lesson.quiz" class="flex flex-col mb-8">
           <div class="lesson-tabs">
             <button
-              :class="['lesson-tab', { 'lesson-tab--active': activeTab === 'summary' }]"
+              :class="[
+                'inline-flex items-center gap-2 py-3 px-6 text-[0.95rem] font-semibold bg-transparent border-none border-b-[3px] border-transparent cursor-pointer transition-all duration-200 -mb-[2px]',
+                activeTab === 'summary' ? 'text-brand-orange !border-brand-orange' : 'text-[rgba(224,224,224,0.5)] hover:text-[rgba(224,224,224,0.8)] hover:bg-brand-orange/[0.04]'
+              ]"
               @click="activeTab = 'summary'"
             >
               <Icon name="mdi:book-open-variant" />
               Summary & Takeaway
             </button>
             <button
-              :class="['lesson-tab', { 'lesson-tab--active': activeTab === 'quiz' }]"
+              :class="[
+                'inline-flex items-center gap-2 py-3 px-6 text-[0.95rem] font-semibold bg-transparent border-none border-b-[3px] border-transparent cursor-pointer transition-all duration-200 -mb-[2px]',
+                activeTab === 'quiz' ? 'text-brand-orange !border-brand-orange' : 'text-[rgba(224,224,224,0.5)] hover:text-[rgba(224,224,224,0.8)] hover:bg-brand-orange/[0.04]'
+              ]"
               @click="activeTab = 'quiz'"
             >
               <Icon name="mdi:pencil-outline" />
               Quiz
             </button>
           </div>
-          <div v-show="activeTab === 'summary'" class="lesson-tab-panel glass-card">
+          <div v-show="activeTab === 'summary'" class="rounded-b-2xl glass-card">
             <div class="lesson-content p-4 sm:p-6 md:p-8 prose-content" v-html="processedContent" />
           </div>
-          <div v-show="activeTab === 'quiz'" class="lesson-tab-panel">
+          <div v-show="activeTab === 'quiz'" class="rounded-b-2xl">
             <QuizSection
               :questions="lesson.quiz.questions"
               :title="lesson.quiz.title"
@@ -255,7 +266,7 @@ async function toggleComplete() {
         </div>
 
         <!-- Mark Complete -->
-        <div v-if="!lesson.hideCompletion" class="lesson-actions">
+        <div v-if="!lesson.hideCompletion" class="mb-8 flex items-center gap-3">
           <button
             :class="['btn', isCompleted ? 'btn-completed' : 'btn-outline']"
             :disabled="isLoading"
@@ -270,16 +281,16 @@ async function toggleComplete() {
         <LoginRequiredModal :visible="showLoginModal" :return-to="route.path" @close="showLoginModal = false" />
 
         <!-- Prev / Next Navigation -->
-        <nav class="lesson-nav">
+        <nav class="grid grid-cols-2 gap-4 max-md:grid-cols-1">
           <NuxtLink
             v-if="prevLesson"
             :to="`/courses/${course.slug}/lessons/${prevLesson.slug}`"
-            class="lesson-nav-btn glass-card"
+            class="flex items-center gap-3 py-4 px-5 no-underline text-[#e0e0e0] glass-card max-sm:py-3 max-sm:px-3.5 max-sm:gap-2"
           >
             <Icon name="mdi:arrow-left" />
             <div>
-              <span class="lesson-nav-label">Previous</span>
-              <span class="lesson-nav-title">{{ prevLesson.title }}</span>
+              <span class="block text-xs text-[rgba(224,224,224,0.4)] uppercase tracking-wide">Previous</span>
+              <span class="block font-semibold text-[0.95rem] max-sm:text-[0.85rem]">{{ prevLesson.title }}</span>
             </div>
           </NuxtLink>
           <div v-else />
@@ -287,11 +298,11 @@ async function toggleComplete() {
           <NuxtLink
             v-if="nextLesson"
             :to="`/courses/${course.slug}/lessons/${nextLesson.slug}`"
-            class="lesson-nav-btn lesson-nav-btn--next glass-card"
+            class="flex items-center gap-3 py-4 px-5 no-underline text-[#e0e0e0] text-right justify-end glass-card max-sm:py-3 max-sm:px-3.5 max-sm:gap-2"
           >
             <div>
-              <span class="lesson-nav-label">Next</span>
-              <span class="lesson-nav-title">{{ nextLesson.title }}</span>
+              <span class="block text-xs text-[rgba(224,224,224,0.4)] uppercase tracking-wide">Next</span>
+              <span class="block font-semibold text-[0.95rem] max-sm:text-[0.85rem]">{{ nextLesson.title }}</span>
             </div>
             <Icon name="mdi:arrow-right" />
           </NuxtLink>
@@ -303,519 +314,21 @@ async function toggleComplete() {
 </template>
 
 <style scoped>
-.lesson-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  gap: 32px;
-}
-
-/* Sidebar — layout handled by Tailwind utilities on the element */
-
-.sidebar-title {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-  color: var(--light-text);
-}
-
-.sidebar-progress {
-  margin-bottom: 16px;
-}
-
-.sidebar-lessons {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.sidebar-module-header {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: rgba(224, 224, 224, 0.4);
-  padding: 12px 12px 4px;
-  margin-top: 8px;
-}
-
-.sidebar-module-header:first-child {
-  margin-top: 0;
-}
-
-.sidebar-lesson {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: rgba(224, 224, 224, 0.6);
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
-}
-
-.sidebar-lesson:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--light-text);
-}
-
-.sidebar-lesson--active {
-  background: rgba(255, 107, 53, 0.1);
-  color: var(--primary-orange);
-  font-weight: 600;
-}
-
-.sidebar-lesson-num {
-  flex-shrink: 0;
-  font-size: 0.75rem;
-  color: rgba(224, 224, 224, 0.3);
-  width: 24px;
-}
-
-.sidebar-lesson--active .sidebar-lesson-num {
-  color: var(--primary-orange);
-}
-
-/* Main */
-.lesson-header {
-  margin-bottom: 32px;
-}
-
-.lesson-label {
-  font-size: 0.85rem;
-  color: var(--primary-orange);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.lesson-title {
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  font-weight: 800;
-  margin: 8px 0 12px;
-}
-
-.lesson-meta {
-  display: flex;
-  gap: 16px;
-  font-size: 0.9rem;
-  color: rgba(224, 224, 224, 0.5);
-  flex-wrap: wrap;
-}
-
-.lesson-date {
-  font-size: 0.82rem;
-  color: rgba(224, 224, 224, 0.35);
-}
-
-.lesson-video-placeholder {
-  aspect-ratio: 16 / 9;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 107, 53, 0.15);
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 32px;
-}
-
-.lesson-actions {
-  margin-bottom: 32px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.lesson-actions button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .btn-completed {
-  background: rgba(76, 175, 80, 0.15);
-  color: var(--success-green, #4caf50);
-  border: 1px solid rgba(76, 175, 80, 0.4);
+  @apply bg-[rgba(76,175,80,0.15)] text-[#4caf50] border border-[rgba(76,175,80,0.4)];
 }
-
 .btn-completed:hover {
-  background: rgba(76, 175, 80, 0.25);
-  border-color: rgba(76, 175, 80, 0.6);
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Lesson Tabs */
-.lesson-tabs-wrapper {
-  display: flex;
-  flex-direction: column;
+  @apply bg-[rgba(76,175,80,0.25)] border-[rgba(76,175,80,0.6)];
 }
 
 .lesson-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 0;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.06);
-}
-
-.lesson-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: rgba(224, 224, 224, 0.5);
-  background: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: -2px;
-}
-
-.lesson-tab:hover {
-  color: rgba(224, 224, 224, 0.8);
-  background: rgba(255, 107, 53, 0.04);
-}
-
-.lesson-tab--active {
-  color: var(--primary-orange);
-  border-bottom-color: var(--primary-orange);
-}
-
-.lesson-tab-panel {
-  margin-top: 0;
-  border-radius: 0 0 16px 16px;
-}
-
-.lesson-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.lesson-nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  text-decoration: none;
-  color: var(--light-text);
-}
-
-.lesson-nav-btn--next {
-  text-align: right;
-  justify-content: flex-end;
-}
-
-.lesson-nav-label {
-  display: block;
-  font-size: 0.75rem;
-  color: rgba(224, 224, 224, 0.4);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.lesson-nav-title {
-  display: block;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-@media (max-width: 768px) {
-  .lesson-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .lesson-sidebar {
-    position: static;
-    top: auto;
-    max-height: none;
-    overflow-y: visible;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-  }
-
-  .lesson-nav {
-    grid-template-columns: 1fr;
-  }
-
-  .lesson-layout {
-    padding: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .lesson-layout {
-    padding: 12px;
-    gap: 16px;
-  }
-
-  .lesson-nav-btn {
-    padding: 12px 14px;
-    gap: 8px;
-  }
-
-  .lesson-nav-title {
-    font-size: 0.85rem;
-  }
-}
-
-/* Prose content styles for rendered lesson HTML */
-.prose-content {
-  color: rgba(224, 224, 224, 0.85);
-  line-height: 1.8;
-  font-size: 1rem;
-}
-
-.prose-content :deep(h2) {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
-  color: var(--light-text);
-  border-bottom: 1px solid rgba(255, 107, 53, 0.15);
-  padding-bottom: 0.5rem;
-}
-
-.prose-content :deep(h2:first-child) {
-  margin-top: 0;
-}
-
-.prose-content :deep(h3) {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-  color: var(--light-text);
-}
-
-.prose-content :deep(p) {
-  margin-bottom: 1rem;
-}
-
-.prose-content :deep(ul),
-.prose-content :deep(ol) {
-  margin-bottom: 1rem;
-  padding-left: 1.5rem;
-}
-
-.prose-content :deep(ul) {
-  list-style-type: disc;
-}
-
-.prose-content :deep(ol) {
-  list-style-type: decimal;
-}
-
-.prose-content :deep(li) {
-  margin-bottom: 0.4rem;
-}
-
-.prose-content :deep(li ul),
-.prose-content :deep(li ol) {
-  margin-top: 0.4rem;
-  margin-bottom: 0.4rem;
-}
-
-.prose-content :deep(blockquote) {
-  border-left: 3px solid var(--primary-orange);
-  padding: 1rem 1.25rem;
-  margin: 1.5rem 0;
-  background: rgba(255, 107, 53, 0.05);
-  border-radius: 0 8px 8px 0;
-}
-
-.prose-content :deep(blockquote p) {
-  margin-bottom: 0;
-}
-
-.prose-content :deep(strong) {
-  color: var(--light-text);
-  font-weight: 600;
-}
-
-.prose-content :deep(em) {
-  color: rgba(224, 224, 224, 0.7);
-}
-
-.prose-content :deep(code) {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.9em;
-  color: var(--primary-orange);
-}
-
-.prose-content :deep(table) {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.5rem 0;
-  font-size: 0.9rem;
-}
-
-.prose-content :deep(thead) {
-  background: rgba(255, 107, 53, 0.1);
-}
-
-.prose-content :deep(th) {
-  padding: 10px 14px;
-  text-align: left;
-  font-weight: 600;
-  color: var(--light-text);
-  border-bottom: 2px solid rgba(255, 107, 53, 0.2);
-}
-
-.prose-content :deep(td) {
-  padding: 10px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.prose-content :deep(tr:hover td) {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-/* Horizontal rules */
-.prose-content :deep(hr) {
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  margin: 2rem 0;
-}
-
-/* Format selector styles */
-.prose-content :deep(.format-notice) {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 16px 20px;
-  border-radius: 12px;
-  background: rgba(255, 193, 7, 0.08);
-  border: 1px solid rgba(255, 193, 7, 0.2);
-  border-left: 4px solid #ffc107;
-  margin-bottom: 20px;
-}
-
-.prose-content :deep(.format-notice-icon) {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.prose-content :deep(.format-notice > div > strong) {
-  color: #ffc107;
-  display: block;
-  margin-bottom: 4px;
-  font-size: 1rem;
-}
-
-.prose-content :deep(.format-notice p) {
-  margin: 0;
-  font-size: 0.9rem;
-  color: rgba(224, 224, 224, 0.7);
-}
-
-.prose-content :deep(.format-notice p strong) {
-  color: #ffc107;
-  display: inline;
-  font-size: inherit;
-}
-
-.prose-content :deep(.format-tabs) {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-
-.prose-content :deep(.format-tab) {
-  padding: 10px 20px;
-  border-radius: 50px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 107, 53, 0.2);
-  background: transparent;
-  color: rgba(224, 224, 224, 0.7);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.prose-content :deep(.format-tab:hover) {
-  border-color: var(--primary-orange);
-  color: var(--primary-orange);
-}
-
-.prose-content :deep(.format-tab.active) {
-  background: var(--primary-orange);
-  border-color: var(--primary-orange);
-  color: #fff;
-}
-
-.prose-content :deep(.video-embed iframe),
-.prose-content :deep(.audio-embed iframe),
-.prose-content :deep(.slides-embed iframe) {
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  max-width: 100%;
-}
-
-.prose-content :deep(.format-content img) {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-}
-
-/* Error toast */
-.error-toast {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  background: rgba(220, 38, 38, 0.95);
-  color: #fff;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
-  max-width: 380px;
-}
-
-.error-toast-close {
-  margin-left: 8px;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  opacity: 0.8;
-  line-height: 1;
-}
-
-.error-toast-close:hover {
-  opacity: 1;
+  @apply flex gap-1 border-b-2 border-white/[0.06];
 }
 
 .toast-enter-active,
 .toast-leave-active {
   transition: all 0.3s ease;
 }
-
 .toast-enter-from,
 .toast-leave-to {
   opacity: 0;

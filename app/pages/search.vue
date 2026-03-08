@@ -64,8 +64,8 @@ watch(() => route.query.q, (newQ) => {
 
 <template>
   <div>
-    <section class="search-hero">
-      <div class="search-hero-inner">
+    <section class="pt-[120px] px-5 pb-10 text-center max-md:pt-[100px] max-md:px-4 max-md:pb-8 max-sm:pt-[90px] max-sm:px-3 max-sm:pb-6">
+      <div class="max-w-[600px] mx-auto">
         <h1 class="gradient-text text-3xl md:text-4xl font-bold mb-6">Search</h1>
         <SearchBar @search="handleSearch" />
       </div>
@@ -73,36 +73,35 @@ watch(() => route.query.q, (newQ) => {
 
     <section class="section">
       <template v-if="query.trim()">
-        <p class="results-label">
+        <p class="text-[0.95rem] text-[rgba(224,224,224,0.6)] mb-4">
           {{ totalResults }} result{{ totalResults !== 1 ? 's' : '' }} for
           <strong class="text-brand-orange">"{{ query }}"</strong>
         </p>
 
         <!-- Tabs -->
-        <div class="search-tabs">
+        <div class="flex gap-2 mb-8 flex-wrap">
           <button
-            :class="['tab-btn', { active: activeTab === 'all' }]"
-            @click="activeTab = 'all'"
+            v-for="tab in [
+              { key: 'all', label: `All (${totalResults})` },
+              { key: 'courses', label: `Courses (${courseResults.length})` },
+              { key: 'paths', label: `Learning Paths (${pathResults.length})` },
+            ]"
+            :key="tab.key"
+            :class="[
+              'py-2 px-5 rounded-full text-[0.85rem] font-semibold border cursor-pointer transition-all duration-200 max-sm:py-1.5 max-sm:px-3.5 max-sm:text-[0.8rem]',
+              activeTab === tab.key
+                ? 'bg-brand-orange/15 border-brand-orange text-brand-orange'
+                : 'border-white/10 bg-transparent text-[rgba(224,224,224,0.6)] hover:border-brand-orange/40 hover:text-[#e0e0e0]'
+            ]"
+            @click="activeTab = tab.key as 'all' | 'courses' | 'paths'"
           >
-            All ({{ totalResults }})
-          </button>
-          <button
-            :class="['tab-btn', { active: activeTab === 'courses' }]"
-            @click="activeTab = 'courses'"
-          >
-            Courses ({{ courseResults.length }})
-          </button>
-          <button
-            :class="['tab-btn', { active: activeTab === 'paths' }]"
-            @click="activeTab = 'paths'"
-          >
-            Learning Paths ({{ pathResults.length }})
+            {{ tab.label }}
           </button>
         </div>
 
         <!-- Courses section -->
-        <div v-if="(activeTab === 'all' || activeTab === 'courses') && courseResults.length" class="results-section">
-          <h2 v-if="activeTab === 'all'" class="section-heading">
+        <div v-if="(activeTab === 'all' || activeTab === 'courses') && courseResults.length" class="mb-12">
+          <h2 v-if="activeTab === 'all'" class="flex items-center gap-2 text-xl font-bold mb-5 text-[#e0e0e0]">
             <Icon name="mdi:school-outline" class="text-brand-orange" /> Courses
           </h2>
           <div class="card-grid">
@@ -111,14 +110,14 @@ watch(() => route.query.q, (newQ) => {
         </div>
 
         <!-- Paths section -->
-        <div v-if="(activeTab === 'all' || activeTab === 'paths') && pathResults.length" class="results-section">
-          <h2 v-if="activeTab === 'all'" class="section-heading">
+        <div v-if="(activeTab === 'all' || activeTab === 'paths') && pathResults.length" class="mb-12">
+          <h2 v-if="activeTab === 'all'" class="flex items-center gap-2 text-xl font-bold mb-5 text-[#e0e0e0]">
             <Icon name="mdi:map-marker-path" class="text-brand-orange" /> Learning Paths
           </h2>
-          <div class="paths-list">
-            <div v-for="path in pathResults" :key="path.slug" class="glass-card path-card">
-              <div class="path-header">
-                <Icon :name="path.icon" class="path-icon" />
+          <div class="flex flex-col gap-6">
+            <div v-for="path in pathResults" :key="path.slug" class="glass-card p-7 max-md:p-5 max-sm:p-4">
+              <div class="flex gap-4 items-start mb-5 max-md:flex-col">
+                <Icon :name="path.icon" class="text-[2rem] text-brand-orange shrink-0 mt-1" />
                 <div>
                   <div class="flex items-center gap-2 mb-1">
                     <h3 class="text-xl font-bold">{{ path.title }}</h3>
@@ -137,21 +136,21 @@ watch(() => route.query.q, (newQ) => {
               </div>
 
               <!-- Course list when available -->
-              <div v-if="path.courses && path.courses.length" class="path-courses">
+              <div v-if="path.courses && path.courses.length" class="flex flex-col gap-2">
                 <div
                   v-for="(course, index) in path.courses"
                   :key="course.slug"
-                  class="path-course-item"
+                  class="flex items-center gap-3 py-2.5 px-4 rounded-lg bg-white/[0.03] border border-white/[0.06] transition-all duration-200 hover:bg-brand-orange/[0.06] hover:border-brand-orange/20"
                 >
-                  <span class="path-course-number">{{ index + 1 }}</span>
-                  <NuxtLink :to="`/courses/${course.slug}`" class="path-course-link">
+                  <span class="flex items-center justify-center w-7 h-7 rounded-full bg-brand-orange/[0.12] text-brand-orange text-[0.8rem] font-bold shrink-0">{{ index + 1 }}</span>
+                  <NuxtLink :to="`/courses/${course.slug}`" class="text-[#e0e0e0] no-underline text-[0.95rem] font-medium transition-colors duration-200 hover:text-brand-orange">
                     {{ course.title }}
                   </NuxtLink>
                 </div>
               </div>
 
               <!-- Coming soon -->
-              <div v-else class="path-coming-soon">
+              <div v-else class="flex items-center gap-2.5 py-3 px-4 rounded-lg bg-brand-orange/5 border border-dashed border-brand-orange/20">
                 <Icon name="mdi:hammer-wrench" class="text-brand-orange text-lg" />
                 <span class="text-sm text-gray-400">Courses for this path are being developed. Stay tuned!</span>
               </div>
@@ -160,7 +159,7 @@ watch(() => route.query.q, (newQ) => {
         </div>
 
         <!-- No results -->
-        <div v-if="totalResults === 0" class="empty-state">
+        <div v-if="totalResults === 0" class="text-center py-[60px] px-5 max-sm:py-10 max-sm:px-3">
           <Icon name="mdi:magnify-close" class="text-gray-600 text-5xl mb-4" />
           <h3 class="text-xl font-semibold mb-2">No results found</h3>
           <p class="text-gray-500 mb-4">Try searching for "JavaScript", "QA", or "DevOps".</p>
@@ -169,7 +168,7 @@ watch(() => route.query.q, (newQ) => {
       </template>
 
       <template v-else>
-        <div class="empty-state">
+        <div class="text-center py-[60px] px-5 max-sm:py-10 max-sm:px-3">
           <Icon name="mdi:magnify" class="text-gray-600 text-5xl mb-4" />
           <h3 class="text-xl font-semibold mb-2">What do you want to learn?</h3>
           <p class="text-gray-500">Search for courses and learning paths by name, topic, or skill.</p>
@@ -179,185 +178,4 @@ watch(() => route.query.q, (newQ) => {
   </div>
 </template>
 
-<style scoped>
-.search-hero {
-  padding: 120px 20px 40px;
-  text-align: center;
-}
 
-.search-hero-inner {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.results-label {
-  font-size: 0.95rem;
-  color: rgba(224, 224, 224, 0.6);
-  margin-bottom: 16px;
-}
-
-.search-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
-}
-
-.tab-btn {
-  padding: 8px 20px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: transparent;
-  color: rgba(224, 224, 224, 0.6);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.tab-btn:hover {
-  border-color: rgba(255, 107, 53, 0.4);
-  color: var(--light-text);
-}
-
-.tab-btn.active {
-  background: rgba(255, 107, 53, 0.15);
-  border-color: var(--primary-orange);
-  color: var(--primary-orange);
-}
-
-.results-section {
-  margin-bottom: 48px;
-}
-
-.section-heading {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: var(--light-text);
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-/* Path card styles */
-.paths-list {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.path-card {
-  padding: 28px;
-}
-
-.path-header {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.path-icon {
-  font-size: 2rem;
-  color: var(--primary-orange);
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-
-.path-coming-soon {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  background: rgba(255, 107, 53, 0.05);
-  border: 1px dashed rgba(255, 107, 53, 0.2);
-}
-
-.path-courses {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.path-course-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.path-course-item:hover {
-  background: rgba(255, 107, 53, 0.06);
-  border-color: rgba(255, 107, 53, 0.2);
-}
-
-.path-course-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(255, 107, 53, 0.12);
-  color: var(--primary-orange);
-  font-size: 0.8rem;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.path-course-link {
-  color: var(--light-text);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.path-course-link:hover {
-  color: var(--primary-orange);
-}
-
-@media (max-width: 768px) {
-  .search-hero {
-    padding: 100px 16px 32px;
-  }
-
-  .path-card {
-    padding: 20px;
-  }
-
-  .path-header {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  .search-hero {
-    padding: 90px 12px 24px;
-  }
-
-  .empty-state {
-    padding: 40px 12px;
-  }
-
-  .path-card {
-    padding: 16px;
-  }
-
-  .tab-btn {
-    padding: 6px 14px;
-    font-size: 0.8rem;
-  }
-}
-</style>

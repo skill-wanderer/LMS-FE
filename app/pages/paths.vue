@@ -57,47 +57,41 @@ function getPathDuration(path: { courses?: { slug: string }[] }): number {
 
     <section class="section">
       <!-- Search & Filter Bar -->
-      <div class="paths-search-bar">
-        <div class="paths-search-input-wrapper">
-          <Icon name="mdi:magnify" class="paths-search-icon" />
+      <div class="flex flex-wrap gap-4 items-center mb-8 max-md:flex-col max-md:items-stretch">
+        <div class="flex items-center gap-2.5 flex-1 min-w-[220px] bg-surface-card border border-brand-orange/20 rounded-full py-2.5 px-5 transition-colors duration-300 focus-within:border-brand-orange">
+          <Icon name="mdi:magnify" class="text-[rgba(224,224,224,0.4)] text-xl shrink-0" />
           <input
             v-model="searchQuery"
             type="search"
             placeholder="Search learning paths…"
-            class="paths-search-input"
+            class="flex-1 bg-transparent border-none text-[#e0e0e0] text-base outline-none placeholder:text-[rgba(224,224,224,0.35)]"
             aria-label="Search learning paths"
           />
         </div>
-        <div class="paths-filter-group">
+        <div class="flex gap-2 flex-wrap max-md:justify-center">
           <button
-            :class="['filter-btn', { active: selectedDifficulty === '' }]"
-            @click="selectedDifficulty = ''"
+            v-for="filter in [
+              { key: '', label: 'All', activeClasses: 'bg-brand-orange/15 border-brand-orange text-brand-orange' },
+              { key: 'beginner', label: 'Beginner', activeClasses: 'bg-[rgba(76,175,80,0.15)] border-[#4caf50] text-[#4caf50]' },
+              { key: 'intermediate', label: 'Intermediate', activeClasses: 'bg-[rgba(255,152,0,0.15)] border-[#ff9800] text-[#ff9800]' },
+              { key: 'advanced', label: 'Advanced', activeClasses: 'bg-[rgba(244,67,54,0.15)] border-[#f44336] text-[#f44336]' },
+            ]"
+            :key="filter.key"
+            :class="[
+              'py-2 px-4 rounded-full text-[0.85rem] font-semibold border cursor-pointer transition-all duration-200 max-sm:py-1.5 max-sm:px-3 max-sm:text-[0.8rem]',
+              selectedDifficulty === filter.key
+                ? filter.activeClasses
+                : 'border-white/10 bg-transparent text-[rgba(224,224,224,0.6)] hover:border-brand-orange/40 hover:text-[#e0e0e0]'
+            ]"
+            @click="selectedDifficulty = filter.key"
           >
-            All
-          </button>
-          <button
-            :class="['filter-btn filter-beginner', { active: selectedDifficulty === 'beginner' }]"
-            @click="selectedDifficulty = 'beginner'"
-          >
-            Beginner
-          </button>
-          <button
-            :class="['filter-btn filter-intermediate', { active: selectedDifficulty === 'intermediate' }]"
-            @click="selectedDifficulty = 'intermediate'"
-          >
-            Intermediate
-          </button>
-          <button
-            :class="['filter-btn filter-advanced', { active: selectedDifficulty === 'advanced' }]"
-            @click="selectedDifficulty = 'advanced'"
-          >
-            Advanced
+            {{ filter.label }}
           </button>
         </div>
       </div>
 
       <!-- Results count -->
-      <p v-if="searchQuery.trim() || selectedDifficulty" class="paths-results-label">
+      <p v-if="searchQuery.trim() || selectedDifficulty" class="text-[0.95rem] text-[rgba(224,224,224,0.6)] mb-6">
         {{ filteredPaths.length }} path{{ filteredPaths.length !== 1 ? 's' : '' }} found
         <template v-if="searchQuery.trim()">
           for <strong class="text-brand-orange">"{{ searchQuery }}"</strong>
@@ -107,10 +101,10 @@ function getPathDuration(path: { courses?: { slug: string }[] }): number {
         </template>
       </p>
 
-      <div v-if="filteredPaths.length" class="paths-list">
-        <div v-for="path in filteredPaths" :key="path.slug" class="glass-card path-card">
-          <div class="path-header">
-            <Icon :name="path.icon" class="path-icon" />
+      <div v-if="filteredPaths.length" class="flex flex-col gap-8">
+        <div v-for="path in filteredPaths" :key="path.slug" class="glass-card p-8 max-md:p-5 max-sm:p-4">
+          <div class="flex gap-4 items-start mb-6 max-md:flex-col">
+            <Icon :name="path.icon" class="text-[2rem] text-brand-orange shrink-0 mt-1 max-md:text-[1.6rem]" />
             <div>
               <div class="flex items-center gap-2 mb-1">
                 <h2 class="text-xl font-bold">{{ path.title }}</h2>
@@ -129,21 +123,21 @@ function getPathDuration(path: { courses?: { slug: string }[] }): number {
           </div>
 
           <!-- Course list when available -->
-          <div v-if="path.courses && path.courses.length" class="path-courses">
+          <div v-if="path.courses && path.courses.length" class="flex flex-col gap-2">
             <div
               v-for="(course, index) in path.courses"
               :key="course.slug"
-              class="path-course-item"
+              class="flex items-center gap-3 py-2.5 px-4 rounded-lg bg-white/[0.03] border border-white/[0.06] transition-all duration-200 hover:bg-brand-orange/[0.06] hover:border-brand-orange/20"
             >
-              <span class="path-course-number">{{ index + 1 }}</span>
-              <NuxtLink :to="`/courses/${course.slug}`" class="path-course-link">
+              <span class="flex items-center justify-center w-7 h-7 rounded-full bg-brand-orange/[0.12] text-brand-orange text-[0.8rem] font-bold shrink-0">{{ index + 1 }}</span>
+              <NuxtLink :to="`/courses/${course.slug}`" class="text-[#e0e0e0] no-underline text-[0.95rem] font-medium transition-colors duration-200 hover:text-brand-orange">
                 {{ course.title }}
               </NuxtLink>
             </div>
           </div>
 
           <!-- Coming soon when no courses yet -->
-          <div v-else class="path-coming-soon">
+          <div v-else class="flex items-center gap-2.5 py-3 px-4 rounded-lg bg-brand-orange/5 border border-dashed border-brand-orange/20">
             <Icon name="mdi:hammer-wrench" class="text-brand-orange text-lg" />
             <span class="text-sm text-gray-400">Courses for this path are being developed. Stay tuned!</span>
           </div>
@@ -151,7 +145,7 @@ function getPathDuration(path: { courses?: { slug: string }[] }): number {
       </div>
 
       <!-- Empty state -->
-      <div v-else class="empty-state">
+      <div v-else class="text-center py-[60px] px-5 max-sm:py-10 max-sm:px-3">
         <Icon name="mdi:magnify-close" class="text-gray-600 text-5xl mb-4" />
         <h3 class="text-xl font-semibold mb-2">No paths found</h3>
         <p class="text-gray-500 mb-4">Try a different search term or clear your filters.</p>
@@ -163,226 +157,4 @@ function getPathDuration(path: { courses?: { slug: string }[] }): number {
   </div>
 </template>
 
-<style scoped>
-.paths-search-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-  margin-bottom: 32px;
-}
 
-.paths-search-input-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-  min-width: 220px;
-  background: var(--card-bg);
-  border: 1px solid rgba(255, 107, 53, 0.2);
-  border-radius: 50px;
-  padding: 10px 20px;
-  transition: border-color 0.3s ease;
-}
-
-.paths-search-input-wrapper:focus-within {
-  border-color: var(--primary-orange);
-}
-
-.paths-search-icon {
-  color: rgba(224, 224, 224, 0.4);
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-.paths-search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: var(--light-text);
-  font-size: 1rem;
-  outline: none;
-}
-
-.paths-search-input::placeholder {
-  color: rgba(224, 224, 224, 0.35);
-}
-
-.paths-filter-group {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.filter-btn {
-  padding: 8px 16px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: transparent;
-  color: rgba(224, 224, 224, 0.6);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.filter-btn:hover {
-  border-color: rgba(255, 107, 53, 0.4);
-  color: var(--light-text);
-}
-
-.filter-btn.active {
-  background: rgba(255, 107, 53, 0.15);
-  border-color: var(--primary-orange);
-  color: var(--primary-orange);
-}
-
-.filter-beginner.active {
-  background: rgba(76, 175, 80, 0.15);
-  border-color: #4caf50;
-  color: #4caf50;
-}
-
-.filter-intermediate.active {
-  background: rgba(255, 152, 0, 0.15);
-  border-color: #ff9800;
-  color: #ff9800;
-}
-
-.filter-advanced.active {
-  background: rgba(244, 67, 54, 0.15);
-  border-color: #f44336;
-  color: #f44336;
-}
-
-.paths-results-label {
-  font-size: 0.95rem;
-  color: rgba(224, 224, 224, 0.6);
-  margin-bottom: 24px;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.paths-list {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.path-card {
-  padding: 32px;
-}
-
-.path-header {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  margin-bottom: 24px;
-}
-
-.path-icon {
-  font-size: 2rem;
-  color: var(--primary-orange);
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-
-.path-coming-soon {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  background: rgba(255, 107, 53, 0.05);
-  border: 1px dashed rgba(255, 107, 53, 0.2);
-}
-
-.path-courses {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.path-course-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.path-course-item:hover {
-  background: rgba(255, 107, 53, 0.06);
-  border-color: rgba(255, 107, 53, 0.2);
-}
-
-.path-course-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(255, 107, 53, 0.12);
-  color: var(--primary-orange);
-  font-size: 0.8rem;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.path-course-link {
-  color: var(--light-text);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.path-course-link:hover {
-  color: var(--primary-orange);
-}
-
-@media (max-width: 768px) {
-  .path-card {
-    padding: 20px;
-  }
-
-  .path-header {
-    flex-direction: column;
-  }
-
-  .path-icon {
-    font-size: 1.6rem;
-  }
-
-  .paths-search-bar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .paths-filter-group {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .path-card {
-    padding: 16px;
-  }
-
-  .filter-btn {
-    padding: 6px 12px;
-    font-size: 0.8rem;
-  }
-
-  .empty-state {
-    padding: 40px 12px;
-  }
-}
-</style>

@@ -200,25 +200,25 @@ const scorePercentage = computed(() => {
 </script>
 
 <template>
-  <div class="quiz-section">
-    <div class="quiz-header">
-      <div class="quiz-header-icon">📝</div>
+  <div class="mt-8 bg-surface-card border border-brand-orange/15 rounded-2xl p-8 max-md:p-5">
+    <div class="flex items-start gap-3.5 mb-6">
+      <div class="text-[2rem] shrink-0 leading-none">📝</div>
       <div>
-        <h2 class="quiz-title">{{ title || 'Module Quiz' }}</h2>
-        <p class="quiz-subtitle">Optional — Test your understanding of the module concepts</p>
+        <h2 class="text-[1.4rem] font-bold mb-1 gradient-text">{{ title || 'Module Quiz' }}</h2>
+        <p class="text-sm text-[rgba(224,224,224,0.5)] m-0">Optional — Test your understanding of the module concepts</p>
       </div>
     </div>
 
     <!-- Previous Score Banner (fetched from API) -->
     <div v-if="!isChecked && savedScore" class="quiz-score-banner" :class="savedScore.scorePercentage >= passThreshold ? 'quiz-score-banner--pass' : 'quiz-score-banner--fail'">
-      <div class="quiz-score-info">
-        <span class="quiz-score-icon">{{ savedScore.scorePercentage >= passThreshold ? '🎉' : '📖' }}</span>
+      <div class="flex items-center gap-3">
+        <span class="text-[1.8rem] shrink-0">{{ savedScore.scorePercentage >= passThreshold ? '🎉' : '📖' }}</span>
         <div>
-          <strong class="quiz-score-text">
+          <strong class="block text-[1.05rem] text-[#e0e0e0]">
             {{ savedScore.scorePercentage >= passThreshold ? 'Previously passed!' : 'Previous attempt' }}
           </strong>
-          <p class="quiz-score-detail">
-            Your last score: <strong>{{ savedScore.score }}/{{ savedScore.totalQuestions }}</strong> ({{ savedScore.scorePercentage }}%)
+          <p class="mt-0.5 text-sm text-[rgba(224,224,224,0.6)] m-0">
+            Your last score: <strong class="text-[#e0e0e0]">{{ savedScore.score }}/{{ savedScore.totalQuestions }}</strong> ({{ savedScore.scorePercentage }}%)
           </p>
         </div>
       </div>
@@ -226,37 +226,37 @@ const scorePercentage = computed(() => {
 
     <!-- Score Banner -->
     <div v-if="isChecked" class="quiz-score-banner" :class="scorePercentage >= passThreshold ? 'quiz-score-banner--pass' : 'quiz-score-banner--fail'">
-      <div class="quiz-score-info">
-        <span class="quiz-score-icon">{{ scorePercentage >= passThreshold ? '🎉' : '📖' }}</span>
+      <div class="flex items-center gap-3">
+        <span class="text-[1.8rem] shrink-0">{{ scorePercentage >= passThreshold ? '🎉' : '📖' }}</span>
         <div>
-          <strong class="quiz-score-text">
+          <strong class="block text-[1.05rem] text-[#e0e0e0]">
             {{ scorePercentage >= passThreshold ? 'Great job!' : 'Keep studying!' }}
           </strong>
-          <p class="quiz-score-detail">
-            You scored <strong>{{ score }}/{{ questions.length }}</strong> ({{ scorePercentage }}%)
-            <span v-if="isSubmitted" class="quiz-auto-saved">— Score saved ✓</span>
+          <p class="mt-0.5 text-sm text-[rgba(224,224,224,0.6)] m-0">
+            You scored <strong class="text-[#e0e0e0]">{{ score }}/{{ questions.length }}</strong> ({{ scorePercentage }}%)
+            <span v-if="isSubmitted" class="text-[#4ade80] text-[0.85rem] font-medium">— Score saved ✓</span>
           </p>
         </div>
       </div>
-      <button class="btn-reset" @click="resetQuiz">
+      <button class="inline-flex items-center gap-1.5 px-[18px] py-2 rounded-full text-[0.85rem] font-semibold border border-brand-orange/30 bg-transparent text-brand-orange cursor-pointer transition-all duration-300 hover:bg-brand-orange/10 hover:border-brand-orange" @click="resetQuiz">
         <Icon name="mdi:refresh" />
         Try Again
       </button>
     </div>
 
     <!-- Questions -->
-    <ol class="quiz-questions">
+    <ol class="list-none p-0 m-0 flex flex-col gap-6">
       <li
         v-for="(question, qi) in questions"
         :key="qi"
         class="quiz-question"
         :class="{ 'quiz-question--checked': isChecked }"
       >
-        <p class="quiz-question-text">
-          <span class="quiz-question-num">{{ qi + 1 }}.</span>
+        <p class="text-base font-semibold text-[#e0e0e0] mb-4 leading-relaxed m-0">
+          <span class="text-brand-orange mr-1.5">{{ qi + 1 }}.</span>
           {{ question.question }}
         </p>
-        <div class="quiz-options">
+        <div class="flex flex-col gap-2">
           <label
             v-for="(option, key) in question.options"
             :key="key"
@@ -275,17 +275,17 @@ const scorePercentage = computed(() => {
               :value="key"
               :disabled="isChecked"
               v-model="selectedAnswers[qi]"
-              class="quiz-radio"
+              class="hidden"
             />
             <span class="quiz-option-key">{{ key }}</span>
-            <span class="quiz-option-text">{{ option }}</span>
-            <span v-if="getOptionStatus(qi, key) === 'correct'" class="quiz-option-icon">
+            <span class="flex-1">{{ option }}</span>
+            <span v-if="getOptionStatus(qi, key) === 'correct'" class="text-[1.2rem] text-[#4caf50] shrink-0 flex">
               <Icon name="mdi:check-circle" />
             </span>
-            <span v-if="getOptionStatus(qi, key) === 'incorrect'" class="quiz-option-icon quiz-option-icon--wrong">
+            <span v-if="getOptionStatus(qi, key) === 'incorrect'" class="text-[1.2rem] text-[#f44336] shrink-0 flex">
               <Icon name="mdi:close-circle" />
             </span>
-            <span v-if="getOptionStatus(qi, key) === 'missed'" class="quiz-option-icon">
+            <span v-if="getOptionStatus(qi, key) === 'missed'" class="text-[1.2rem] text-[#4caf50] shrink-0 flex">
               <Icon name="mdi:check-circle-outline" />
             </span>
           </label>
@@ -295,41 +295,41 @@ const scorePercentage = computed(() => {
 
     <!-- Quiz Result Summary -->
     <div v-if="isChecked" class="quiz-result-summary" :class="scorePercentage >= passThreshold ? 'quiz-result-summary--pass' : 'quiz-result-summary--fail'">
-      <div class="quiz-result-header">
-        <span class="quiz-result-emoji">{{ scorePercentage >= passThreshold ? '🏆' : '💪' }}</span>
-        <span class="quiz-result-label">{{ scorePercentage >= passThreshold ? 'You Passed!' : 'Not Quite There' }}</span>
+      <div class="flex items-center justify-center gap-2.5 mb-5">
+        <span class="text-[1.6rem]">{{ scorePercentage >= passThreshold ? '🏆' : '💪' }}</span>
+        <span class="quiz-result-label text-[1.2rem] font-bold">{{ scorePercentage >= passThreshold ? 'You Passed!' : 'Not Quite There' }}</span>
       </div>
-      <div class="quiz-result-stats">
-        <div class="quiz-result-stat">
-          <span class="quiz-result-stat-value">{{ score }}/{{ questions.length }}</span>
-          <span class="quiz-result-stat-label">Correct</span>
+      <div class="flex items-center justify-center gap-6 mb-5 max-md:gap-4">
+        <div class="flex flex-col items-center gap-1">
+          <span class="text-2xl font-extrabold text-[#e0e0e0] max-md:text-xl">{{ score }}/{{ questions.length }}</span>
+          <span class="text-[0.78rem] uppercase tracking-wide text-[rgba(224,224,224,0.45)] font-semibold">Correct</span>
         </div>
-        <div class="quiz-result-stat-divider" />
-        <div class="quiz-result-stat">
-          <span class="quiz-result-stat-value">{{ scorePercentage }}%</span>
-          <span class="quiz-result-stat-label">Score</span>
+        <div class="w-px h-9 bg-white/[0.08]" />
+        <div class="flex flex-col items-center gap-1">
+          <span class="text-2xl font-extrabold text-[#e0e0e0] max-md:text-xl">{{ scorePercentage }}%</span>
+          <span class="text-[0.78rem] uppercase tracking-wide text-[rgba(224,224,224,0.45)] font-semibold">Score</span>
         </div>
-        <div class="quiz-result-stat-divider" />
-        <div class="quiz-result-stat">
-          <span class="quiz-result-stat-value">{{ passThreshold }}%</span>
-          <span class="quiz-result-stat-label">Passing</span>
+        <div class="w-px h-9 bg-white/[0.08]" />
+        <div class="flex flex-col items-center gap-1">
+          <span class="text-2xl font-extrabold text-[#e0e0e0] max-md:text-xl">{{ passThreshold }}%</span>
+          <span class="text-[0.78rem] uppercase tracking-wide text-[rgba(224,224,224,0.45)] font-semibold">Passing</span>
         </div>
       </div>
-      <div class="quiz-result-bar-track">
+      <div class="relative h-2 rounded bg-white/[0.06]">
         <div
-          class="quiz-result-bar-fill"
-          :class="scorePercentage >= passThreshold ? 'quiz-result-bar-fill--pass' : 'quiz-result-bar-fill--fail'"
+          class="h-full rounded transition-[width] duration-[600ms]"
+          :class="scorePercentage >= passThreshold ? 'bg-gradient-to-r from-[#4caf50] to-[#66bb6a]' : 'bg-gradient-to-r from-[#ffc107] to-[#ffca28]'"
           :style="{ width: scorePercentage + '%' }"
         />
-        <div class="quiz-result-bar-threshold" :style="{ left: passThreshold + '%' }" />
+        <div class="absolute -top-1 w-0.5 h-4 bg-white/30 rounded-sm -translate-x-1/2" :style="{ left: passThreshold + '%' }" />
       </div>
     </div>
 
     <!-- Actions -->
-    <div class="quiz-actions">
-      <div v-if="!isChecked" class="quiz-btn-wrapper">
+    <div class="mt-8 flex items-center gap-4 flex-wrap max-md:flex-col max-md:items-stretch">
+      <div v-if="!isChecked" class="quiz-btn-wrapper relative">
         <button
-          class="btn btn-primary quiz-btn"
+          class="btn btn-primary py-3 px-7 text-base max-md:justify-center"
           :disabled="!allAnswered"
           @click="checkQuiz"
         >
@@ -342,16 +342,16 @@ const scorePercentage = computed(() => {
       </div>
       <button
         v-else
-        class="btn btn-outline quiz-btn"
+        class="btn btn-outline py-3 px-7 text-base max-md:justify-center"
         @click="resetQuiz"
       >
         <Icon name="mdi:refresh" />
         Retake Quiz
       </button>
 
-      <div v-if="isChecked && !isAuthenticated" class="quiz-submit-group">
+      <div v-if="isChecked && !isAuthenticated" class="flex items-center gap-2.5 flex-wrap max-md:flex-col max-md:items-center">
         <button
-          class="btn btn-outline quiz-btn"
+          class="btn btn-outline py-3 px-7 text-base max-md:justify-center"
           @click="submitScore"
         >
           <Icon name="mdi:login" />
@@ -359,25 +359,25 @@ const scorePercentage = computed(() => {
         </button>
       </div>
 
-      <div v-if="isChecked && isAuthenticated" class="quiz-submit-group">
-        <span v-if="isSubmitting" class="quiz-submitted-badge">
+      <div v-if="isChecked && isAuthenticated" class="flex items-center gap-2.5 flex-wrap max-md:flex-col max-md:items-center">
+        <span v-if="isSubmitting" class="inline-flex items-center gap-1.5 text-[#4ade80] font-semibold text-[0.95rem]">
           <Icon name="mdi:loading" class="animate-spin" />
           Saving score...
         </span>
-        <span v-else-if="isSubmitted" class="quiz-submitted-badge">
+        <span v-else-if="isSubmitted" class="inline-flex items-center gap-1.5 text-[#4ade80] font-semibold text-[0.95rem]">
           <Icon name="mdi:check-circle" />
           Score Submitted!
         </span>
         <button
           v-else-if="submitError"
-          class="btn btn-outline quiz-btn"
+          class="btn btn-outline py-3 px-7 text-base max-md:justify-center"
           :disabled="isSubmitting"
           @click="submitScore"
         >
           <Icon name="mdi:cloud-upload-outline" />
           Retry Submit
         </button>
-        <p v-if="submitError" class="quiz-submit-error">{{ submitError }}</p>
+        <p v-if="submitError" class="text-[#f87171] text-[0.85rem] m-0">{{ submitError }}</p>
       </div>
     </div>
 
@@ -386,497 +386,101 @@ const scorePercentage = computed(() => {
 </template>
 
 <style scoped>
-.quiz-section {
-  margin-top: 2rem;
-  background: var(--card-bg);
-  border: 1px solid rgba(255, 107, 53, 0.15);
-  border-radius: 16px;
-  padding: 2rem;
-}
-
-.quiz-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 1.5rem;
-}
-
-.quiz-header-icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.quiz-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--light-text);
-  margin: 0 0 4px;
-  background: linear-gradient(135deg, var(--primary-orange), var(--accent-yellow));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.quiz-subtitle {
-  font-size: 0.9rem;
-  color: rgba(224, 224, 224, 0.5);
-  margin: 0;
-}
-
-/* Score Banner */
+/* Score Banner Variants */
 .quiz-score-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 16px 20px;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
+  @apply flex items-center justify-between gap-4 px-5 py-4 rounded-xl mb-6 flex-wrap max-md:flex-col max-md:items-start;
 }
-
 .quiz-score-banner--pass {
-  background: rgba(76, 175, 80, 0.1);
-  border: 1px solid rgba(76, 175, 80, 0.3);
+  @apply bg-[rgba(76,175,80,0.1)] border border-[rgba(76,175,80,0.3)];
 }
-
 .quiz-score-banner--fail {
-  background: rgba(255, 193, 7, 0.08);
-  border: 1px solid rgba(255, 193, 7, 0.25);
+  @apply bg-[rgba(255,193,7,0.08)] border border-[rgba(255,193,7,0.25)];
 }
 
-.quiz-score-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.quiz-score-icon {
-  font-size: 1.8rem;
-  flex-shrink: 0;
-}
-
-.quiz-score-text {
-  display: block;
-  font-size: 1.05rem;
-  color: var(--light-text);
-}
-
-.quiz-score-detail {
-  margin: 2px 0 0;
-  font-size: 0.9rem;
-  color: rgba(224, 224, 224, 0.6);
-}
-
-.quiz-score-detail strong {
-  color: var(--light-text);
-}
-
-.btn-reset {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 18px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 107, 53, 0.3);
-  background: transparent;
-  color: var(--primary-orange);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-reset:hover {
-  background: rgba(255, 107, 53, 0.1);
-  border-color: var(--primary-orange);
-}
-
-/* Questions */
-.quiz-questions {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
+/* Question Card */
 .quiz-question {
-  padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  transition: border-color 0.3s ease;
+  @apply p-5 bg-white/[0.02] border border-white/[0.06] rounded-xl transition-colors duration-300 max-md:p-4;
 }
-
 .quiz-question:hover:not(.quiz-question--checked) {
-  border-color: rgba(255, 107, 53, 0.15);
+  @apply border-brand-orange/15;
 }
 
-.quiz-question-text {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--light-text);
-  margin: 0 0 1rem;
-  line-height: 1.6;
-}
-
-.quiz-question-num {
-  color: var(--primary-orange);
-  margin-right: 6px;
-}
-
-/* Options */
-.quiz-options {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+/* Option States */
 .quiz-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.02);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: rgba(224, 224, 224, 0.75);
-  font-size: 0.92rem;
+  @apply flex items-center gap-2.5 py-2.5 px-3.5 rounded-lg border border-white/[0.06] bg-white/[0.02] cursor-pointer transition-all duration-200 text-[rgba(224,224,224,0.75)] text-[0.92rem] max-md:py-2 max-md:px-3 max-md:text-[0.87rem];
 }
-
 .quiz-option:hover:not(.quiz-option--disabled) {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 107, 53, 0.2);
+  @apply bg-white/[0.05] border-brand-orange/20;
 }
-
 .quiz-option--selected:not(.quiz-option--correct):not(.quiz-option--incorrect) {
-  background: rgba(255, 107, 53, 0.08);
-  border-color: rgba(255, 107, 53, 0.3);
-  color: var(--light-text);
+  @apply bg-brand-orange/[0.08] border-brand-orange/30 text-[#e0e0e0];
 }
-
 .quiz-option--correct {
   background: rgba(76, 175, 80, 0.1) !important;
   border-color: rgba(76, 175, 80, 0.4) !important;
   color: #4caf50 !important;
 }
-
 .quiz-option--incorrect {
   background: rgba(244, 67, 54, 0.08) !important;
   border-color: rgba(244, 67, 54, 0.35) !important;
   color: #f44336 !important;
 }
-
 .quiz-option--missed {
   background: rgba(76, 175, 80, 0.05) !important;
   border-color: rgba(76, 175, 80, 0.25) !important;
   color: rgba(76, 175, 80, 0.7) !important;
 }
-
 .quiz-option--disabled {
-  cursor: default;
+  @apply cursor-default;
 }
 
-.quiz-radio {
-  display: none;
-}
-
+/* Option Key Circles */
 .quiz-option-key {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  font-size: 0.78rem;
-  font-weight: 700;
-  flex-shrink: 0;
-  border: 2px solid rgba(255, 255, 255, 0.12);
-  background: transparent;
-  transition: all 0.2s ease;
+  @apply inline-flex items-center justify-center w-[26px] h-[26px] rounded-full text-[0.78rem] font-bold shrink-0 border-2 border-white/[0.12] bg-transparent transition-all duration-200;
 }
-
 .quiz-option--selected:not(.quiz-option--correct):not(.quiz-option--incorrect) .quiz-option-key {
-  border-color: var(--primary-orange);
-  background: var(--primary-orange);
-  color: #fff;
+  @apply border-brand-orange bg-brand-orange text-white;
 }
-
 .quiz-option--correct .quiz-option-key {
-  border-color: #4caf50;
-  background: #4caf50;
-  color: #fff;
+  @apply border-[#4caf50] bg-[#4caf50] text-white;
 }
-
 .quiz-option--incorrect .quiz-option-key {
-  border-color: #f44336;
-  background: #f44336;
-  color: #fff;
+  @apply border-[#f44336] bg-[#f44336] text-white;
 }
-
 .quiz-option--missed .quiz-option-key {
-  border-color: rgba(76, 175, 80, 0.5);
-  color: rgba(76, 175, 80, 0.7);
+  @apply border-[rgba(76,175,80,0.5)] text-[rgba(76,175,80,0.7)];
 }
 
-.quiz-option-text {
-  flex: 1;
-}
-
-.quiz-option-icon {
-  font-size: 1.2rem;
-  color: #4caf50;
-  flex-shrink: 0;
-  display: flex;
-}
-
-.quiz-option-icon--wrong {
-  color: #f44336;
-}
-
-/* Quiz Result Summary */
+/* Result Summary */
 .quiz-result-summary {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  border-radius: 14px;
-  text-align: center;
+  @apply mt-8 p-6 rounded-[14px] text-center;
 }
-
 .quiz-result-summary--pass {
-  background: rgba(76, 175, 80, 0.08);
-  border: 1px solid rgba(76, 175, 80, 0.25);
+  @apply bg-[rgba(76,175,80,0.08)] border border-[rgba(76,175,80,0.25)];
 }
-
+.quiz-result-summary--pass .quiz-result-label { @apply text-[#4caf50]; }
 .quiz-result-summary--fail {
-  background: rgba(255, 193, 7, 0.06);
-  border: 1px solid rgba(255, 193, 7, 0.2);
+  @apply bg-[rgba(255,193,7,0.06)] border border-[rgba(255,193,7,0.2)];
 }
+.quiz-result-summary--fail .quiz-result-label { @apply text-[#ffc107]; }
 
-.quiz-result-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 1.25rem;
+/* Disabled button */
+.quiz-btn-wrapper :deep(.btn:disabled) {
+  @apply opacity-45 cursor-not-allowed pointer-events-none;
 }
-
-.quiz-result-emoji {
-  font-size: 1.6rem;
-}
-
-.quiz-result-label {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--light-text);
-}
-
-.quiz-result-summary--pass .quiz-result-label {
-  color: #4caf50;
-}
-
-.quiz-result-summary--fail .quiz-result-label {
-  color: #ffc107;
-}
-
-.quiz-result-stats {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 1.25rem;
-}
-
-.quiz-result-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.quiz-result-stat-value {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--light-text);
-}
-
-.quiz-result-stat-label {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: rgba(224, 224, 224, 0.45);
-  font-weight: 600;
-}
-
-.quiz-result-stat-divider {
-  width: 1px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.quiz-result-bar-track {
-  position: relative;
-  height: 8px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.06);
-  overflow: visible;
-}
-
-.quiz-result-bar-fill {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.6s ease;
-}
-
-.quiz-result-bar-fill--pass {
-  background: linear-gradient(90deg, #4caf50, #66bb6a);
-}
-
-.quiz-result-bar-fill--fail {
-  background: linear-gradient(90deg, #ffc107, #ffca28);
-}
-
-.quiz-result-bar-threshold {
-  position: absolute;
-  top: -4px;
-  width: 2px;
-  height: 16px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 1px;
-  transform: translateX(-50%);
-}
-
-/* Actions */
-.quiz-actions {
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.quiz-btn {
-  padding: 12px 28px;
-  font-size: 1rem;
-}
-
-.quiz-submit-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.quiz-submitted-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--color-success, #4ade80);
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.quiz-submit-error {
-  color: var(--color-error, #f87171);
-  font-size: 0.85rem;
-  margin: 0;
-}
-
-.quiz-auto-saved {
-  color: var(--color-success, #4ade80);
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.quiz-btn-wrapper {
-  position: relative;
-}
-
-.quiz-actions .btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 .quiz-btn-wrapper:has(.btn:disabled) {
-  cursor: not-allowed;
+  @apply cursor-not-allowed;
 }
 
+/* Tooltip */
 .quiz-btn-tooltip {
-  display: none;
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(30, 30, 30, 0.95);
-  color: var(--accent-yellow, #ffc107);
-  font-size: 0.82rem;
-  padding: 8px 14px;
-  border-radius: 8px;
-  white-space: nowrap;
-  border: 1px solid rgba(255, 193, 7, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 10;
-  pointer-events: none;
+  @apply hidden absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 bg-[rgba(30,30,30,0.95)] text-[#ffc107] text-[0.82rem] py-2 px-3.5 rounded-lg whitespace-nowrap border border-[rgba(255,193,7,0.3)] shadow-[0_4px_12px_rgba(0,0,0,0.3)] z-10 pointer-events-none;
 }
-
 .quiz-btn-tooltip::after {
   content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: rgba(255, 193, 7, 0.3);
+  @apply absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-[rgba(255,193,7,0.3)];
 }
-
 .quiz-btn-wrapper:hover .quiz-btn-tooltip {
-  display: block;
-}
-
-@media (max-width: 768px) {
-  .quiz-section {
-    padding: 1.25rem;
-  }
-
-  .quiz-question {
-    padding: 1rem;
-  }
-
-  .quiz-option {
-    padding: 8px 12px;
-    font-size: 0.87rem;
-  }
-
-  .quiz-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .quiz-btn {
-    justify-content: center;
-  }
-
-  .quiz-submit-group {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .quiz-score-banner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .quiz-result-stats {
-    gap: 1rem;
-  }
-
-  .quiz-result-stat-value {
-    font-size: 1.25rem;
-  }
+  @apply block;
 }
 </style>

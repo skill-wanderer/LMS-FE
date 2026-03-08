@@ -18,55 +18,55 @@ const footerLinks = {
 </script>
 
 <template>
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-grid">
+  <footer class="bg-surface-darker border-t border-brand-orange/15 pt-[60px] pb-[30px] px-5">
+    <div class="max-w-content mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-10 mb-10">
         <!-- Brand -->
-        <div class="footer-brand">
-          <NuxtLink to="/" class="footer-logo" aria-label="Home">
+        <div>
+          <NuxtLink to="/" class="flex items-center gap-2 no-underline mb-3" aria-label="Home">
             <Icon name="mdi:fire" class="text-brand-orange text-2xl" />
             <span class="gradient-text text-lg font-bold">Skill-Wanderer Dojo</span>
           </NuxtLink>
-          <p class="footer-tagline">
+          <p class="text-[rgba(224,224,224,0.6)] text-sm leading-relaxed max-w-[280px]">
             Free, open-access learning for everyone. No paywall, no barriers.
           </p>
         </div>
 
         <!-- Learn -->
         <div>
-          <h4 class="footer-heading">Learn</h4>
-          <ul class="footer-link-list">
+          <h4 class="text-[#e0e0e0] text-sm font-bold uppercase tracking-widest mb-4">Learn</h4>
+          <ul class="list-none flex flex-col gap-2.5">
             <li v-for="link in footerLinks.learn" :key="link.to">
-              <NuxtLink :to="link.to">{{ link.label }}</NuxtLink>
+              <NuxtLink :to="link.to" class="text-[rgba(224,224,224,0.6)] text-sm transition-colors duration-300 hover:text-brand-orange">{{ link.label }}</NuxtLink>
             </li>
           </ul>
         </div>
 
         <!-- About -->
         <div>
-          <h4 class="footer-heading">About</h4>
-          <ul class="footer-link-list">
+          <h4 class="text-[#e0e0e0] text-sm font-bold uppercase tracking-widest mb-4">About</h4>
+          <ul class="list-none flex flex-col gap-2.5">
             <li v-for="link in footerLinks.about" :key="link.label">
-              <NuxtLink v-if="link.to" :to="link.to">{{ link.label }}</NuxtLink>
-              <a v-else :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+              <NuxtLink v-if="link.to" :to="link.to" class="text-[rgba(224,224,224,0.6)] text-sm transition-colors duration-300 hover:text-brand-orange">{{ link.label }}</NuxtLink>
+              <a v-else :href="link.href" target="_blank" rel="noopener noreferrer" class="text-[rgba(224,224,224,0.6)] text-sm transition-colors duration-300 hover:text-brand-orange">{{ link.label }}</a>
             </li>
           </ul>
         </div>
 
         <!-- Community -->
         <div>
-          <h4 class="footer-heading">Community</h4>
-          <ul class="footer-link-list">
+          <h4 class="text-[#e0e0e0] text-sm font-bold uppercase tracking-widest mb-4">Community</h4>
+          <ul class="list-none flex flex-col gap-2.5">
             <li v-for="link in footerLinks.community" :key="link.label">
-              <a :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>
+              <a :href="link.href" target="_blank" rel="noopener noreferrer" class="text-[rgba(224,224,224,0.6)] text-sm transition-colors duration-300 hover:text-brand-orange">{{ link.label }}</a>
             </li>
           </ul>
         </div>
       </div>
 
-      <div class="footer-bottom">
+      <div class="border-t border-white/5 pt-5 flex justify-between items-center text-sm text-[rgba(224,224,224,0.4)] max-md:flex-col max-md:gap-2 max-md:text-center">
         <p>&copy; {{ currentYear }} Skill-Wanderer Dojo. Open-source under Apache License.</p>
-        <p class="footer-built">
+        <p class="flex items-center gap-1">
           Built with <Icon name="mdi:heart" class="text-brand-orange text-sm" /> and <Icon name="mdi:vuejs" class="text-semantic-success text-sm" /> Nuxt
         </p>
       </div>
@@ -74,98 +74,3 @@ const footerLinks = {
   </footer>
 </template>
 
-<style scoped>
-.site-footer {
-  background: var(--darker-bg);
-  border-top: 1px solid rgba(255, 107, 53, 0.15);
-  padding: 60px 20px 30px;
-  margin-top: 0;
-}
-
-.footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
-  margin-bottom: 40px;
-}
-
-.footer-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  margin-bottom: 12px;
-}
-
-.footer-tagline {
-  color: rgba(224, 224, 224, 0.6);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  max-width: 280px;
-}
-
-.footer-heading {
-  color: var(--light-text);
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 16px;
-}
-
-.footer-link-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.footer-link-list a {
-  color: rgba(224, 224, 224, 0.6);
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-}
-
-.footer-link-list a:hover {
-  color: var(--primary-orange);
-}
-
-.footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.85rem;
-  color: rgba(224, 224, 224, 0.4);
-}
-
-.footer-built {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-@media (max-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>

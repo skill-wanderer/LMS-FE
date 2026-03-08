@@ -29,15 +29,15 @@ const difficulties = ['all', 'beginner', 'intermediate', 'advanced']
 <template>
   <div>
     <!-- Hero -->
-    <section class="courses-hero">
-      <div class="courses-hero-inner">
-        <h1 class="gradient-text courses-hero-title">All Courses</h1>
-        <p class="courses-hero-desc">
+    <section class="pt-[120px] pb-[60px] px-5 text-center">
+      <div class="max-w-[700px] mx-auto">
+        <h1 class="gradient-text text-[clamp(2rem,5vw,3.5rem)] font-black mb-3">All Courses</h1>
+        <p class="text-[rgba(224,224,224,0.7)] text-[1.1rem] leading-relaxed mb-7">
           Free, open-access courses on web development, programming, cloud, and more.
         </p>
 
         <!-- Search -->
-        <div class="courses-search-wrap">
+        <div class="flex justify-center">
           <SearchBar @search="(q: string) => searchQuery = q" />
         </div>
       </div>
@@ -46,11 +46,14 @@ const difficulties = ['all', 'beginner', 'intermediate', 'advanced']
     <!-- Filters & Grid -->
     <section class="section">
       <!-- Difficulty Filter -->
-      <div class="filter-bar">
+      <div class="flex gap-2.5 flex-wrap mb-6">
         <button
           v-for="diff in difficulties"
           :key="diff"
-          :class="['filter-pill', { active: selectedDifficulty === diff }]"
+          class="py-2 px-5 rounded-full text-sm font-medium border cursor-pointer transition-all duration-300 capitalize"
+          :class="selectedDifficulty === diff
+            ? 'bg-brand-orange border-brand-orange text-white'
+            : 'bg-transparent border-brand-orange/20 text-[#e0e0e0] hover:border-brand-orange hover:text-brand-orange'"
           @click="selectedDifficulty = diff"
         >
           {{ diff === 'all' ? 'All Levels' : diff }}
@@ -58,7 +61,7 @@ const difficulties = ['all', 'beginner', 'intermediate', 'advanced']
       </div>
 
       <!-- Results Count -->
-      <p class="results-count">
+      <p class="text-sm text-[rgba(224,224,224,0.5)] mb-6">
         {{ filteredCourses.length }} course{{ filteredCourses.length !== 1 ? 's' : '' }} found
       </p>
 
@@ -68,7 +71,7 @@ const difficulties = ['all', 'beginner', 'intermediate', 'advanced']
       </div>
 
       <!-- Empty State -->
-      <div v-else class="empty-state">
+      <div v-else class="text-center py-[60px] px-5">
         <Icon name="mdi:magnify-close" class="text-gray-600 text-5xl mb-4" />
         <h3 class="text-xl font-semibold mb-2">No courses found</h3>
         <p class="text-gray-500">Try a different search term or filter.</p>
@@ -77,95 +80,3 @@ const difficulties = ['all', 'beginner', 'intermediate', 'advanced']
   </div>
 </template>
 
-<style scoped>
-.courses-hero {
-  padding: 120px 20px 60px;
-  text-align: center;
-}
-
-.courses-hero-inner {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.courses-hero-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 900;
-  margin-bottom: 12px;
-}
-
-.courses-hero-desc {
-  color: rgba(224, 224, 224, 0.7);
-  font-size: 1.1rem;
-  line-height: 1.7;
-  margin-bottom: 28px;
-}
-
-.courses-search-wrap {
-  display: flex;
-  justify-content: center;
-}
-
-.filter-bar {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-
-.filter-pill {
-  padding: 8px 20px;
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border: 1px solid rgba(255, 107, 53, 0.2);
-  background: transparent;
-  color: var(--light-text);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: capitalize;
-}
-
-.filter-pill:hover {
-  border-color: var(--primary-orange);
-  color: var(--primary-orange);
-}
-
-.filter-pill.active {
-  background: var(--primary-orange);
-  border-color: var(--primary-orange);
-  color: #fff;
-}
-
-.results-count {
-  font-size: 0.9rem;
-  color: rgba(224, 224, 224, 0.5);
-  margin-bottom: 24px;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-@media (max-width: 768px) {
-  .courses-hero {
-    padding: 100px 16px 40px;
-  }
-
-  .courses-hero-desc {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .courses-hero {
-    padding: 90px 12px 32px;
-  }
-
-  .filter-pill {
-    padding: 6px 14px;
-    font-size: 0.82rem;
-  }
-}
-</style>

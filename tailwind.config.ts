@@ -50,6 +50,11 @@ export default {
         'section-y': '80px',
         'hero-top': '140px',
       },
+      boxShadow: {
+        brand: '0 4px 15px rgba(255, 107, 53, 0.3)',
+        'brand-lg': '0 6px 25px rgba(255, 107, 53, 0.45)',
+        dropdown: '0 12px 32px rgba(0, 0, 0, 0.5)',
+      },
     },
   },
   plugins: [],

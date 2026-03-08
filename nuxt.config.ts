@@ -35,7 +35,7 @@ export default defineNuxtConfig({
         { name: 'twitter:description', content: 'Browse courses, track progress, and master new skills — free and open to everyone.' },
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/skill-wanderer-favicon.svg' },
       ],
     },
   },

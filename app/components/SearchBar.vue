@@ -12,73 +12,19 @@ function handleSearch() {
 </script>
 
 <template>
-  <form class="search-bar" @submit.prevent="handleSearch" role="search">
-    <Icon name="mdi:magnify" class="search-icon" />
+  <form
+    class="flex items-center gap-3 bg-surface-card border border-brand-orange/20 rounded-pill py-2 pr-2 pl-5 max-w-[600px] w-full transition-colors duration-300 focus-within:border-brand-orange max-[500px]:flex-wrap max-[500px]:rounded-card max-[500px]:p-2.5 max-[500px]:gap-2"
+    @submit.prevent="handleSearch"
+    role="search"
+  >
+    <Icon name="mdi:magnify" class="text-[rgba(224,224,224,0.4)] text-xl shrink-0 max-[500px]:hidden" />
     <input
       v-model="query"
       type="search"
       placeholder="Search courses, learning paths, skills…"
-      class="search-input"
+      class="flex-1 bg-transparent border-none text-[#e0e0e0] text-base outline-none placeholder:text-[rgba(224,224,224,0.35)] min-w-0 max-[500px]:w-full max-[500px]:text-[0.95rem]"
       aria-label="Search courses and learning paths"
     />
-    <button type="submit" class="btn btn-primary btn-sm">Search</button>
+    <button type="submit" class="btn btn-primary btn-sm max-[500px]:w-full max-[500px]:justify-center">Search</button>
   </form>
 </template>
-
-<style scoped>
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--card-bg);
-  border: 1px solid rgba(255, 107, 53, 0.2);
-  border-radius: 50px;
-  padding: 8px 8px 8px 20px;
-  max-width: 600px;
-  width: 100%;
-  transition: border-color 0.3s ease;
-}
-
-.search-bar:focus-within {
-  border-color: var(--primary-orange);
-}
-
-.search-icon {
-  color: rgba(224, 224, 224, 0.4);
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-.search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: var(--light-text);
-  font-size: 1rem;
-  outline: none;
-}
-
-.search-input::placeholder {
-  color: rgba(224, 224, 224, 0.35);
-}
-
-@media (max-width: 500px) {
-  .search-bar {
-    flex-wrap: wrap;
-    border-radius: 16px;
-    padding: 10px;
-    gap: 8px;
-  }
-
-  .search-input {
-    width: 100%;
-    min-width: 0;
-    font-size: 0.95rem;
-  }
-
-  .search-bar :deep(.btn) {
-    width: 100%;
-    justify-content: center;
-  }
-}
-</style>
