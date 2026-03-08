@@ -166,6 +166,20 @@ See [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) for the full Skill-Wanderer design sp
 - [ ] Dark/light theme toggle
 - [ ] PWA support
 
+## Security Note
+
+This project is **frontend-heavy by design**. Many computations that would typically be handled server-side (e.g. quiz scoring, pass/fail determination) are currently performed on the client. This means a knowledgeable user could inspect network requests, manipulate submitted data, or read correct answers from the source code.
+
+**This is intentional — not a bug, but a feature.**
+
+- All course content, including quiz answers, is **free and publicly accessible**. There is no competitive advantage to cheating.
+- The quizzes are **optional self-assessment tools**, not graded exams. The only person you'd be cheating is yourself.
+- This project will later serve as **open educational material for cybersecurity topics**. We actively encourage learners to explore, inspect, and hack the client-side logic as a hands-on learning exercise.
+
+If you discover something interesting while poking around, we'd love to hear about it — open an issue or a PR!
+
+> **TL;DR:** Yes, you can inspect the frontend and find quiz answers. That's by design. Learn from it. 🕵️
+
 ## Contributing
 
 Contributions are welcome! This is an open-source project.

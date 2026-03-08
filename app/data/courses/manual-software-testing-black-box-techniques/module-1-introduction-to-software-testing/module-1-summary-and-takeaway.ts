@@ -27,7 +27,7 @@ const lesson: Lesson = {
 <div class="format-content" data-content="video" style="display:none;">
 <h2>🎬 Video Version</h2>
 <div class="video-embed">
-  <iframe src="https://www.youtube.com/embed/FSJrebw63qw?si=yhXdOop_NSsIMomU" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <iframe src="https://www.youtube-nocookie.com/embed/FSJrebw63qw?si=yhXdOop_NSsIMomU" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
 </div>
 
@@ -149,6 +149,7 @@ const lesson: Lesson = {
 </div>`,
   quiz: {
           title: 'Module 1 Quiz — Introduction to Software Testing',
+          passPercentage: 50,
           questions: [
             {
               question: 'Which testing method focuses entirely on Inputs and Outputs from the user\'s perspective without seeing the internal code?',

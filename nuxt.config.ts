@@ -68,14 +68,6 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  routeRules: {
-    // ISR for course pages — regenerate every 60 minutes
-    '/courses/**': { isr: 3600 },
-    // Static for marketing pages
-    '/': { prerender: true },
-    '/about': { prerender: true },
-  },
-
   runtimeConfig: {
     public: {
       keycloakUrl: process.env.NUXT_PUBLIC_KEYCLOAK_URL || '',
@@ -87,5 +79,18 @@ export default defineNuxtConfig({
 
   nitro: {
     compressPublicAssets: true,
+  },
+
+  // Security headers for iframe embedding
+  routeRules: {
+    '/courses/**': {
+      isr: 3600,
+      headers: {
+        'Content-Security-Policy': "frame-src 'self' https://www.youtube-nocookie.com https://open.spotify.com https://cdn.jsdelivr.net;",
+        'Permissions-Policy': 'fullscreen=(self "https://www.youtube-nocookie.com" "https://open.spotify.com")',
+      },
+    },
+    '/': { prerender: true },
+    '/about': { prerender: true },
   },
 })

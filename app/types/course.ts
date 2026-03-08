@@ -44,6 +44,7 @@ export interface Lesson {
   updatedAt?: string
   quiz?: {
     title?: string
+    passPercentage?: number
     questions: QuizQuestion[]
   }
 }

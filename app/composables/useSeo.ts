@@ -168,7 +168,7 @@ export function useLessonSeo(lesson: LessonSeoOptions) {
         'thumbnailUrl': `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
         'uploadDate': lesson.datePublished || undefined,
         'contentUrl': `https://www.youtube.com/watch?v=${videoId}`,
-        'embedUrl': `https://www.youtube.com/embed/${videoId}`,
+        'embedUrl': `https://www.youtube-nocookie.com/embed/${videoId}`,
       })
     }
   }
@@ -182,6 +182,6 @@ export function useLessonSeo(lesson: LessonSeoOptions) {
  * Extract YouTube video ID from various URL formats.
  */
 function extractYouTubeId(url: string): string | null {
-  const match = url.match(/(?:youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
+  const match = url.match(/(?:youtube-nocookie\.com\/embed\/|youtube\.com\/embed\/|youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
   return match?.[1] ?? null
 }

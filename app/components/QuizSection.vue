@@ -7,7 +7,10 @@ const props = defineProps<{
   returnTo?: string
   courseSlug: string
   lessonSlug: string
+  passPercentage?: number
 }>()
+
+const passThreshold = computed(() => props.passPercentage ?? 70)
 
 const { isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
@@ -20,8 +23,56 @@ const score = ref(0)
 const isSubmitting = ref(false)
 const isSubmitted = ref(false)
 const submitError = ref('')
+const isFetchingScore = ref(false)
+const savedScore = ref<{ score: number; totalQuestions: number; scorePercentage: number; passed: boolean; submittedAt: string; answers?: Record<number, string> } | null>(null)
 
 const storageKey = `quiz_state_${props.courseSlug}_${props.lessonSlug}`
+
+function buildScoreUrl() {
+  return `${apiBaseUrl}/api/courses/${props.courseSlug}/lessons/${props.lessonSlug}/quiz/score`
+}
+
+function buildAuthHeaders(): Record<string, string> {
+  return accessToken.value ? { Authorization: `Bearer ${accessToken.value}` } : {}
+}
+
+/** Fetch existing quiz score from backend */
+async function fetchExistingScore() {
+  if (!isAuthenticated.value || !apiBaseUrl) return
+  isFetchingScore.value = true
+  try {
+    const data = await $fetch<{ score: number | null; totalQuestions: number | null; scorePercentage: number | null; passed: boolean | null; submittedAt: string | null; answers?: Record<string, string> }>(buildScoreUrl(), {
+      headers: buildAuthHeaders(),
+    })
+    if (data.score !== null && data.totalQuestions !== null && data.scorePercentage !== null && data.submittedAt !== null) {
+      const parsedAnswers: Record<number, string> = {}
+      if (data.answers) {
+        for (const [key, val] of Object.entries(data.answers)) {
+          parsedAnswers[Number(key)] = val
+        }
+      }
+      savedScore.value = {
+        score: data.score,
+        totalQuestions: data.totalQuestions,
+        scorePercentage: data.scorePercentage,
+        passed: data.passed ?? false,
+        submittedAt: data.submittedAt,
+        answers: Object.keys(parsedAnswers).length > 0 ? parsedAnswers : undefined,
+      }
+      // Restore previously submitted answers and show checked state
+      if (Object.keys(parsedAnswers).length > 0) {
+        selectedAnswers.value = parsedAnswers
+        isChecked.value = true
+      }
+      score.value = data.score
+      isSubmitted.value = true
+    }
+  }
+  catch { /* silently ignore — user may not have submitted yet */ }
+  finally {
+    isFetchingScore.value = false
+  }
+}
 
 /** Persist current quiz state to sessionStorage so it survives a login redirect */
 function saveQuizState() {
@@ -49,6 +100,7 @@ function restoreQuizState() {
 
 onMounted(() => {
   restoreQuizState()
+  fetchExistingScore()
 })
 
 function checkQuiz() {
@@ -62,6 +114,11 @@ function checkQuiz() {
   isChecked.value = true
   isSubmitted.value = false
   submitError.value = ''
+
+  // Auto-submit score to backend if authenticated
+  if (isAuthenticated.value) {
+    submitScore()
+  }
 }
 
 function resetQuiz() {
@@ -89,17 +146,25 @@ async function submitScore() {
   submitError.value = ''
 
   try {
-    const url = `${apiBaseUrl}/api/courses/${props.courseSlug}/lessons/${props.lessonSlug}/quiz/score`
-    await $fetch(url, {
+    await $fetch(buildScoreUrl(), {
       method: 'POST',
-      headers: accessToken.value ? { Authorization: `Bearer ${accessToken.value}` } : {},
+      headers: buildAuthHeaders(),
       body: {
         score: score.value,
         totalQuestions: props.questions.length,
         scorePercentage: scorePercentage.value,
+        passPercentage: passThreshold.value,
+        answers: selectedAnswers.value,
       },
     })
     isSubmitted.value = true
+    savedScore.value = {
+      score: score.value,
+      totalQuestions: props.questions.length,
+      scorePercentage: scorePercentage.value,
+      passed: scorePercentage.value >= passThreshold.value,
+      submittedAt: new Date().toISOString(),
+    }
   }
   catch {
     submitError.value = 'Failed to submit score. Please try again.'
@@ -144,16 +209,32 @@ const scorePercentage = computed(() => {
       </div>
     </div>
 
-    <!-- Score Banner -->
-    <div v-if="isChecked" class="quiz-score-banner" :class="scorePercentage >= 70 ? 'quiz-score-banner--pass' : 'quiz-score-banner--fail'">
+    <!-- Previous Score Banner (fetched from API) -->
+    <div v-if="!isChecked && savedScore" class="quiz-score-banner" :class="savedScore.scorePercentage >= passThreshold ? 'quiz-score-banner--pass' : 'quiz-score-banner--fail'">
       <div class="quiz-score-info">
-        <span class="quiz-score-icon">{{ scorePercentage >= 70 ? '🎉' : '📖' }}</span>
+        <span class="quiz-score-icon">{{ savedScore.scorePercentage >= passThreshold ? '🎉' : '📖' }}</span>
         <div>
           <strong class="quiz-score-text">
-            {{ scorePercentage >= 70 ? 'Great job!' : 'Keep studying!' }}
+            {{ savedScore.scorePercentage >= passThreshold ? 'Previously passed!' : 'Previous attempt' }}
+          </strong>
+          <p class="quiz-score-detail">
+            Your last score: <strong>{{ savedScore.score }}/{{ savedScore.totalQuestions }}</strong> ({{ savedScore.scorePercentage }}%)
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Score Banner -->
+    <div v-if="isChecked" class="quiz-score-banner" :class="scorePercentage >= passThreshold ? 'quiz-score-banner--pass' : 'quiz-score-banner--fail'">
+      <div class="quiz-score-info">
+        <span class="quiz-score-icon">{{ scorePercentage >= passThreshold ? '🎉' : '📖' }}</span>
+        <div>
+          <strong class="quiz-score-text">
+            {{ scorePercentage >= passThreshold ? 'Great job!' : 'Keep studying!' }}
           </strong>
           <p class="quiz-score-detail">
             You scored <strong>{{ score }}/{{ questions.length }}</strong> ({{ scorePercentage }}%)
+            <span v-if="isSubmitted" class="quiz-auto-saved">— Score saved ✓</span>
           </p>
         </div>
       </div>
@@ -212,6 +293,38 @@ const scorePercentage = computed(() => {
       </li>
     </ol>
 
+    <!-- Quiz Result Summary -->
+    <div v-if="isChecked" class="quiz-result-summary" :class="scorePercentage >= passThreshold ? 'quiz-result-summary--pass' : 'quiz-result-summary--fail'">
+      <div class="quiz-result-header">
+        <span class="quiz-result-emoji">{{ scorePercentage >= passThreshold ? '🏆' : '💪' }}</span>
+        <span class="quiz-result-label">{{ scorePercentage >= passThreshold ? 'You Passed!' : 'Not Quite There' }}</span>
+      </div>
+      <div class="quiz-result-stats">
+        <div class="quiz-result-stat">
+          <span class="quiz-result-stat-value">{{ score }}/{{ questions.length }}</span>
+          <span class="quiz-result-stat-label">Correct</span>
+        </div>
+        <div class="quiz-result-stat-divider" />
+        <div class="quiz-result-stat">
+          <span class="quiz-result-stat-value">{{ scorePercentage }}%</span>
+          <span class="quiz-result-stat-label">Score</span>
+        </div>
+        <div class="quiz-result-stat-divider" />
+        <div class="quiz-result-stat">
+          <span class="quiz-result-stat-value">{{ passThreshold }}%</span>
+          <span class="quiz-result-stat-label">Passing</span>
+        </div>
+      </div>
+      <div class="quiz-result-bar-track">
+        <div
+          class="quiz-result-bar-fill"
+          :class="scorePercentage >= passThreshold ? 'quiz-result-bar-fill--pass' : 'quiz-result-bar-fill--fail'"
+          :style="{ width: scorePercentage + '%' }"
+        />
+        <div class="quiz-result-bar-threshold" :style="{ left: passThreshold + '%' }" />
+      </div>
+    </div>
+
     <!-- Actions -->
     <div class="quiz-actions">
       <div v-if="!isChecked" class="quiz-btn-wrapper">
@@ -236,20 +349,34 @@ const scorePercentage = computed(() => {
         Retake Quiz
       </button>
 
-      <div v-if="isChecked" class="quiz-submit-group">
+      <div v-if="isChecked && !isAuthenticated" class="quiz-submit-group">
         <button
-          v-if="!isSubmitted"
+          class="btn btn-outline quiz-btn"
+          @click="submitScore"
+        >
+          <Icon name="mdi:login" />
+          Log in to save score
+        </button>
+      </div>
+
+      <div v-if="isChecked && isAuthenticated" class="quiz-submit-group">
+        <span v-if="isSubmitting" class="quiz-submitted-badge">
+          <Icon name="mdi:loading" class="animate-spin" />
+          Saving score...
+        </span>
+        <span v-else-if="isSubmitted" class="quiz-submitted-badge">
+          <Icon name="mdi:check-circle" />
+          Score Submitted!
+        </span>
+        <button
+          v-else-if="submitError"
           class="btn btn-outline quiz-btn"
           :disabled="isSubmitting"
           @click="submitScore"
         >
-          <Icon :name="isSubmitting ? 'mdi:loading' : 'mdi:cloud-upload-outline'" :class="{ 'animate-spin': isSubmitting }" />
-          {{ isSubmitting ? 'Submitting...' : `Submit Score (${score}/${questions.length})` }}
+          <Icon name="mdi:cloud-upload-outline" />
+          Retry Submit
         </button>
-        <span v-else class="quiz-submitted-badge">
-          <Icon name="mdi:check-circle" />
-          Score Submitted!
-        </span>
         <p v-if="submitError" class="quiz-submit-error">{{ submitError }}</p>
       </div>
     </div>
@@ -512,6 +639,117 @@ const scorePercentage = computed(() => {
   color: #f44336;
 }
 
+/* Quiz Result Summary */
+.quiz-result-summary {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.quiz-result-summary--pass {
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(76, 175, 80, 0.25);
+}
+
+.quiz-result-summary--fail {
+  background: rgba(255, 193, 7, 0.06);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+.quiz-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+
+.quiz-result-emoji {
+  font-size: 1.6rem;
+}
+
+.quiz-result-label {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--light-text);
+}
+
+.quiz-result-summary--pass .quiz-result-label {
+  color: #4caf50;
+}
+
+.quiz-result-summary--fail .quiz-result-label {
+  color: #ffc107;
+}
+
+.quiz-result-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.quiz-result-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.quiz-result-stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--light-text);
+}
+
+.quiz-result-stat-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(224, 224, 224, 0.45);
+  font-weight: 600;
+}
+
+.quiz-result-stat-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.quiz-result-bar-track {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: visible;
+}
+
+.quiz-result-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.quiz-result-bar-fill--pass {
+  background: linear-gradient(90deg, #4caf50, #66bb6a);
+}
+
+.quiz-result-bar-fill--fail {
+  background: linear-gradient(90deg, #ffc107, #ffca28);
+}
+
+.quiz-result-bar-threshold {
+  position: absolute;
+  top: -4px;
+  width: 2px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 1px;
+  transform: translateX(-50%);
+}
+
 /* Actions */
 .quiz-actions {
   margin-top: 2rem;
@@ -546,6 +784,12 @@ const scorePercentage = computed(() => {
   color: var(--color-error, #f87171);
   font-size: 0.85rem;
   margin: 0;
+}
+
+.quiz-auto-saved {
+  color: var(--color-success, #4ade80);
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .quiz-btn-wrapper {
@@ -625,6 +869,14 @@ const scorePercentage = computed(() => {
   .quiz-score-banner {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .quiz-result-stats {
+    gap: 1rem;
+  }
+
+  .quiz-result-stat-value {
+    font-size: 1.25rem;
   }
 }
 </style>

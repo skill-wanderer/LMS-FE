@@ -27,7 +27,7 @@ const lesson: Lesson = {
 <div class="format-content" data-content="video" style="display:none;">
 <h2>🎬 Video Version</h2>
 <div class="video-embed">
-  <iframe src="https://www.youtube.com/embed/HeXPIVTPNqA?si=kr6AC-YQVykMkcTN" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <iframe src="https://www.youtube-nocookie.com/embed/HeXPIVTPNqA?si=kr6AC-YQVykMkcTN" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
 </div>
 

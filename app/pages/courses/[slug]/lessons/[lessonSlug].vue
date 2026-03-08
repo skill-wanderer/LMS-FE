@@ -20,8 +20,8 @@ if (!lesson) {
 }
 
 // Extract first YouTube video URL from lesson content for VideoObject schema
-const videoUrlMatch = lesson.content?.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/)
-const firstVideoUrl = videoUrlMatch ? `https://www.youtube.com/embed/${videoUrlMatch[1]}` : undefined
+const videoUrlMatch = lesson.content?.match(/youtube-nocookie\.com\/embed\/([a-zA-Z0-9_-]{11})/)
+const firstVideoUrl = videoUrlMatch ? `https://www.youtube-nocookie.com/embed/${videoUrlMatch[1]}` : undefined
 
 useLessonSeo({
   title: lesson.title,
@@ -42,8 +42,22 @@ const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
 const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
 
-const initialTab = (route.query.tab === 'quiz') ? 'quiz' : 'summary'
-const activeTab = ref<'summary' | 'quiz'>(initialTab)
+// Sandbox YouTube & Spotify iframes to prevent cross-origin frame access errors
+const processedContent = computed(() => {
+  if (!lesson.content) return ''
+  return lesson.content.replace(
+    /<iframe([^>]*src="https:\/\/www\.youtube-nocookie\.com\/[^"]*"[^>]*)>/g,
+    '<iframe$1 sandbox="allow-scripts allow-same-origin allow-popups allow-presentation" loading="lazy">'
+  )
+})
+
+const router = useRouter()
+const activeTab = computed<'summary' | 'quiz'>({
+  get: () => route.query.tab === 'quiz' ? 'quiz' : 'summary',
+  set: (val) => {
+    router.replace({ query: { ...route.query, tab: val === 'quiz' ? 'quiz' : undefined } })
+  },
+})
 
 const isCompleted = ref(lesson.completed ?? false)
 const isLoading = ref(false)
@@ -202,12 +216,13 @@ async function toggleComplete() {
             </button>
           </div>
           <div v-show="activeTab === 'summary'" class="lesson-tab-panel glass-card">
-            <div class="lesson-content p-4 sm:p-6 md:p-8 prose-content" v-html="lesson.content" />
+            <div class="lesson-content p-4 sm:p-6 md:p-8 prose-content" v-html="processedContent" />
           </div>
           <div v-show="activeTab === 'quiz'" class="lesson-tab-panel">
             <QuizSection
               :questions="lesson.quiz.questions"
               :title="lesson.quiz.title"
+              :pass-percentage="lesson.quiz.passPercentage"
               :return-to="route.path"
               :course-slug="courseSlug"
               :lesson-slug="lessonSlug"
@@ -216,13 +231,14 @@ async function toggleComplete() {
         </div>
 
         <!-- Article Content (normal when no quiz) -->
-        <div v-else-if="lesson.content" class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8 prose-content" v-html="lesson.content" />
+        <div v-else-if="lesson.content" class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8 prose-content" v-html="processedContent" />
 
         <!-- Quiz only (no content) -->
         <QuizSection
           v-else-if="lesson.quiz"
           :questions="lesson.quiz.questions"
           :title="lesson.quiz.title"
+          :pass-percentage="lesson.quiz.passPercentage"
           :return-to="route.path"
           :course-slug="courseSlug"
           :lesson-slug="lessonSlug"
