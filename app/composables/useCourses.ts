@@ -1,4 +1,5 @@
 import type { Course } from '~/types/course'
+import { getAllLessons } from '~/types/course'
 import allCourses from '~/data/courses'
 
 /**
@@ -18,7 +19,7 @@ function formatDuration(totalMinutes: number): string {
  * Calculate total duration of a course in minutes by summing lesson durations.
  */
 function getCourseDuration(course: Course): number {
-  return course.lessons.reduce((sum, l) => sum + (l.durationMinutes || 0), 0)
+  return getAllLessons(course).reduce((sum, l) => sum + (l.durationMinutes || 0), 0)
 }
 
 /**

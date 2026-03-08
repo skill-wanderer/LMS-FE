@@ -4,11 +4,52 @@ import type { QuizQuestion } from '~/types/course'
 const props = defineProps<{
   questions: QuizQuestion[]
   title?: string
+  returnTo?: string
+  courseSlug: string
+  lessonSlug: string
 }>()
+
+const { isAuthenticated, accessToken } = useKeycloak()
+const config = useRuntimeConfig()
+const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
+const showLoginModal = ref(false)
 
 const selectedAnswers = ref<Record<number, string>>({})
 const isChecked = ref(false)
 const score = ref(0)
+const isSubmitting = ref(false)
+const isSubmitted = ref(false)
+const submitError = ref('')
+
+const storageKey = `quiz_state_${props.courseSlug}_${props.lessonSlug}`
+
+/** Persist current quiz state to sessionStorage so it survives a login redirect */
+function saveQuizState() {
+  if (!import.meta.client) return
+  sessionStorage.setItem(storageKey, JSON.stringify({
+    selectedAnswers: selectedAnswers.value,
+    isChecked: isChecked.value,
+    score: score.value,
+  }))
+}
+
+/** Restore quiz state from sessionStorage (e.g. after returning from login) */
+function restoreQuizState() {
+  if (!import.meta.client) return
+  const raw = sessionStorage.getItem(storageKey)
+  if (!raw) return
+  try {
+    const saved = JSON.parse(raw)
+    if (saved.selectedAnswers) selectedAnswers.value = saved.selectedAnswers
+    if (saved.isChecked) isChecked.value = saved.isChecked
+    if (typeof saved.score === 'number') score.value = saved.score
+    sessionStorage.removeItem(storageKey)
+  } catch { /* ignore corrupt data */ }
+}
+
+onMounted(() => {
+  restoreQuizState()
+})
 
 function checkQuiz() {
   let correct = 0
@@ -19,12 +60,53 @@ function checkQuiz() {
   })
   score.value = correct
   isChecked.value = true
+  isSubmitted.value = false
+  submitError.value = ''
 }
 
 function resetQuiz() {
   selectedAnswers.value = {}
   isChecked.value = false
   score.value = 0
+  isSubmitted.value = false
+  submitError.value = ''
+}
+
+const returnToWithTab = computed(() => {
+  const base = props.returnTo || ''
+  if (!base) return ''
+  return base.includes('?') ? `${base}&tab=quiz` : `${base}?tab=quiz`
+})
+
+async function submitScore() {
+  if (!isAuthenticated.value) {
+    saveQuizState()
+    showLoginModal.value = true
+    return
+  }
+
+  isSubmitting.value = true
+  submitError.value = ''
+
+  try {
+    const url = `${apiBaseUrl}/api/courses/${props.courseSlug}/lessons/${props.lessonSlug}/quiz/score`
+    await $fetch(url, {
+      method: 'POST',
+      headers: accessToken.value ? { Authorization: `Bearer ${accessToken.value}` } : {},
+      body: {
+        score: score.value,
+        totalQuestions: props.questions.length,
+        scorePercentage: scorePercentage.value,
+      },
+    })
+    isSubmitted.value = true
+  }
+  catch {
+    submitError.value = 'Failed to submit score. Please try again.'
+  }
+  finally {
+    isSubmitting.value = false
+  }
 }
 
 function getOptionStatus(questionIndex: number, optionKey: string): 'correct' | 'incorrect' | 'missed' | null {
@@ -41,6 +123,10 @@ function getOptionStatus(questionIndex: number, optionKey: string): 'correct' | 
 
 const allAnswered = computed(() => {
   return props.questions.every((_, i) => selectedAnswers.value[i] !== undefined)
+})
+
+const unansweredCount = computed(() => {
+  return props.questions.filter((_, i) => selectedAnswers.value[i] === undefined).length
 })
 
 const scorePercentage = computed(() => {
@@ -128,27 +214,47 @@ const scorePercentage = computed(() => {
 
     <!-- Actions -->
     <div class="quiz-actions">
+      <div v-if="!isChecked" class="quiz-btn-wrapper">
+        <button
+          class="btn btn-primary quiz-btn"
+          :disabled="!allAnswered"
+          @click="checkQuiz"
+        >
+          <Icon name="mdi:check-bold" />
+          Check Quiz
+        </button>
+        <span v-if="!allAnswered" class="quiz-btn-tooltip">
+          Please answer all {{ questions.length }} questions before checking ({{ unansweredCount }} remaining)
+        </span>
+      </div>
       <button
-        class="btn btn-primary quiz-btn"
-        :disabled="!allAnswered || isChecked"
-        @click="checkQuiz"
+        v-else
+        class="btn btn-outline quiz-btn"
+        @click="resetQuiz"
       >
-        <Icon name="mdi:check-bold" />
-        Check Quiz
+        <Icon name="mdi:refresh" />
+        Retake Quiz
       </button>
 
       <div v-if="isChecked" class="quiz-submit-group">
         <button
+          v-if="!isSubmitted"
           class="btn btn-outline quiz-btn"
-          disabled
-          title="Feature in development — requires API integration"
+          :disabled="isSubmitting"
+          @click="submitScore"
         >
-          <Icon name="mdi:cloud-upload-outline" />
-          Submit Score ({{ score }}/{{ questions.length }})
+          <Icon :name="isSubmitting ? 'mdi:loading' : 'mdi:cloud-upload-outline'" :class="{ 'animate-spin': isSubmitting }" />
+          {{ isSubmitting ? 'Submitting...' : `Submit Score (${score}/${questions.length})` }}
         </button>
-        <span class="dev-note">🚧 Feature in development</span>
+        <span v-else class="quiz-submitted-badge">
+          <Icon name="mdi:check-circle" />
+          Score Submitted!
+        </span>
+        <p v-if="submitError" class="quiz-submit-error">{{ submitError }}</p>
       </div>
     </div>
+
+    <LoginRequiredModal :visible="showLoginModal" :return-to="returnToWithTab" @close="showLoginModal = false" />
   </div>
 </template>
 
@@ -424,16 +530,68 @@ const scorePercentage = computed(() => {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quiz-submitted-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-success, #4ade80);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.quiz-submit-error {
+  color: var(--color-error, #f87171);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.quiz-btn-wrapper {
+  position: relative;
 }
 
 .quiz-actions .btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
-.dev-note {
-  font-size: 0.8rem;
-  color: rgba(224, 224, 224, 0.4);
+.quiz-btn-wrapper:has(.btn:disabled) {
+  cursor: not-allowed;
+}
+
+.quiz-btn-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.95);
+  color: var(--accent-yellow, #ffc107);
+  font-size: 0.82rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.quiz-btn-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(255, 193, 7, 0.3);
+}
+
+.quiz-btn-wrapper:hover .quiz-btn-tooltip {
+  display: block;
 }
 
 @media (max-width: 768px) {

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { getAllLessons } from '~/types/course'
+
 const route = useRoute()
 const slug = route.params.slug as string
 
@@ -14,13 +16,19 @@ useCourseSeo({
   description: course.description,
   slug: course.slug,
   thumbnail: course.thumbnail,
+  difficulty: course.difficulty,
+  datePublished: course.createdAt,
+  dateModified: course.updatedAt,
+  author: course.author ? { name: course.author.name, url: course.author.websiteUrl } : undefined,
 })
 
+const allLessons = computed(() => getAllLessons(course))
+
 const completedCount = computed(() =>
-  course.lessons.filter(l => l.completed).length
+  allLessons.value.filter(l => l.completed).length
 )
 const progressPercent = computed(() =>
-  Math.round((completedCount.value / course.lessons.length) * 100)
+  Math.round((completedCount.value / allLessons.value.length) * 100)
 )
 
 const difficultyClass = computed(() => {
@@ -33,23 +41,6 @@ const difficultyClass = computed(() => {
 })
 
 const totalDuration = computed(() => getCourseDuration(course))
-
-// Group lessons by module
-const groupedLessons = computed(() => {
-  const groups: { module: string; lessons: typeof course.lessons }[] = []
-  let currentModule = ''
-
-  for (const lesson of course.lessons) {
-    const mod = lesson.module || 'Lessons'
-    if (mod !== currentModule) {
-      currentModule = mod
-      groups.push({ module: mod, lessons: [] })
-    }
-    groups[groups.length - 1]!.lessons.push(lesson)
-  }
-
-  return groups
-})
 </script>
 
 <template>
@@ -94,8 +85,8 @@ const groupedLessons = computed(() => {
           </div>
 
           <NuxtLink
-            v-if="course.lessons.length"
-            :to="`/courses/${course.slug}/lessons/${course.lessons[0]?.slug}`"
+            v-if="allLessons.length"
+            :to="`/courses/${course.slug}/lessons/${allLessons[0]?.slug}`"
             class="btn btn-primary mt-6"
           >
             <Icon name="mdi:play" /> Start Learning
@@ -128,30 +119,69 @@ const groupedLessons = computed(() => {
       </div>
     </section>
 
+    <!-- Author Bio -->
+    <section v-if="course.author" class="section" style="padding-bottom: 0;">
+      <div class="author-card glass-card">
+        <img
+          :src="course.author.avatarUrl"
+          :alt="`${course.author.name} — Course Author`"
+          class="author-avatar"
+          width="80"
+          height="80"
+          loading="lazy"
+        />
+        <div class="author-info">
+          <h2 class="author-name">About the Author</h2>
+          <p class="author-title">{{ course.author.name }} · {{ course.author.title }}</p>
+          <p class="author-bio">{{ course.author.bio }}</p>
+          <div class="author-links">
+            <a v-if="course.author.linkedinUrl" :href="course.author.linkedinUrl" target="_blank" rel="noopener" class="author-link">
+              <Icon name="mdi:linkedin" /> LinkedIn
+            </a>
+            <a v-if="course.author.websiteUrl" :href="course.author.websiteUrl" target="_blank" rel="noopener" class="author-link">
+              <Icon name="mdi:web" /> Website
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Last Updated -->
+    <section class="section" style="padding-top: 12px; padding-bottom: 0;">
+      <div class="course-dates">
+        <span class="date-item">
+          <Icon name="mdi:calendar-outline" /> Published: {{ new Date(course.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}
+        </span>
+        <span v-if="course.updatedAt !== course.createdAt" class="date-item">
+          <Icon name="mdi:update" /> Last updated: {{ new Date(course.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}
+        </span>
+      </div>
+    </section>
+
     <!-- Lessons List -->
     <section class="section">
       <h2 class="text-2xl font-bold mb-6">Course Content</h2>
 
-      <div v-for="group in groupedLessons" :key="group.module" class="module-group">
+      <div v-for="mod in course.modules" :key="mod.id" class="module-group">
         <div class="module-header">
           <Icon name="mdi:book-open-variant" class="module-icon" />
           <div>
-            <h3 class="module-title">{{ group.module }}</h3>
+            <h3 class="module-title">{{ mod.title }}</h3>
             <span class="module-meta">
-              {{ group.lessons.length }} lesson{{ group.lessons.length !== 1 ? 's' : '' }}
-              <template v-if="group.lessons.some(l => l.durationMinutes)">
-                · {{ formatDuration(group.lessons.reduce((s, l) => s + (l.durationMinutes || 0), 0)) }}
+              {{ mod.lessons.length }} lesson{{ mod.lessons.length !== 1 ? 's' : '' }}
+              <template v-if="mod.lessons.some(l => l.durationMinutes)">
+                · {{ formatDuration(mod.lessons.reduce((s, l) => s + (l.durationMinutes || 0), 0)) }}
               </template>
             </span>
           </div>
         </div>
         <div class="lessons-list">
           <LessonItem
-            v-for="(lesson, index) in group.lessons"
+            v-for="lesson in mod.lessons"
             :key="lesson.id"
             :lesson="lesson"
             :course-slug="course.slug"
-            :index="course.lessons.indexOf(lesson)"
+            :index="allLessons.indexOf(lesson)"
           />
         </div>
       </div>
@@ -297,6 +327,93 @@ const groupedLessons = computed(() => {
 
   .meta-item {
     font-size: 0.82rem;
+  }
+}
+
+/* Author Card */
+.author-card {
+  display: flex;
+  gap: 20px;
+  padding: 24px;
+  align-items: flex-start;
+}
+
+.author-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 107, 53, 0.3);
+  flex-shrink: 0;
+}
+
+.author-info {
+  flex: 1;
+}
+
+.author-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--light-text);
+  margin-bottom: 4px;
+}
+
+.author-title {
+  font-size: 0.9rem;
+  color: var(--primary-orange);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.author-bio {
+  font-size: 0.9rem;
+  color: rgba(224, 224, 224, 0.65);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.author-links {
+  display: flex;
+  gap: 16px;
+}
+
+.author-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: rgba(224, 224, 224, 0.5);
+  transition: color 0.3s ease;
+}
+
+.author-link:hover {
+  color: var(--primary-orange);
+}
+
+/* Course Dates */
+.course-dates {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: rgba(224, 224, 224, 0.45);
+}
+
+@media (max-width: 600px) {
+  .author-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .author-links {
+    justify-content: center;
   }
 }
 </style>

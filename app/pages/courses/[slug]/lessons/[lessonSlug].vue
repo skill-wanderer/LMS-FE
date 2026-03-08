@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { getAllLessons } from '~/types/course'
+
 const route = useRoute()
 const courseSlug = route.params.slug as string
 const lessonSlug = route.params.lessonSlug as string
@@ -10,24 +12,38 @@ if (!course) {
   throw createError({ statusCode: 404, statusMessage: 'Course not found' })
 }
 
-const lesson = course.lessons.find(l => l.slug === lessonSlug)
+const allLessons = getAllLessons(course)
+const lesson = allLessons.find(l => l.slug === lessonSlug)
 
 if (!lesson) {
   throw createError({ statusCode: 404, statusMessage: 'Lesson not found' })
 }
 
-useSeo({
-  title: `${lesson.title} — ${course.title} — Skill-Wanderer Dojo`,
-  description: `Lesson: ${lesson.title} from ${course.title}. Free and open learning at Skill-Wanderer Dojo.`,
+// Extract first YouTube video URL from lesson content for VideoObject schema
+const videoUrlMatch = lesson.content?.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/)
+const firstVideoUrl = videoUrlMatch ? `https://www.youtube.com/embed/${videoUrlMatch[1]}` : undefined
+
+useLessonSeo({
+  title: lesson.title,
+  courseTitle: course.title,
+  courseSlug: courseSlug,
+  lessonSlug: lessonSlug,
+  datePublished: lesson.createdAt || course.createdAt,
+  dateModified: lesson.updatedAt || course.updatedAt,
+  videoUrl: firstVideoUrl,
+  author: course.author ? { name: course.author.name, url: course.author.websiteUrl } : undefined,
 })
 
-const currentIndex = course.lessons.findIndex(l => l.slug === lessonSlug)
-const prevLesson = currentIndex > 0 ? course.lessons[currentIndex - 1] : null
-const nextLesson = currentIndex < course.lessons.length - 1 ? course.lessons[currentIndex + 1] : null
+const currentIndex = allLessons.findIndex(l => l.slug === lessonSlug)
+const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null
+const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null
 
 const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
 const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
+
+const initialTab = (route.query.tab === 'quiz') ? 'quiz' : 'summary'
+const activeTab = ref<'summary' | 'quiz'>(initialTab)
 
 const isCompleted = ref(lesson.completed ?? false)
 const isLoading = ref(false)
@@ -127,15 +143,18 @@ async function toggleComplete() {
           </div>
         </div>
         <nav class="sidebar-lessons">
-          <NuxtLink
-            v-for="(l, i) in course.lessons"
-            :key="l.id"
-            :to="`/courses/${course.slug}/lessons/${l.slug}`"
-            :class="['sidebar-lesson', { 'sidebar-lesson--active': l.slug === lessonSlug }]"
-          >
-            <span class="sidebar-lesson-num">{{ String(i + 1).padStart(2, '0') }}</span>
-            <span class="sidebar-lesson-title">{{ l.title }}</span>
-          </NuxtLink>
+          <template v-for="(mod, mi) in course.modules" :key="mod.id">
+            <div class="sidebar-module-header">{{ mod.title }}</div>
+            <NuxtLink
+              v-for="(l, li) in mod.lessons"
+              :key="l.id"
+              :to="`/courses/${course.slug}/lessons/${l.slug}`"
+              :class="['sidebar-lesson', { 'sidebar-lesson--active': l.slug === lessonSlug }]"
+            >
+              <span class="sidebar-lesson-num">{{ String(course.modules.slice(0, mi).reduce((sum, m) => sum + m.lessons.length, 0) + li + 1).padStart(2, '0') }}</span>
+              <span class="sidebar-lesson-title">{{ l.title }}</span>
+            </NuxtLink>
+          </template>
         </nav>
       </aside>
 
@@ -143,7 +162,7 @@ async function toggleComplete() {
       <main class="lesson-main">
         <div class="lesson-header">
           <span class="lesson-label">
-            Lesson {{ currentIndex + 1 }} of {{ course.lessons.length }}
+            Lesson {{ currentIndex + 1 }} of {{ allLessons.length }}
           </span>
           <h1 class="lesson-title">{{ lesson.title }}</h1>
           <div class="lesson-meta">
@@ -151,7 +170,10 @@ async function toggleComplete() {
               <Icon :name="lesson.type === 'video' ? 'mdi:play-circle-outline' : 'mdi:file-document-outline'" />
               {{ lesson.type === 'video' ? 'Video' : 'Article' }}
             </span>
-
+            <span v-if="lesson.updatedAt || course.updatedAt" class="flex items-center gap-1 lesson-date">
+              <Icon name="mdi:update" />
+              Updated: {{ new Date(lesson.updatedAt || course.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }}
+            </span>
           </div>
         </div>
 
@@ -161,27 +183,51 @@ async function toggleComplete() {
           <p class="text-gray-500 mt-4">Video player will be integrated here</p>
         </div>
 
-        <!-- Quiz Notice (shown when lesson has a quiz) -->
-        <div v-if="lesson.quiz" class="quiz-notice glass-card mb-6">
-          <span class="quiz-notice-icon">📝</span>
-          <div>
-            <strong>This lesson includes an Optional Quiz</strong>
-            <p>After reviewing the summary below, scroll down to test your understanding of Module 1 concepts.</p>
+        <!-- Tabbed layout when lesson has both content and quiz -->
+        <div v-if="lesson.content && lesson.quiz" class="lesson-tabs-wrapper mb-8">
+          <div class="lesson-tabs">
+            <button
+              :class="['lesson-tab', { 'lesson-tab--active': activeTab === 'summary' }]"
+              @click="activeTab = 'summary'"
+            >
+              <Icon name="mdi:book-open-variant" />
+              Summary & Takeaway
+            </button>
+            <button
+              :class="['lesson-tab', { 'lesson-tab--active': activeTab === 'quiz' }]"
+              @click="activeTab = 'quiz'"
+            >
+              <Icon name="mdi:pencil-outline" />
+              Quiz
+            </button>
+          </div>
+          <div v-show="activeTab === 'summary'" class="lesson-tab-panel glass-card">
+            <div class="lesson-content p-4 sm:p-6 md:p-8 prose-content" v-html="lesson.content" />
+          </div>
+          <div v-show="activeTab === 'quiz'" class="lesson-tab-panel">
+            <QuizSection
+              :questions="lesson.quiz.questions"
+              :title="lesson.quiz.title"
+              :return-to="route.path"
+              :course-slug="courseSlug"
+              :lesson-slug="lessonSlug"
+            />
           </div>
         </div>
 
-        <!-- Article Content (collapsible when quiz exists) -->
-        <details v-if="lesson.content && lesson.quiz" class="summary-collapsible glass-card mb-8" open>
-          <summary class="summary-toggle">
-            <Icon name="mdi:book-open-variant" />
-            <span>Module Summary & Takeaway</span>
-            <Icon name="mdi:chevron-down" class="summary-chevron" />
-          </summary>
-          <div class="lesson-content p-4 sm:p-6 md:p-8 prose-content" v-html="lesson.content" />
-        </details>
-
         <!-- Article Content (normal when no quiz) -->
         <div v-else-if="lesson.content" class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8 prose-content" v-html="lesson.content" />
+
+        <!-- Quiz only (no content) -->
+        <QuizSection
+          v-else-if="lesson.quiz"
+          :questions="lesson.quiz.questions"
+          :title="lesson.quiz.title"
+          :return-to="route.path"
+          :course-slug="courseSlug"
+          :lesson-slug="lessonSlug"
+          class="mb-8"
+        />
 
         <!-- Article Content Placeholder (no content yet) -->
         <div v-else class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8">
@@ -191,14 +237,6 @@ async function toggleComplete() {
             images, and interactive elements.
           </p>
         </div>
-
-        <!-- Optional Quiz Section -->
-        <QuizSection
-          v-if="lesson.quiz"
-          :questions="lesson.quiz.questions"
-          :title="lesson.quiz.title"
-          class="mb-8"
-        />
 
         <!-- Mark Complete -->
         <div class="lesson-actions">
@@ -283,6 +321,20 @@ async function toggleComplete() {
   gap: 2px;
 }
 
+.sidebar-module-header {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(224, 224, 224, 0.4);
+  padding: 12px 12px 4px;
+  margin-top: 8px;
+}
+
+.sidebar-module-header:first-child {
+  margin-top: 0;
+}
+
 .sidebar-lesson {
   display: flex;
   align-items: center;
@@ -341,6 +393,12 @@ async function toggleComplete() {
   gap: 16px;
   font-size: 0.9rem;
   color: rgba(224, 224, 224, 0.5);
+  flex-wrap: wrap;
+}
+
+.lesson-date {
+  font-size: 0.82rem;
+  color: rgba(224, 224, 224, 0.35);
 }
 
 .lesson-video-placeholder {
@@ -387,81 +445,48 @@ async function toggleComplete() {
   animation: spin 1s linear infinite;
 }
 
-/* Quiz Notice */
-.quiz-notice {
+/* Lesson Tabs */
+.lesson-tabs-wrapper {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 16px 20px;
-  background: rgba(255, 193, 7, 0.06);
-  border: 1px solid rgba(255, 193, 7, 0.2);
-  border-left: 4px solid var(--primary-orange);
-  border-radius: 12px;
+  flex-direction: column;
 }
 
-.quiz-notice-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.quiz-notice strong {
-  display: block;
-  color: var(--primary-orange);
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-
-.quiz-notice p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: rgba(224, 224, 224, 0.6);
-}
-
-/* Collapsible Summary */
-.summary-collapsible {
-  border: 1px solid rgba(255, 107, 53, 0.15);
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.summary-toggle {
+.lesson-tabs {
   display: flex;
+  gap: 4px;
+  margin-bottom: 0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.06);
+}
+
+.lesson-tab {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 20px;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(224, 224, 224, 0.5);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
   cursor: pointer;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--light-text);
-  background: rgba(255, 107, 53, 0.05);
-  border-bottom: 1px solid rgba(255, 107, 53, 0.1);
-  list-style: none;
-  user-select: none;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
 }
 
-.summary-toggle:hover {
-  background: rgba(255, 107, 53, 0.08);
+.lesson-tab:hover {
+  color: rgba(224, 224, 224, 0.8);
+  background: rgba(255, 107, 53, 0.04);
 }
 
-.summary-toggle::-webkit-details-marker {
-  display: none;
-}
-
-.summary-toggle::marker {
-  content: '';
-}
-
-.summary-chevron {
-  margin-left: auto;
-  font-size: 1.3rem;
-  transition: transform 0.3s ease;
+.lesson-tab--active {
   color: var(--primary-orange);
+  border-bottom-color: var(--primary-orange);
 }
 
-.summary-collapsible[open] .summary-chevron {
-  transform: rotate(180deg);
+.lesson-tab-panel {
+  margin-top: 0;
+  border-radius: 0 0 16px 16px;
 }
 
 .lesson-nav {

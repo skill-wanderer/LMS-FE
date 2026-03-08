@@ -7,12 +7,21 @@ export interface Course {
   thumbnail?: string
   difficulty: 'beginner' | 'intermediate' | 'advanced'
   lessonCount: number
-  lessons: Lesson[]
+  modules: Module[]
   tags: string[]
   instructor?: string
+  author?: AuthorInfo
   progress?: number
   createdAt: string
   updatedAt: string
+}
+
+export interface Module {
+  id: string
+  slug: string
+  title: string
+  order: number
+  lessons: Lesson[]
 }
 
 export interface QuizQuestion {
@@ -30,12 +39,29 @@ export interface Lesson {
   videoUrl?: string
   completed?: boolean
   order: number
-  module?: string
   durationMinutes?: number
+  createdAt?: string
+  updatedAt?: string
   quiz?: {
     title?: string
     questions: QuizQuestion[]
   }
+}
+
+export interface AuthorInfo {
+  name: string
+  title: string
+  bio: string
+  avatarUrl: string
+  linkedinUrl: string
+  websiteUrl: string
+}
+
+/**
+ * Get a flat array of all lessons across all modules in the course.
+ */
+export function getAllLessons(course: Course): Lesson[] {
+  return course.modules.flatMap(m => m.lessons)
 }
 
 export interface LearningPath {
