@@ -29,5 +29,8 @@
   },
   "overrides": {
     "serialize-javascript": "^7.0.4"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3"
   }
 }
