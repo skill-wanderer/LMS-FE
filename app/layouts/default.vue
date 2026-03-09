@@ -27,6 +27,9 @@ const route = useRoute()
     </main>
     <TheSubscribe v-if="!route.path.includes('/lessons/')" />
     <TheFooter />
+    <ClientOnly>
+      <PathfinderChat />
+    </ClientOnly>
   </div>
 </template>
 

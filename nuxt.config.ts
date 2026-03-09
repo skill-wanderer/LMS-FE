@@ -75,6 +75,12 @@ export default defineNuxtConfig({
       keycloakRealm: process.env.NUXT_PUBLIC_KEYCLOAK_REALM || '',
       keycloakClientId: process.env.NUXT_PUBLIC_KEYCLOAK_CLIENT_ID || '',
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || '',
+      pathfinder: {
+        apiUrl: process.env.NUXT_PUBLIC_PATHFINDER_API_URL || 'http://localhost:8000',
+        domains: process.env.NUXT_PUBLIC_PATHFINDER_DOMAINS || 'dojo.skill-wanderer.com',
+        sessionExpiryMinutes: Number(process.env.NUXT_PUBLIC_PATHFINDER_SESSION_EXPIRY_MINUTES) || 30,
+        sessionStorage: process.env.NUXT_PUBLIC_PATHFINDER_SESSION_STORAGE || 'browser',
+      },
     },
   },
 
