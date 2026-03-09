@@ -46,7 +46,8 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    strictNuxtContentPaths: true,
+    sources: ['/__sitemap__/urls'],
+    exclude: ['/auth/**', '/search'],
   },
 
   robots: {

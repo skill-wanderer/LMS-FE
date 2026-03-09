@@ -20,6 +20,17 @@ RUN if [ -f pnpm-lock.yaml ]; then \
 # Copy the rest of the source
 COPY . .
 
+# Build-time environment variables (baked into Nuxt SSR output)
+ARG NUXT_PUBLIC_KEYCLOAK_URL
+ARG NUXT_PUBLIC_KEYCLOAK_REALM
+ARG NUXT_PUBLIC_KEYCLOAK_CLIENT_ID
+ARG NUXT_PUBLIC_API_BASE_URL
+
+ENV NUXT_PUBLIC_KEYCLOAK_URL=${NUXT_PUBLIC_KEYCLOAK_URL}
+ENV NUXT_PUBLIC_KEYCLOAK_REALM=${NUXT_PUBLIC_KEYCLOAK_REALM}
+ENV NUXT_PUBLIC_KEYCLOAK_CLIENT_ID=${NUXT_PUBLIC_KEYCLOAK_CLIENT_ID}
+ENV NUXT_PUBLIC_API_BASE_URL=${NUXT_PUBLIC_API_BASE_URL}
+
 # Build the Nuxt application
 RUN if [ -f pnpm-lock.yaml ]; then \
       corepack enable && pnpm build; \
