@@ -1,4 +1,14 @@
 <script setup lang="ts">
+const route = useRoute()
+
+const legacyUrl = computed(() => {
+  const from = route.query.from as string | undefined
+  if (from) {
+    return `https://legacy-dojo.skill-wanderer.com${from}`
+  }
+  return 'https://legacy-dojo.skill-wanderer.com'
+})
+
 useSeo({
   title: 'Old Material — Skill-Wanderer Dojo',
   description: 'The page you tried to access belongs to the old Dojo. Welcome to the new Skill-Wanderer Dojo!',
@@ -20,12 +30,23 @@ useSeo({
         <strong class="text-brand-orange">old Dojo</strong>.
       </p>
 
-      <p class="text-[rgba(224,224,224,0.65)] text-base leading-relaxed mb-8">
+      <p class="text-[rgba(224,224,224,0.65)] text-base leading-relaxed mb-6">
         We're really sorry, but to make things progressive we needed to build a
         brand-new, customised LMS — which is exactly what you're seeing here!
         Please look around and ask
         <strong class="text-brand-yellow">Pathfinder</strong>
         (our chatbot) for similar material.
+      </p>
+
+      <p class="text-[rgba(224,224,224,0.65)] text-base leading-relaxed mb-8">
+        In the meantime, the old material is still available at
+        <a
+          :href="legacyUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-brand-orange font-semibold underline underline-offset-2 hover:text-brand-yellow"
+        >legacy-dojo.skill-wanderer.com</a>
+        while we migrate everything over.
       </p>
 
       <div class="flex gap-4 justify-center flex-wrap max-sm:flex-col max-sm:items-center max-sm:gap-3">
