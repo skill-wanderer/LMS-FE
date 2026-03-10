@@ -29,7 +29,7 @@ const difficulties = ['all', 'beginner', 'intermediate', 'advanced']
 <template>
   <div>
     <!-- Hero -->
-    <section class="pt-[120px] pb-[60px] px-5 text-center">
+    <section class="pt-[170px] pb-[60px] px-5 text-center">
       <div class="max-w-[700px] mx-auto">
         <h1 class="gradient-text text-[clamp(2rem,5vw,3.5rem)] font-black mb-3">All Courses</h1>
         <p class="text-[rgba(224,224,224,0.7)] text-[1.1rem] leading-relaxed mb-7">

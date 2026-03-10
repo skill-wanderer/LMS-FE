@@ -13,7 +13,7 @@ defineProps<Props>()
 </script>
 
 <template>
-  <section class="hero relative pt-[100px] pb-[60px] px-4 text-center overflow-hidden md:pt-[140px] md:pb-20 md:px-5">
+  <section class="hero relative pt-[150px] pb-[60px] px-4 text-center overflow-hidden md:pt-[180px] md:pb-20 md:px-5">
     <div class="max-w-narrow mx-auto relative z-[1]">
       <h1 class="gradient-text text-[clamp(2.5rem,7vw,4.5rem)] font-black leading-[1.1] mb-5">{{ title }}</h1>
       <p v-if="subtitle" class="text-[clamp(1.2rem,2.5vw,1.5rem)] text-[#e0e0e0] mb-3 font-medium">{{ subtitle }}</p>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import allPaths from '~/data/paths'
+import allCourses from '~/data/courses'
+
 useSeo({
   title: 'Skill-Wanderer Dojo — Free Open Learning Platform',
   description: 'Skill-Wanderer Dojo is a free, open-access learning management system. Browse courses, track progress, and master new skills — no paywall, no barriers.',
@@ -63,7 +66,8 @@ const features = [
       :cta-tertiary="{ label: 'Browse Learning Paths', to: '/paths' }"
       :cta-secondary="{ label: 'Why Custom LMS?', href: 'https://wanderings.skill-wanderer.com/blog/wanderers-log-4-goodbye-moodle-hello-custom-lms/' }"
       :stats="[
-        { value: '10', label: 'Paths' },
+        { value: String(allPaths.length), label: 'Paths' },
+        { value: String(allCourses.length), label: 'Courses' },
         { value: '100%', label: 'Free' },
         { value: 'Open', label: 'Source' },
       ]"

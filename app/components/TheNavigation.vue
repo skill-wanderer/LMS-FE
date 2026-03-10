@@ -36,10 +36,29 @@ const ecosystemLinks = [
 
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-[100] backdrop-blur-[12px] border-b border-brand-orange/10 transition-all duration-300"
-    :class="isScrolled ? 'py-2.5 px-5 bg-[rgba(15,15,15,0.95)] md:px-5 max-md:px-4 max-md:py-2' : 'py-4 px-5 bg-[rgba(15,15,15,0.85)] max-md:px-4 max-md:py-3'"
+    class="fixed top-0 left-0 right-0 z-[100] border-b border-brand-orange/10 transition-all duration-300"
   >
-    <nav class="max-w-content mx-auto flex items-center justify-between">
+    <!-- Active Development Banner -->
+    <div class="bg-gradient-to-r from-amber-500 to-red-500 text-white text-center px-4 py-2 text-sm leading-snug">
+      <div class="flex items-center justify-center gap-2 max-w-[960px] mx-auto">
+        <Icon name="mdi:hammer-wrench" class="shrink-0 text-[1.15rem]" />
+        <p class="m-0">
+          The new <strong>Skill-Wanderer Dojo</strong> is in active development.
+          Until we finish the migration, the old dojo lives at
+          <a
+            href="https://legacy-dojo.skill-wanderer.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-white font-bold underline underline-offset-2 hover:text-amber-200"
+          >legacy-dojo.skill-wanderer.com</a>.
+        </p>
+      </div>
+    </div>
+
+    <nav
+      class="max-w-content mx-auto flex items-center justify-between backdrop-blur-[12px] transition-all duration-300"
+      :class="isScrolled ? 'py-2.5 px-5 bg-[rgba(15,15,15,0.95)] md:px-5 max-md:px-4 max-md:py-2' : 'py-4 px-5 bg-[rgba(15,15,15,0.85)] max-md:px-4 max-md:py-3'"
+    >
       <!-- Logo -->
       <NuxtLink to="/" class="flex items-center gap-2 text-[1.3rem] font-bold no-underline" aria-label="Skill-Wanderer Dojo Home">
         <Icon name="mdi:fire" class="text-brand-orange text-[1.6rem]" />
@@ -178,7 +197,7 @@ const ecosystemLinks = [
 
     <!-- Mobile Menu -->
     <Transition name="slide-down">
-      <div v-if="isMobileOpen" class="flex flex-col py-4 md:hidden">
+      <div v-if="isMobileOpen" class="flex flex-col py-4 px-5 max-md:px-4 md:hidden bg-[rgba(15,15,15,0.95)] backdrop-blur-[12px]">
         <template v-for="link in navLinks" :key="link.label">
           <a v-if="link.href" :href="link.href" class="mobile-link" target="_blank" rel="noopener noreferrer">
             {{ link.label }}

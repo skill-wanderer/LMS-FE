@@ -34,8 +34,8 @@ useSeo({
         We're really sorry, but to make things progressive we needed to build a
         brand-new, customised LMS — which is exactly what you're seeing here!
         Please look around and ask
-        <strong class="text-brand-yellow">Pathfinder</strong>
-        (our chatbot) for similar material.
+        <strong class="text-brand-yellow">Lyra</strong>
+        (THE ARCHIVIST) for similar material.
       </p>
 
       <p class="text-[rgba(224,224,224,0.65)] text-base leading-relaxed mb-8">

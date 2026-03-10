@@ -64,7 +64,7 @@ watch(() => route.query.q, (newQ) => {
 
 <template>
   <div>
-    <section class="pt-[120px] px-5 pb-10 text-center max-md:pt-[100px] max-md:px-4 max-md:pb-8 max-sm:pt-[90px] max-sm:px-3 max-sm:pb-6">
+    <section class="pt-[170px] px-5 pb-10 text-center max-md:pt-[150px] max-md:px-4 max-md:pb-8 max-sm:pt-[140px] max-sm:px-3 max-sm:pb-6">
       <div class="max-w-[600px] mx-auto">
         <h1 class="gradient-text text-3xl md:text-4xl font-bold mb-6">Search</h1>
         <SearchBar @search="handleSearch" />
