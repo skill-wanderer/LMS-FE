@@ -57,7 +57,7 @@ const ecosystemLinks = [
 
     <nav
       class="max-w-content mx-auto flex items-center justify-between backdrop-blur-[12px] transition-all duration-300"
-      :class="isScrolled ? 'py-2.5 px-5 bg-[rgba(15,15,15,0.95)] md:px-5 max-md:px-4 max-md:py-2' : 'py-4 px-5 bg-[rgba(15,15,15,0.85)] max-md:px-4 max-md:py-3'"
+      :class="isScrolled ? 'py-2.5 px-5 bg-[rgba(15,15,15,0.95)] lg:px-5 max-lg:px-4 max-lg:py-2' : 'py-4 px-5 bg-[rgba(15,15,15,0.85)] max-lg:px-4 max-lg:py-3'"
     >
       <!-- Logo -->
       <NuxtLink to="/" class="flex items-center gap-2 text-[1.3rem] font-bold no-underline" aria-label="Skill-Wanderer Dojo Home">
@@ -66,7 +66,7 @@ const ecosystemLinks = [
       </NuxtLink>
 
       <!-- Desktop Links -->
-      <ul class="hidden md:flex list-none gap-8">
+      <ul class="hidden lg:flex list-none items-center gap-5">
         <li v-for="link in navLinks" :key="link.label">
           <a v-if="link.href" :href="link.href" class="nav-link" target="_blank" rel="noopener noreferrer">
             {{ link.label }}
@@ -124,7 +124,7 @@ const ecosystemLinks = [
       </ul>
 
       <!-- Search + Auth + CTA -->
-      <div class="hidden md:flex items-center gap-4">
+      <div class="hidden lg:flex items-center gap-3">
         <NuxtLink to="/search" class="flex items-center text-[#e0e0e0] transition-colors duration-300 hover:text-brand-orange" aria-label="Search courses">
           <Icon name="mdi:magnify" size="22" />
         </NuxtLink>
@@ -186,7 +186,7 @@ const ecosystemLinks = [
 
       <!-- Mobile Toggle -->
       <button
-        class="flex md:hidden bg-transparent border-none text-[#e0e0e0] cursor-pointer"
+        class="flex lg:hidden bg-transparent border-none text-[#e0e0e0] cursor-pointer"
         :aria-expanded="isMobileOpen"
         aria-label="Toggle navigation"
         @click="isMobileOpen = !isMobileOpen"
@@ -197,7 +197,7 @@ const ecosystemLinks = [
 
     <!-- Mobile Menu -->
     <Transition name="slide-down">
-      <div v-if="isMobileOpen" class="flex flex-col py-4 px-5 max-md:px-4 md:hidden bg-[rgba(15,15,15,0.95)] backdrop-blur-[12px]">
+      <div v-if="isMobileOpen" class="flex flex-col py-4 px-5 max-lg:px-4 lg:hidden bg-[rgba(15,15,15,0.95)] backdrop-blur-[12px]">
         <template v-for="link in navLinks" :key="link.label">
           <a v-if="link.href" :href="link.href" class="mobile-link" target="_blank" rel="noopener noreferrer">
             {{ link.label }}
@@ -290,7 +290,7 @@ const ecosystemLinks = [
 }
 
 .nav-link {
-  @apply text-[#e0e0e0] font-medium text-[0.95rem] relative py-1 transition-colors duration-300;
+  @apply text-[#e0e0e0] font-medium text-[0.9rem] relative py-1 transition-colors duration-300 whitespace-nowrap;
 }
 .nav-link::after {
   content: '';
