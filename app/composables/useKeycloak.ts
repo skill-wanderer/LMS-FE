@@ -52,7 +52,7 @@ export function useKeycloak() {
   const redirectUri = computed(() => {
     const origin = import.meta.client
       ? window.location.origin
-      : useRequestURL().origin
+      : (config.public.siteUrl as string || useRequestURL().origin).replace(/\/+$/, '')
     return `${origin}/auth/callback`
   })
 

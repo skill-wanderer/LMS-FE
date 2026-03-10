@@ -71,6 +71,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://dojo.skill-wanderer.com',
       keycloakUrl: process.env.NUXT_PUBLIC_KEYCLOAK_URL || '',
       keycloakRealm: process.env.NUXT_PUBLIC_KEYCLOAK_REALM || '',
       keycloakClientId: process.env.NUXT_PUBLIC_KEYCLOAK_CLIENT_ID || '',

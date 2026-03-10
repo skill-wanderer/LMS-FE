@@ -55,6 +55,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
+            NUXT_PUBLIC_SITE_URL=${{ vars.NUXT_PUBLIC_SITE_URL }}
             NUXT_PUBLIC_KEYCLOAK_URL=${{ vars.NUXT_PUBLIC_KEYCLOAK_URL }}
             NUXT_PUBLIC_KEYCLOAK_REALM=${{ vars.NUXT_PUBLIC_KEYCLOAK_REALM }}
             NUXT_PUBLIC_KEYCLOAK_CLIENT_ID=${{ vars.NUXT_PUBLIC_KEYCLOAK_CLIENT_ID }}
