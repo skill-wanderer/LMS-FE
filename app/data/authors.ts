@@ -8,3 +8,11 @@ export const quanNguyen: AuthorInfo = {
   linkedinUrl: 'https://linkedin.com/in/quan-nguyen-skill-wanderer',
   websiteUrl: 'https://skill-wanderer.com',
 }
+export const thanhNguyen: AuthorInfo = {
+  name: 'Thanh Nguyen',
+  title: 'Full-Cycle Solutions Associate · Full-Stack Engineer',
+  bio: 'A proactive Full-Stack Engineer who embraces a "learn-it-all" philosophy over "know-it-all" arrogance. Dedicated to mastering the entire product development lifecycle, Thanh combines technical agility with a relentless drive for high-impact, real-world solutions. With a core focus on Frontend excellence and an expanding mastery of Backend systems and DevOps, Thanh views every technical challenge as a strategic stepping stone toward engineering mastery. Committed to Skill-Wanderer’s mission of accessible education, aiming to bridge the gap between academic theory and scalable, high-performance technical execution.',
+  avatarUrl: 'https://skill-wanderer.com/thanh-nguyen-avatar.jpg',
+  linkedinUrl: 'https://www.linkedin.com/in/nguyen-ho-thien-thanh/',
+  websiteUrl: 'https://skill-wanderer.com',
+}
