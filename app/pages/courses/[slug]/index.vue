@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getAllLessons } from '~/types/course'
+import { getAllLessons, isPublishedLesson } from '~/types/course'
 
 const route = useRoute()
 const slug = route.params.slug as string
@@ -23,12 +23,15 @@ useCourseSeo({
 })
 
 const allLessons = computed(() => getAllLessons(course))
+const availableLessons = computed(() => allLessons.value.filter(isPublishedLesson))
 
 const completedCount = computed(() =>
-  allLessons.value.filter(l => l.completed).length
+  availableLessons.value.filter(l => l.completed).length
 )
 const progressPercent = computed(() =>
-  Math.round((completedCount.value / allLessons.value.length) * 100)
+  availableLessons.value.length
+    ? Math.round((completedCount.value / availableLessons.value.length) * 100)
+    : 0
 )
 
 const difficultyClass = computed(() => {
@@ -85,12 +88,16 @@ const totalDuration = computed(() => getCourseDuration(course))
           </div>
 
           <NuxtLink
-            v-if="allLessons.length"
-            :to="`/courses/${course.slug}/lessons/${allLessons[0]?.slug}`"
+            v-if="availableLessons.length"
+            :to="`/courses/${course.slug}/lessons/${availableLessons[0]?.slug}`"
             class="btn btn-primary mt-6"
           >
             <Icon name="mdi:play" /> Start Learning
           </NuxtLink>
+
+          <div v-else class="mt-6 rounded-xl border border-dashed border-brand-orange/20 bg-brand-orange/5 py-3 px-4 text-sm text-[rgba(224,224,224,0.68)]">
+            Lesson content is being rolled out. The course structure is visible now, and lesson pages will unlock as they are completed.
+          </div>
         </div>
 
         <!-- Progress Card (sidebar) -->
@@ -101,7 +108,7 @@ const totalDuration = computed(() => getCourseDuration(course))
               <div class="progress-bar-fill" :style="{ width: `${progressPercent}%` }" />
             </div>
             <p class="text-sm text-gray-400 mb-4">
-              {{ completedCount }} / {{ course.lessonCount }} lessons completed
+              {{ completedCount }} / {{ availableLessons.length }} available lessons completed
             </p>
 
             <div class="text-sm text-gray-500 space-y-2">

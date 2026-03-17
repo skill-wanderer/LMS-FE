@@ -1,5 +1,5 @@
 import type { Course } from '~/types/course'
-import { getAllLessons } from '~/types/course'
+import { getAllLessons, isPublishedCourse } from '~/types/course'
 import allCourses from '~/data/courses'
 
 /**
@@ -33,7 +33,7 @@ function getCourseDuration(course: Course): number {
  * ~/data/courses/index.ts.
  */
 export function useCourses() {
-  const courses = ref<Course[]>(allCourses)
+  const courses = ref<Course[]>(allCourses.filter(isPublishedCourse))
 
   function getCourseBySlug(slug: string): Course | undefined {
     return courses.value.find(c => c.slug === slug)

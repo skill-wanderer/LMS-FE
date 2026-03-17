@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import allPaths from '~/data/paths'
 import allCourses from '~/data/courses'
+import { isPublishedCourse } from '~/types/course'
 
 useSeo({
   title: 'Skill-Wanderer Dojo — Free Open Learning Platform',
@@ -53,6 +54,8 @@ const features = [
     description: 'With AI, building courses as code is faster than any drag-and-drop LMS. We\'re developers — we play to our strengths.',
   },
 ]
+
+const publishedCourseCount = allCourses.filter(isPublishedCourse).length
 </script>
 
 <template>
@@ -67,7 +70,7 @@ const features = [
       :cta-secondary="{ label: 'Why Custom LMS?', href: 'https://wanderings.skill-wanderer.com/blog/wanderers-log-4-goodbye-moodle-hello-custom-lms/' }"
       :stats="[
         { value: String(allPaths.length), label: 'Paths' },
-        { value: String(allCourses.length), label: 'Courses' },
+        { value: String(publishedCourseCount), label: 'Courses' },
         { value: '100%', label: 'Free' },
         { value: 'Open', label: 'Source' },
       ]"

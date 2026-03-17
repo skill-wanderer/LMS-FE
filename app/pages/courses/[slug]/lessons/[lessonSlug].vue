@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getAllLessons } from '~/types/course'
+import { getAllLessons, isPublishedLesson } from '~/types/course'
 
 const route = useRoute()
 const courseSlug = route.params.slug as string
@@ -17,6 +17,10 @@ const lesson = allLessons.find(l => l.slug === lessonSlug)
 
 if (!lesson) {
   throw createError({ statusCode: 404, statusMessage: 'Lesson not found' })
+}
+
+if (!isPublishedLesson(lesson)) {
+  throw createError({ statusCode: 404, statusMessage: 'Lesson not published yet' })
 }
 
 // Extract first YouTube video URL from lesson content for VideoObject schema
@@ -159,20 +163,29 @@ async function toggleComplete() {
         <nav class="flex flex-col gap-0.5">
           <template v-for="(mod, mi) in course.modules" :key="mod.id">
             <div class="text-xs font-bold uppercase tracking-wide text-[rgba(224,224,224,0.4)] py-3 px-3 pb-1 mt-2 first:mt-0">{{ mod.title }}</div>
-            <NuxtLink
-              v-for="(l, li) in mod.lessons"
-              :key="l.id"
-              :to="`/courses/${course.slug}/lessons/${l.slug}`"
-              :class="[
-                'flex items-center gap-2.5 py-2.5 px-3 rounded-lg no-underline text-[0.85rem] transition-all duration-200',
-                l.slug === lessonSlug
-                  ? 'bg-brand-orange/10 text-brand-orange font-semibold'
-                  : 'text-[rgba(224,224,224,0.6)] hover:bg-white/5 hover:text-[#e0e0e0]'
-              ]"
-            >
-              <span :class="['shrink-0 text-xs w-6', l.slug === lessonSlug ? 'text-brand-orange' : 'text-[rgba(224,224,224,0.3)]']">{{ String(course.modules.slice(0, mi).reduce((sum, m) => sum + m.lessons.length, 0) + li + 1).padStart(2, '0') }}</span>
-              <span>{{ l.title }}</span>
-            </NuxtLink>
+            <template v-for="(l, li) in mod.lessons" :key="l.id">
+              <NuxtLink
+                v-if="isPublishedLesson(l)"
+                :to="`/courses/${course.slug}/lessons/${l.slug}`"
+                :class="[
+                  'flex items-center gap-2.5 py-2.5 px-3 rounded-lg no-underline text-[0.85rem] transition-all duration-200',
+                  l.slug === lessonSlug
+                    ? 'bg-brand-orange/10 text-brand-orange font-semibold'
+                    : 'text-[rgba(224,224,224,0.6)] hover:bg-white/5 hover:text-[#e0e0e0]'
+                ]"
+              >
+                <span :class="['shrink-0 text-xs w-6', l.slug === lessonSlug ? 'text-brand-orange' : 'text-[rgba(224,224,224,0.3)]']">{{ String(course.modules.slice(0, mi).reduce((sum, m) => sum + m.lessons.length, 0) + li + 1).padStart(2, '0') }}</span>
+                <span>{{ l.title }}</span>
+              </NuxtLink>
+              <div
+                v-else
+                class="flex items-center gap-2.5 py-2.5 px-3 rounded-lg text-[0.85rem] text-[rgba(224,224,224,0.45)]"
+              >
+                <span class="shrink-0 text-xs w-6 text-[rgba(224,224,224,0.3)]">{{ String(course.modules.slice(0, mi).reduce((sum, m) => sum + m.lessons.length, 0) + li + 1).padStart(2, '0') }}</span>
+                <span>{{ l.title }}</span>
+                <span class="ml-auto text-[0.68rem] uppercase tracking-wider text-brand-orange/75">Planned</span>
+              </div>
+            </template>
           </template>
         </nav>
       </aside>
