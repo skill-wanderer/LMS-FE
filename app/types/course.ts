@@ -1,3 +1,5 @@
+export type PublishStatus = 'published' | 'draft'
+
 export interface Course {
   id: string
   slug: string
@@ -6,6 +8,7 @@ export interface Course {
   description: string
   thumbnail?: string
   difficulty: 'beginner' | 'intermediate' | 'advanced'
+  status?: PublishStatus
   lessonCount: number
   modules: Module[]
   tags: string[]
@@ -21,6 +24,7 @@ export interface Module {
   slug: string
   title: string
   order: number
+  status?: PublishStatus
   lessons: Lesson[]
 }
 
@@ -35,6 +39,7 @@ export interface Lesson {
   slug: string
   title: string
   type: 'video' | 'article'
+  status?: PublishStatus
   content?: string
   videoUrl?: string
   completed?: boolean
@@ -64,6 +69,14 @@ export interface AuthorInfo {
  */
 export function getAllLessons(course: Course): Lesson[] {
   return (course.modules ?? []).flatMap(m => m.lessons)
+}
+
+export function isPublishedCourse(course: Course): boolean {
+  return course.status !== 'draft'
+}
+
+export function isPublishedLesson(lesson: Lesson): boolean {
+  return lesson.status !== 'draft'
 }
 
 export interface LearningPath {
