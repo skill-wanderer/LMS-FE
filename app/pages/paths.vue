@@ -123,10 +123,6 @@ function isCourseAvailable(slug: string): boolean {
                   <Icon name="mdi:clock-outline" class="inline" /> {{ formatDuration(getPathDuration(path)) }}
                 </span>
               </div>
-              <NuxtLink :to="`/paths/${path.slug}`" class="inline-flex items-center gap-1.5 mt-3 text-sm text-brand-orange no-underline transition-opacity duration-200 hover:opacity-80">
-                View learning path
-                <Icon name="mdi:arrow-right" />
-              </NuxtLink>
             </div>
           </div>
 
