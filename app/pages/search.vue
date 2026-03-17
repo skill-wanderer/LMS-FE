@@ -45,6 +45,10 @@ function getPathDuration(path: PathData): number {
   }, 0)
 }
 
+function isCourseAvailable(slug: string): boolean {
+  return !!getCourseBySlug(slug)
+}
+
 const difficultyClass = (d: string) => {
   switch (d) {
     case 'beginner': return 'badge-beginner'
@@ -132,6 +136,10 @@ watch(() => route.query.q, (newQ) => {
                       <Icon name="mdi:clock-outline" class="inline" /> {{ formatDuration(getPathDuration(path)) }}
                     </span>
                   </div>
+                  <NuxtLink :to="`/paths/${path.slug}`" class="inline-flex items-center gap-1.5 mt-3 text-sm text-brand-orange no-underline transition-opacity duration-200 hover:opacity-80">
+                    View learning path
+                    <Icon name="mdi:arrow-right" />
+                  </NuxtLink>
                 </div>
               </div>
 
@@ -143,9 +151,17 @@ watch(() => route.query.q, (newQ) => {
                   class="flex items-center gap-3 py-2.5 px-4 rounded-lg bg-white/[0.03] border border-white/[0.06] transition-all duration-200 hover:bg-brand-orange/[0.06] hover:border-brand-orange/20"
                 >
                   <span class="flex items-center justify-center w-7 h-7 rounded-full bg-brand-orange/[0.12] text-brand-orange text-[0.8rem] font-bold shrink-0">{{ index + 1 }}</span>
-                  <NuxtLink :to="`/courses/${course.slug}`" class="text-[#e0e0e0] no-underline text-[0.95rem] font-medium transition-colors duration-200 hover:text-brand-orange">
+                  <NuxtLink
+                    v-if="isCourseAvailable(course.slug)"
+                    :to="`/courses/${course.slug}`"
+                    class="text-[#e0e0e0] no-underline text-[0.95rem] font-medium transition-colors duration-200 hover:text-brand-orange"
+                  >
                     {{ course.title }}
                   </NuxtLink>
+                  <span v-else class="text-[rgba(224,224,224,0.72)] text-[0.95rem] font-medium">
+                    {{ course.title }}
+                  </span>
+                  <span v-if="!isCourseAvailable(course.slug)" class="ml-auto text-[0.72rem] uppercase tracking-wider text-brand-orange/80">Planned</span>
                 </div>
               </div>
 
