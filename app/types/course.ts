@@ -75,6 +75,10 @@ export function isPublishedCourse(course: Course): boolean {
   return course.status !== 'draft'
 }
 
+export function isPublishedLesson(lesson: Lesson): boolean {
+  return lesson.status !== 'draft'
+}
+
 export interface LearningPath {
   id: string
   slug: string
