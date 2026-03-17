@@ -8,10 +8,20 @@ const props = defineProps<{
 const { formatDuration, getCourseDuration } = useCourses()
 
 const totalDuration = computed(() => getCourseDuration(props.course))
+const thumbnailWrapperClass = computed(() => (
+  props.course.thumbnailFit === 'contain'
+    ? 'p-2.5 bg-[rgba(8,12,24,0.92)]'
+    : ''
+))
 const thumbnailClass = computed(() => (
   props.course.thumbnailFit === 'contain'
     ? 'w-full h-full object-contain'
     : 'w-full h-full object-cover'
+))
+const thumbnailMotionClass = computed(() => (
+  props.course.thumbnailFit === 'contain'
+    ? 'transition-opacity duration-300 group-hover:opacity-95'
+    : 'transition-transform duration-300 group-hover:scale-105'
 ))
 const thumbnailStyle = computed(() => (
   props.course.thumbnailPosition
@@ -31,7 +41,7 @@ const difficultyClass = computed(() => {
 
 <template>
   <NuxtLink :to="`/courses/${course.slug}`" class="group glass-card flex flex-col overflow-hidden no-underline text-[#e0e0e0]" :aria-label="`View course: ${course.title}`">
-    <div class="relative aspect-video overflow-hidden bg-white/[0.02]">
+    <div :class="['relative aspect-video overflow-hidden bg-white/[0.02]', thumbnailWrapperClass]">
       <NuxtImg
         v-if="course.thumbnail"
         :src="course.thumbnail"
@@ -39,7 +49,7 @@ const difficultyClass = computed(() => {
         width="400"
         height="225"
         loading="lazy"
-        :class="[thumbnailClass, 'transition-transform duration-300 group-hover:scale-105']"
+        :class="[thumbnailClass, thumbnailMotionClass]"
         :style="thumbnailStyle"
       />
       <div v-else class="w-full h-full flex items-center justify-center text-brand-orange/30 bg-brand-orange/5">
