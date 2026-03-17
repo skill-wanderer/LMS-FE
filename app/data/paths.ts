@@ -5,10 +5,18 @@ export interface PathData {
   difficulty: string
   icon: string
   courseCount: number
-  courses?: { title: string; slug: string }[]
+  courses?: { title: string; slug: string; available?: boolean }[]
 }
 
 const paths: PathData[] = [
+  {
+    title: 'AI & Machine Learning',
+    slug: 'ai-machine-learning',
+    description: 'Build strong AI and ML fundamentals from core concepts to real-world model deployment with a practical, beginner-friendly sequence.',
+    difficulty: 'beginner',
+    icon: 'mdi:brain',
+    courseCount: 0,
+  },
   {
     title: 'Web Developer',
     slug: 'web-developer',
