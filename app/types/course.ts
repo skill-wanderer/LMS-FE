@@ -7,8 +7,6 @@ export interface Course {
   excerpt: string
   description: string
   thumbnail?: string
-  thumbnailFit?: 'cover' | 'contain'
-  thumbnailPosition?: string
   difficulty: 'beginner' | 'intermediate' | 'advanced'
   status?: PublishStatus
   lessonCount: number

@@ -8,16 +8,6 @@ const props = defineProps<{
 const { formatDuration, getCourseDuration } = useCourses()
 
 const totalDuration = computed(() => getCourseDuration(props.course))
-const thumbnailClass = computed(() => (
-  props.course.thumbnailFit === 'contain'
-    ? 'w-full h-full object-contain'
-    : 'w-full h-full object-cover'
-))
-const thumbnailStyle = computed(() => (
-  props.course.thumbnailPosition
-    ? { objectPosition: props.course.thumbnailPosition }
-    : undefined
-))
 
 const difficultyClass = computed(() => {
   switch (props.course.difficulty) {
@@ -39,8 +29,7 @@ const difficultyClass = computed(() => {
         width="400"
         height="225"
         loading="lazy"
-        :class="[thumbnailClass, 'transition-transform duration-300 group-hover:scale-105']"
-        :style="thumbnailStyle"
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
       <div v-else class="w-full h-full flex items-center justify-center text-brand-orange/30 bg-brand-orange/5">
         <Icon name="mdi:school-outline" size="48" />
