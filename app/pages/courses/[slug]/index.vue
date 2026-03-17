@@ -49,7 +49,7 @@ const totalDuration = computed(() => getCourseDuration(course))
 <template>
   <div>
     <!-- Breadcrumb -->
-    <div class="pt-[170px] px-5 max-md:pt-[150px] max-md:px-4 max-sm:pt-[140px] max-sm:px-3 max-w-content mx-auto">
+    <div class="section" style="padding-bottom: 0;">
       <BreadcrumbNav :items="[
         { label: 'Home', to: '/' },
         { label: 'Courses', to: '/courses' },
