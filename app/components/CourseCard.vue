@@ -49,7 +49,7 @@ const difficultyClass = computed(() => {
         width="400"
         height="225"
         loading="lazy"
-        :class="[thumbnailClass, thumbnailMotionClass, course.thumbnailClassName]"
+        :class="[thumbnailClass, thumbnailMotionClass]"
         :style="thumbnailStyle"
       />
       <div v-else class="w-full h-full flex items-center justify-center text-brand-orange/30 bg-brand-orange/5">
