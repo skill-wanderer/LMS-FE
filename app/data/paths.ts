@@ -15,16 +15,7 @@ const paths: PathData[] = [
     description: 'Build strong AI and ML fundamentals from core concepts to real-world model deployment with a practical, beginner-friendly sequence.',
     difficulty: 'beginner',
     icon: 'mdi:brain',
-    courseCount: 7,
-    courses: [
-      { title: 'AI Fundamentals: Concepts, History, and Modern Use Cases', slug: 'ai-fundamentals-concepts-history-use-cases', available: false },
-      { title: 'Python for Machine Learning', slug: 'python-for-machine-learning', available: false },
-      { title: 'Data Preparation and Exploratory Data Analysis', slug: 'data-preparation-and-eda-for-ml', available: false },
-      { title: 'Supervised Learning Essentials', slug: 'supervised-learning-essentials', available: false },
-      { title: 'Unsupervised Learning and Feature Engineering', slug: 'unsupervised-learning-and-feature-engineering', available: false },
-      { title: 'Model Evaluation, Tuning, and Responsible AI', slug: 'model-evaluation-tuning-and-responsible-ai', available: false },
-      { title: 'Build and Deploy Your First ML Project', slug: 'build-and-deploy-your-first-ml-project', available: false },
-    ],
+    courseCount: 0,
   },
   {
     title: 'Web Developer',
