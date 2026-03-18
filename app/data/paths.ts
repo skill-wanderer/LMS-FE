@@ -29,6 +29,7 @@ const paths: PathData[] = [
     courseCount: 1,
     courses: [
       { title: 'AI-First Learning for Tech Careers', slug: 'ai-first-learning-for-tech-careers' },
+      { title: 'HTML Fundamentals: From Structure to Forms', slug: 'html-fundamentals-from-structure-to-forms' },
     ],
   },
   {
