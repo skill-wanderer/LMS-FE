@@ -52,7 +52,29 @@ const lesson: Lesson = {
 	<li>From "One answer is enough" to "I need enough questions to reach the underlying mechanism."</li>
 </ul>
 
-<h2>5. Micro-Action: Investigate Before You Accept</h2>
+<h2>5. Verification Strategy: Dissect Then Validate</h2>
+<p>There is another reason this mindset matters: AI can sound convincing even when it is wrong. A useful-looking answer is not the same as a trustworthy answer. If you only ask, "Is this correct?" you may still miss weak assumptions, invented facts, or confident nonsense.</p>
+<p>A better habit is not just "trust but verify." It is <strong>dissect then validate</strong>. First, break the answer apart so you understand the claim, the mechanism, and the assumptions. Then validate the parts that matter.</p>
+<p>Useful verification moves include:</p>
+<ul>
+	<li>Ask AI to explain the reasoning step by step.</li>
+	<li>Ask AI to argue against its own previous answer.</li>
+	<li>Ask what assumptions the answer depends on.</li>
+	<li>Ask for sources, references, or the basis for a factual claim.</li>
+	<li>Cross-check the important parts with another source, document, or human expert when the stakes are high.</li>
+</ul>
+<p>The goal is not to distrust everything blindly. The goal is to avoid being impressed by an answer you have not really inspected.</p>
+
+<h2>6. Match Your Depth to the Stakes</h2>
+<p>Asking five or more questions is powerful, but not every task deserves the same level of scrutiny. If you deep-dive into every tiny decision, you can create analysis paralysis. Good judgment includes knowing when to investigate deeply and when to move quickly.</p>
+<p>A simple rule:</p>
+<ul>
+	<li><strong>High-stakes tasks:</strong> Deep-dive. These include decisions that affect money, safety, deadlines, client trust, public communication, or important technical changes. Here, accountability is high, so your verification should be stronger.</li>
+	<li><strong>Low-stakes tasks:</strong> Skim faster. These include rough brainstorming, first drafts, idea generation, or low-risk formatting help. Here, speed can matter more than full dissection.</li>
+</ul>
+<p>The point is not "always ask five questions no matter what." The point is: ask enough questions for the level of responsibility involved.</p>
+
+<h2>7. Micro-Action: Investigate Before You Accept</h2>
 <p>Take one small step now. Do not ask AI to finish a whole task for you. Instead, use it to help you understand something you need to explain clearly.</p>
 <p>Choose one small problem, task, or output that you genuinely want to understand better. Good examples:</p>
 <ul>
@@ -90,10 +112,11 @@ const lesson: Lesson = {
 </ol>
 <p>The classic <strong>5 Whys</strong> is still useful, especially for root cause work. But in the AI era, the broader principle matters more: ask enough questions to move beyond surface explanation.</p>
 
-<h2>6. Reflection</h2>
+<h2>8. Reflection</h2>
 <ol>
 	<li>Do you usually use AI to investigate and understand, or mostly to get fast answers?</li>
 	<li>How often do you accept useful-sounding output without understanding the mechanism behind it?</li>
+	<li>When should you dissect an AI answer deeply, and when is a faster skim enough?</li>
 	<li>What level of understanding do you think a responsible human should have when delegating work to AI?</li>
 	<li>Which kind of question helps you move past surface explanations most effectively?</li>
 	<li>If someone asked what the AI did for you today and why, how well could you explain it?</li>
@@ -105,8 +128,9 @@ const lesson: Lesson = {
 	<li>This lesson is about mindset before method.</li>
 	<li>Understanding how something works is a high-value skill in the AI era because accountable people must still explain and justify results.</li>
 	<li>AI agents can execute tasks, but humans still own requirements, judgment, and accountability.</li>
+	<li>Strong AI use includes dissecting answers and validating important claims instead of accepting useful-sounding output at face value.</li>
 	<li>You do not need to perform 100% of the work yourself, but you do need enough understanding to lead and verify it responsibly.</li>
-	<li>Asking at least five real questions trains mechanism-level understanding better than accepting one fast answer.</li>
+	<li>Asking at least five real questions is most useful for higher-stakes work; lower-stakes tasks can often be handled with a lighter pass.</li>
 	<li>Good AI-supported learning strengthens your judgment so you become harder to replace, not easier to bypass.</li>
 </ul>
 
