@@ -7,7 +7,7 @@ const lesson = createHtmlLessonShell({
   order: 11,
   requirement: 'Connect your page to the rest of the web and handle external assets.',
   optionalLessons: [
-    'Hyperlinks: <code>&lt;a&gt;</code> with <code>href</code>, <code>target="_blank"</code>, and internal anchors (<code>#id</code>).',
+    'Hyperlinks: <code>&lt;a&gt;</code> with <code>href</code>, <code>target="_blank"</code> + <code>rel="noopener noreferrer"</code>, and internal anchors (<code>#id</code>).',
     'Images: <code>&lt;img&gt;</code> with <code>src</code>, <code>alt</code> (Accessibility), and <code>loading="lazy"</code>.',
     'Attributes: Understand <code>id</code> vs <code>class</code> as identifiers.',
   ],
