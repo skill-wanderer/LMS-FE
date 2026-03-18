@@ -70,6 +70,16 @@ const lesson: Lesson = {
 	<li>Keep asking until you can describe the underlying mechanism in your own words.</li>
 	<li>Finish by writing a short explanation of what the AI helped you understand and what would still need verification.</li>
 </ol>
+<table>
+<thead><tr><th>Question Type</th><th>Purpose</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>What</td><td>Clarify what is actually happening.</td><td>"What is happening here in plain language?"</td></tr>
+<tr><td>Why</td><td>Surface reasoning, cause, or intent.</td><td>"Why was this approach chosen?"</td></tr>
+<tr><td>How</td><td>Understand the mechanism behind the result.</td><td>"How does this produce the outcome?"</td></tr>
+<tr><td>When or Where</td><td>Find conditions, risks, and limits.</td><td>"When would this fail?" or "Where are the weak points?"</td></tr>
+<tr><td>What if</td><td>Test assumptions and changing requirements.</td><td>"What if the situation changes?"</td></tr>
+</tbody>
+</table>
 <p>If you want a structure, use questions like these:</p>
 <ol>
 	<li>"What is happening here, in plain language?"</li>
