@@ -83,10 +83,12 @@ const lesson: Lesson = {
 	<li>A process at work that you can follow but cannot fully explain.</li>
 	<li>An AI-generated answer that sounds useful, but that you have not yet verified.</li>
 </ul>
+<p>In business, the <strong>5 Whys</strong> technique is often used to understand something thoroughly by pushing past the first surface explanation. That same idea applies here. In the modern AI era, it does not need to stay only as five "why" questions. It can become five questions across <strong>what</strong>, <strong>why</strong>, <strong>how</strong>, <strong>when</strong>, <strong>where</strong>, or <strong>what if</strong>, as long as you ask enough to reach real understanding.</p>
 <p>Then do this:</p>
 <ol>
 	<li>Write down what you think is happening before you ask AI anything.</li>
-	<li>Ask AI at least <strong>5 real questions</strong>. Use a mix of <strong>what</strong>, <strong>why</strong>, <strong>how</strong>, <strong>when</strong>, and <strong>what if</strong>.</li>
+	<li>Ask AI at least <strong>5 real questions</strong>. Do not stop at the first good-sounding answer.</li>
+	<li>Use a mix of question types such as <strong>what</strong>, <strong>why</strong>, <strong>how</strong>, <strong>when</strong>, <strong>where</strong>, and <strong>what if</strong>.</li>
 	<li>Keep asking until you can describe the underlying mechanism in your own words.</li>
 	<li>Finish by writing a short explanation of what the AI helped you understand and what would still need verification.</li>
 </ol>
