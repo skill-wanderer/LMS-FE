@@ -66,13 +66,14 @@ const lesson: Lesson = {
 <p>The goal is not to distrust everything blindly. The goal is to avoid being impressed by an answer you have not really inspected.</p>
 
 <h2>6. Match Your Depth to the Stakes</h2>
-<p>Asking five or more questions is powerful, but not every task deserves the same level of scrutiny. If you deep-dive into every tiny decision, you can create analysis paralysis. Good judgment includes knowing when to investigate deeply and when to move quickly.</p>
+<p>In business, the <strong>5 Whys</strong> technique is a well-known method for reaching root causes. Instead of accepting the first explanation, you keep asking "why" until you hit the real mechanism underneath. That same principle applies when working with AI, except in the modern AI era it does not need to stay as five literal "why" questions. It can become five or more questions across <strong>what</strong>, <strong>why</strong>, <strong>how</strong>, <strong>when</strong>, <strong>where</strong>, or <strong>what if</strong>, as long as you push past the surface.</p>
+<p>That said, not every task deserves the same level of scrutiny. If you deep-dive into every tiny decision, you create analysis paralysis. Good judgment includes knowing when to investigate deeply and when to move quickly.</p>
 <p>A simple rule:</p>
 <ul>
-	<li><strong>High-stakes tasks:</strong> Deep-dive. These include decisions that affect money, safety, deadlines, client trust, public communication, or important technical changes. Here, accountability is high, so your verification should be stronger.</li>
+	<li><strong>High-stakes tasks:</strong> Deep-dive. These include decisions that affect money, safety, deadlines, client trust, public communication, or important technical changes. Here, accountability is high, so ask at least five real questions and verify the answers.</li>
 	<li><strong>Low-stakes tasks:</strong> Skim faster. These include rough brainstorming, first drafts, idea generation, or low-risk formatting help. Here, speed can matter more than full dissection.</li>
 </ul>
-<p>The point is not "always ask five questions no matter what." The point is: ask enough questions for the level of responsibility involved.</p>
+<p>The point is not "always ask five questions no matter what." The point is: ask enough questions for the level of responsibility involved. The 5 Whys tradition gives you a proven starting point; adapt it to fit the stakes.</p>
 
 <h2>7. Micro-Action: Investigate Before You Accept</h2>
 <p>Take one small step now. Do not ask AI to finish a whole task for you. Instead, use it to help you understand something you need to explain clearly.</p>
@@ -83,7 +84,6 @@ const lesson: Lesson = {
 	<li>A process at work that you can follow but cannot fully explain.</li>
 	<li>An AI-generated answer that sounds useful, but that you have not yet verified.</li>
 </ul>
-<p>In business, the <strong>5 Whys</strong> technique is often used to understand something thoroughly by pushing past the first surface explanation. That same idea applies here. In the modern AI era, it does not need to stay only as five "why" questions. It can become five questions across <strong>what</strong>, <strong>why</strong>, <strong>how</strong>, <strong>when</strong>, <strong>where</strong>, or <strong>what if</strong>, as long as you ask enough to reach real understanding.</p>
 <p>Then do this:</p>
 <ol>
 	<li>Write down what you think is happening before you ask AI anything.</li>
@@ -110,7 +110,7 @@ const lesson: Lesson = {
 	<li>"When would this fail, and what conditions matter most?"</li>
 	<li>"What should I be able to explain on my own if I am truly accountable for this work?"</li>
 </ol>
-<p>The classic <strong>5 Whys</strong> is still useful, especially for root cause work. But in the AI era, the broader principle matters more: ask enough questions to move beyond surface explanation.</p>
+<p>As covered in section 6, the classic 5 Whys is your starting point. Adapt the depth to the stakes.</p>
 
 <h2>8. Reflection</h2>
 <ol>
