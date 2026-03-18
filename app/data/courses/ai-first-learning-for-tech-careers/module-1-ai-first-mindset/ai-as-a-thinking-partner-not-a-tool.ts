@@ -31,8 +31,8 @@ const lesson: Lesson = {
 <p><strong>Core idea:</strong> In the AI era, your value increasingly comes from understanding enough to direct work responsibly, question results intelligently, and explain what was done with confidence.</p>
 
 <h2>1. A Familiar Scenario</h2>
-<p>Imagine two developers using AI to fix the same bug. The first developer pastes the error into AI, copies the suggested code change, and sees the error disappear. The second developer also uses AI, but asks what caused the bug, what part of the code path is responsible, why the fix works, and when the same issue might return.</p>
-<p>Both developers may ship a fix. But if a teammate later asks what changed, what risk remains, or whether the requirement was really met, only one of them is in a strong position to answer. That is the difference between using AI as an answer machine and using AI as a thinking partner.</p>
+<p>Imagine two people using AI to help plan an event. The first person asks AI for a full event schedule, copies the plan, and feels finished because the output looks organized. The second person also uses AI, but asks what assumptions the schedule depends on, why activities were placed in that order, how timing was estimated, what could go wrong, and where the plan might fail if attendance or budget changes.</p>
+<p>Both people may end up with a schedule. But if a manager, client, or team member later asks why the plan is structured that way, what risks remain, or whether it actually fits the real requirements, only one of them is in a strong position to answer. That is the difference between using AI as an answer machine and using AI as a thinking partner.</p>
 
 <h2>2. The Mindset Difference</h2>
 <p>The answer-machine mindset says: "AI gave me something useful, so I am done." The thinking-partner mindset says: "AI gave me something useful, so now I need to understand it well enough to lead it."</p>
