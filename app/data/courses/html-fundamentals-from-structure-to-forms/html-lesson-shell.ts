@@ -10,6 +10,7 @@ interface HtmlLessonShellOptions {
   assignments?: string[]
   optionalLessons: string[]
   summaryAndQuizzes: string[]
+  status?: Lesson['status']
 }
 
 interface HtmlModuleAssignmentShellOptions {
@@ -62,7 +63,7 @@ export function createHtmlLessonShell(options: HtmlLessonShellOptions): Lesson {
     slug: options.slug,
     title: options.title,
     type: 'article',
-    status: 'draft',
+    status: options.status ?? 'draft',
     order: options.order,
     durationMinutes: options.durationMinutes ?? 15,
     hideCompletion: true,
