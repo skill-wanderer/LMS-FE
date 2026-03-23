@@ -5,7 +5,17 @@ import module2 from './module-2-data-organizer-lists-and-tables'
 import module3 from './module-3-interaction-layer-links-and-media'
 import module4 from './module-4-input-engine-forms-and-validations'
 
-const modules = [module1, module2, module3, module4]
+const OPEN_LESSON_SLUGS = new Set([
+  'assignment-module-1-atomic-structure',
+])
+
+const modules = [module1, module2, module3, module4].map(moduleItem => ({
+  ...moduleItem,
+  lessons: moduleItem.lessons.map(lesson => ({
+    ...lesson,
+    status: OPEN_LESSON_SLUGS.has(lesson.slug) ? ('published' as const) : ('draft' as const),
+  })),
+}))
 const lessonCount = modules.reduce((sum, moduleItem) => sum + moduleItem.lessons.length, 0)
 
 const course: Course = {
