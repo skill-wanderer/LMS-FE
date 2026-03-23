@@ -26,9 +26,10 @@ const paths: PathData[] = [
     description: 'Master HTML, CSS, JavaScript, and modern frameworks to build responsive, accessible web applications from scratch.',
     difficulty: 'beginner',
     icon: 'mdi:web',
-    courseCount: 1,
+    courseCount: 2,
     courses: [
       { title: 'AI-First Learning for Tech Careers', slug: 'ai-first-learning-for-tech-careers' },
+      { title: 'HTML Foundations: Building with Purpose', slug: 'html-fundamentals-from-structure-to-forms' },
     ],
   },
   {
