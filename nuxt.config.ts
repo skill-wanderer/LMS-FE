@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
     '@nuxt/icon',
     '@nuxt/image',
-    '@nuxt/scripts',
     '@vueuse/nuxt',
     'nuxt-schema-org',
   ],

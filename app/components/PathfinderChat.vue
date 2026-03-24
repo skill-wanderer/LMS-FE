@@ -192,6 +192,9 @@ onBeforeUnmount(() => stopReveal())
           <p class="text-xs opacity-60 leading-relaxed mb-3">
             Browse the shelves of the Dojo's knowledge. Ask Lyra anything about courses, lessons, and learning paths.
           </p>
+          <p class="text-[0.65rem] opacity-40 leading-relaxed mb-3">
+            We may store and analyze anonymized conversations to improve the system. You can request deletion at any time. Please avoid sharing personal or sensitive information.
+          </p>
           <div class="lyra-suggestions">
             <button
               v-for="s in suggestions"
