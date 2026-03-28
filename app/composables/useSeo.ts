@@ -168,7 +168,7 @@ export function useLessonSeo(lesson: LessonSeoOptions) {
         'thumbnailUrl': `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
         'uploadDate': lesson.datePublished || undefined,
         'contentUrl': `https://www.youtube.com/watch?v=${videoId}`,
-        'embedUrl': `https://www.youtube-nocookie.com/embed/${videoId}`,
+        'embedUrl': `https://www.youtube.com/embed/${videoId}`,
       })
     }
   }
