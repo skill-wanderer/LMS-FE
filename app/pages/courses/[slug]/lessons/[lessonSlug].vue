@@ -24,8 +24,8 @@ if (!isPublishedLesson(lesson)) {
 }
 
 // Extract first YouTube video URL from lesson content for VideoObject schema
-const videoUrlMatch = lesson.content?.match(/youtube-nocookie\.com\/embed\/([a-zA-Z0-9_-]{11})/)
-const firstVideoUrl = videoUrlMatch ? `https://www.youtube-nocookie.com/embed/${videoUrlMatch[1]}` : undefined
+const videoUrlMatch = lesson.content?.match(/youtube(?:-nocookie)?\.com\/embed\/([a-zA-Z0-9_-]{11})/)
+const firstVideoUrl = videoUrlMatch ? `https://www.youtube.com/embed/${videoUrlMatch[1]}` : undefined
 
 useLessonSeo({
   title: lesson.title,
@@ -48,12 +48,13 @@ const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
 const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
 
-// Sandbox YouTube & Spotify iframes to prevent cross-origin frame access errors
+// Process YouTube iframes: switch to standard embed for full features (subtitles, quality, etc.) and add lazy loading
 const processedContent = computed(() => {
   if (!lesson.content) return ''
   return lesson.content
+    .replace(/https:\/\/www\.youtube-nocookie\.com\/embed\//g, 'https://www.youtube.com/embed/')
     .replace(
-      /<iframe([^>]*src="https:\/\/www\.youtube-nocookie\.com\/[^"]*"[^>]*)>/g,
+      /<iframe([^>]*src="https:\/\/www\.youtube\.com\/embed\/[^"]*"[^>]*)>/g,
       '<iframe$1 sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-presentation" loading="lazy">'
     )
     .replace(
