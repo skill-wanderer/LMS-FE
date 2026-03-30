@@ -15,10 +15,12 @@ import type { Course } from '~/types/course'
  */
 import manualSoftwareTesting from './manual-software-testing-black-box-techniques'
 import aiFirstLearningForTechCareers from './ai-first-learning-for-tech-careers'
+import htmlFundamentalsFromStructureToForms from './html-fundamentals-from-structure-to-forms'
 
 const allCourses: Course[] = [
   manualSoftwareTesting,
   aiFirstLearningForTechCareers,
+  htmlFundamentalsFromStructureToForms,
 ]
 
 export default allCourses
