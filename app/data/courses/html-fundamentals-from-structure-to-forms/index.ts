@@ -33,7 +33,7 @@ const course: Course = {
   instructor: 'Skill-Wanderer',
   author: thanhNguyen,
   createdAt: '2026-03-17',
-  updatedAt: '2026-03-18',
+  updatedAt: '2026-03-30',
 }
 
 export default course
