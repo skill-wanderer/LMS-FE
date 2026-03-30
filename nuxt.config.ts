@@ -93,8 +93,8 @@ export default defineNuxtConfig({
     '/courses/**': {
       isr: 3600,
       headers: {
-        'Content-Security-Policy': "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://open.spotify.com https://cdn.jsdelivr.net;",
-        'Permissions-Policy': 'fullscreen=(self "https://www.youtube.com" "https://www.youtube-nocookie.com" "https://open.spotify.com")',
+        'Content-Security-Policy': "frame-src 'self' https://www.youtube-nocookie.com https://open.spotify.com https://cdn.jsdelivr.net;",
+        'Permissions-Policy': 'fullscreen=(self "https://www.youtube-nocookie.com" "https://open.spotify.com")',
       },
     },
     '/': { prerender: true },
