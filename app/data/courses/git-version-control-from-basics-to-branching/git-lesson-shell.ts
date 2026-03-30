@@ -104,7 +104,7 @@ export function createGitFinalAssignment(options: GitFinalAssignmentOptions): Le
     slug: options.slug,
     title: options.title,
     type: 'article',
-    status: 'published',
+    status: 'draft',
     order: options.order,
     durationMinutes: options.durationMinutes ?? 45,
     hideCompletion: false,

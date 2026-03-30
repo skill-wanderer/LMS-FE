@@ -4,7 +4,7 @@ const lesson = createGitPlannedLesson({
   id: 'lesson-git-6',
   slug: 'fetching-vs-pulling',
   title: 'Fetching vs. Pulling: The Difference Between Checking for Updates and Automatically Applying Them',
-  order: 4,
+  order: 3,
   moduleTitle: 'Module 2: Global Sync (GitHub & Collaboration)',
   whyItMatters: 'Professionals choose fetch when they want visibility before change, and pull when they are ready to integrate. Confusing those two can create avoidable merge noise.',
   focusPoints: [
