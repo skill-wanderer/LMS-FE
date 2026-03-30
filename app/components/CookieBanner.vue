@@ -36,7 +36,7 @@ function dismiss() {
           </p>
         </div>
         <button
-          class="shrink-0 btn btn-outline text-sm py-2.5 px-6 rounded-lg"
+          class="shrink-0 text-sm font-semibold py-2.5 px-6 rounded-pill border border-brand-orange/30 text-[#e0e0e0] bg-transparent cursor-pointer transition-all duration-300 hover:bg-brand-orange/10 hover:border-brand-orange hover:text-brand-orange"
           @click="dismiss"
         >
           Got it
