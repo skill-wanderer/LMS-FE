@@ -15,36 +15,32 @@ function dismiss() {
   <Transition name="cookie-banner">
     <div
       v-if="!dismissed"
-      class="fixed bottom-4 left-4 right-4 md:bottom-6 md:left-1/2 md:-translate-x-1/2 md:max-w-md md:right-auto z-50"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-2xl"
       role="region"
       aria-label="Cookie notice"
     >
-      <div class="bg-surface-darker border border-brand-orange/20 rounded-card shadow-2xl p-5">
-        <div class="flex items-start gap-3 mb-4">
-          <span class="flex items-center justify-center w-9 h-9 rounded-full bg-brand-orange/15 shrink-0 mt-0.5">
-            <Icon name="mdi:cookie-outline" class="text-brand-orange text-lg" />
-          </span>
-          <div>
-            <h3 class="text-sm font-semibold text-[rgba(224,224,224,0.95)] mb-1">Essential cookies only</h3>
-            <p class="text-xs text-[rgba(224,224,224,0.6)] leading-relaxed">
-              We use cookies strictly for core functionality — no tracking or advertising.
-            </p>
-          </div>
+      <div class="bg-surface-darker border border-brand-orange/20 rounded-card shadow-2xl px-6 py-5 flex items-center gap-5 max-sm:flex-col max-sm:items-start max-sm:gap-4">
+        <span class="flex items-center justify-center w-10 h-10 rounded-full bg-brand-orange/15 shrink-0">
+          <Icon name="mdi:shield-check-outline" class="text-brand-orange text-xl" />
+        </span>
+        <div class="flex-1 min-w-0">
+          <h3 class="text-sm font-bold text-brand-orange uppercase tracking-wide mb-1">Essential cookies only</h3>
+          <p class="text-sm text-[rgba(224,224,224,0.6)] leading-relaxed">
+            Only the minimum cookies required for this site to function. No tracking, no advertising, no profiling.
+            <a
+              href="https://skill-wanderer.com/cookie-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-[rgba(224,224,224,0.85)] hover:text-white ml-1 underline"
+            >Cookie policy &rarr;</a>
+          </p>
         </div>
-        <div class="flex items-center justify-between gap-3">
-          <a
-            href="https://skill-wanderer.com/cookie-policy"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-xs text-brand-orange hover:underline"
-          >Learn more</a>
-          <button
-            class="btn btn-primary text-sm py-2 px-5 rounded-lg"
-            @click="dismiss"
-          >
-            Got it
-          </button>
-        </div>
+        <button
+          class="shrink-0 btn btn-outline text-sm py-2.5 px-6 rounded-lg"
+          @click="dismiss"
+        >
+          Got it
+        </button>
       </div>
     </div>
   </Transition>
