@@ -15,11 +15,11 @@ function dismiss() {
   <Transition name="cookie-banner">
     <div
       v-if="!dismissed"
-      class="fixed bottom-4 left-4 right-4 md:bottom-6 md:left-auto md:right-6 md:max-w-sm z-50"
+      class="fixed bottom-4 left-4 right-4 md:bottom-6 md:left-1/2 md:-translate-x-1/2 md:max-w-md md:right-auto z-50"
       role="region"
       aria-label="Cookie notice"
     >
-      <div class="bg-surface-card/95 backdrop-blur-md border border-brand-orange/20 rounded-card shadow-2xl p-5">
+      <div class="bg-surface-darker border border-brand-orange/20 rounded-card shadow-2xl p-5">
         <div class="flex items-start gap-3 mb-4">
           <span class="flex items-center justify-center w-9 h-9 rounded-full bg-brand-orange/15 shrink-0 mt-0.5">
             <Icon name="mdi:cookie-outline" class="text-brand-orange text-lg" />
