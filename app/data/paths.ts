@@ -26,9 +26,10 @@ const paths: PathData[] = [
     description: 'Master HTML, CSS, JavaScript, and modern frameworks to build responsive, accessible web applications from scratch.',
     difficulty: 'beginner',
     icon: 'mdi:web',
-    courseCount: 2,
+    courseCount: 3,
     courses: [
       { title: 'AI-First Learning for Tech Careers', slug: 'ai-first-learning-for-tech-careers' },
+      { title: 'Git Version Control: From Basics to Branching', slug: 'git-version-control-from-basics-to-branching' },
       { title: 'HTML Foundations: Building with Purpose', slug: 'html-fundamentals-from-structure-to-forms' },
     ],
   },
@@ -38,9 +39,10 @@ const paths: PathData[] = [
     description: 'Learn to build native and cross-platform mobile apps for iOS and Android using modern tools and frameworks.',
     difficulty: 'beginner',
     icon: 'mdi:cellphone',
-    courseCount: 1,
+    courseCount: 2,
     courses: [
       { title: 'AI-First Learning for Tech Careers', slug: 'ai-first-learning-for-tech-careers' },
+      { title: 'Git Version Control: From Basics to Branching', slug: 'git-version-control-from-basics-to-branching' },
     ],
   },
   {
