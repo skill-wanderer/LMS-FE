@@ -15,11 +15,13 @@ import type { Course } from '~/types/course'
  */
 import manualSoftwareTesting from './manual-software-testing-black-box-techniques'
 import aiFirstLearningForTechCareers from './ai-first-learning-for-tech-careers'
+import gitVersionControlFromBasicsToBranching from './git-version-control-from-basics-to-branching'
 import htmlFundamentalsFromStructureToForms from './html-fundamentals-from-structure-to-forms'
 
 const allCourses: Course[] = [
   manualSoftwareTesting,
   aiFirstLearningForTechCareers,
+  gitVersionControlFromBasicsToBranching,
   htmlFundamentalsFromStructureToForms,
 ]
 
