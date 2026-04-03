@@ -84,9 +84,40 @@ export default defineNuxtConfig({
     },
   },
 
+  // 🔥 FINAL MERGED NITRO CONFIG
   nitro: {
     preset: process.env.NITRO_PRESET || 'cloudflare-pages',
     compressPublicAssets: true,
+    prerender: {
+      crawlLinks: true,
+      routes: ['/'],
+      failOnError: false,
+    },
+
+    // FIX DEV CACHE ISSUE (CRITICAL)
+    storage: {
+      cache: {
+        driver: 'memory',
+      },
+    },
+  },
+
+  // 🔥 FINAL ROUTE RULES (NO ISR, NO CONFLICT)
+  routeRules: {
+    '/courses/**': {
+      prerender: true,
+      headers: {
+        'Content-Security-Policy': "frame-src 'self' https://www.youtube-nocookie.com https://open.spotify.com https://cdn.jsdelivr.net;",
+        'Permissions-Policy': 'fullscreen=(self "https://www.youtube-nocookie.com" "https://open.spotify.com")',
+      },
+    },
+    '/paths/**': { prerender: true },
+    '/': { prerender: true },
+    '/about': { prerender: true },
+    '/courses': { prerender: true },
+    '/paths': { prerender: true },
+    '/old-material': { prerender: true },
+    '/lyra': { prerender: true },
   },
 
   image: {

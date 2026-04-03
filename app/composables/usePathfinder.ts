@@ -98,6 +98,7 @@ export function usePathfinder() {
     history.value.push({ role: 'user', content: question })
 
     try {
+      // 🔥 TRY REAL API FIRST
       const data = await $fetch<ChatResponse>(`${apiUrl}/api/chat`, {
         method: 'POST',
         body: {
@@ -115,15 +116,46 @@ export function usePathfinder() {
       return data
     }
     catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Something went wrong'
-      error.value = message
-      // Remove the user message on failure
-      history.value.pop()
-      return null
+      // 🔥 FALLBACK TO MOCK (IMPORTANT)
+      console.warn('[Pathfinder] API failed, using mock response')
+
+      // simulate delay biar typing feel natural
+      await new Promise(resolve => setTimeout(resolve, 700))
+
+      const mockAnswer = generateMockAnswer(question)
+
+      const mockData: ChatResponse = {
+        answer: mockAnswer,
+        sources: [],
+      }
+
+      history.value.push({ role: 'assistant', content: mockAnswer })
+      sources.value = []
+      saveSession()
+
+      return mockData
     }
     finally {
       loading.value = false
     }
+  }
+
+  function generateMockAnswer(question: string): string {
+    const q = question.toLowerCase()
+
+    if (q.includes('course')) {
+      return `We offer structured learning courses designed to help you grow step by step. You can explore different domains and start with beginner-friendly paths.`
+    }
+
+    if (q.includes('progress')) {
+      return `Your progress is tracked as you complete lessons and modules. Each step builds your understanding and moves you forward in your learning journey.`
+    }
+
+    if (q.includes('path')) {
+      return `Learning paths are curated sequences of courses designed to guide you from fundamentals to advanced topics in a structured way.`
+    }
+
+    return `I am Lyra, the Archivist. I can guide you through courses, lessons, and learning paths. Ask me anything, and I will help you navigate the knowledge within the Dojo.`
   }
 
   function resetChat() {

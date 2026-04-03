@@ -178,14 +178,17 @@ onBeforeUnmount(() => stopReveal())
       <div ref="messagesEl" class="lyra-messages">
         <!-- Welcome -->
         <div v-if="history.length === 0" class="lyra-welcome">
-          <svg class="lyra-welcome-book" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF8C42" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            <path d="M6 8h2" />
-            <path d="M6 12h2" />
-            <path d="M16 8h2" />
-            <path d="M16 12h2" />
-          </svg>
+
+        <!-- ✅ AVATAR LYRA (FIX UTAMA) -->
+        <div class="flex justify-center mb-4">
+          <img 
+            src="/images/lyra.webp"
+            alt="Lyra"
+            class="object-cover border border-orange-500/30 shadow-lg shadow-orange-500/20"
+          />
+        </div>
+
+        <!-- existing content -->
           <p class="text-sm font-semibold mt-3 mb-1">
             Welcome to the Archives!
           </p>
@@ -215,10 +218,11 @@ onBeforeUnmount(() => stopReveal())
           >
             <!-- Assistant avatar -->
             <div v-if="msg.role === 'assistant'" class="lyra-avatar">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF8C42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-              </svg>
+              <img 
+                src="/images/lyra.webp"
+                alt="Lyra"
+                style="width: 32px; height: 32px; border-radius: 9999px; object-fit: cover;"
+              />
             </div>
             <!-- Last assistant message: show typewriter text while revealing -->
             <!-- eslint-disable-next-line vue/no-v-html -->
@@ -241,10 +245,11 @@ onBeforeUnmount(() => stopReveal())
         <!-- Typing indicator -->
         <div v-if="loading" class="lyra-msg lyra-msg-assistant">
           <div class="lyra-avatar">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF8C42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            </svg>
+            <img 
+              src="/images/lyra.webp"
+              alt="Lyra"
+              style="width: 32px; height: 32px; border-radius: 9999px; object-fit: cover;"
+            />
           </div>
           <div class="lyra-bubble lyra-typing">
             <span /><span /><span />
@@ -793,6 +798,10 @@ onBeforeUnmount(() => stopReveal())
 .lyra-send-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+.lyra-avatar img {
+  display: block;
 }
 
 /* ===== Animations ===== */

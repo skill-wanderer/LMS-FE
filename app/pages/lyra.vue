@@ -15,7 +15,24 @@ useSeo({
       :cta-primary="{ label: 'Browse Courses', to: '/courses' }"
       :cta-secondary="{ label: 'Explore Learning Paths', to: '/paths' }"
     />
+    <!-- Lyra Visual -->
+    <section class="section section-narrow pt-0">
+      <div class="relative flex justify-center">
+        
+        <!-- Glow effect -->
+        <div class="absolute inset-0 flex justify-center">
+          <div class="w-72 h-72 bg-brand-orange/20 blur-3xl rounded-full"></div>
+        </div>
 
+        <!-- Image -->
+        <img 
+          src="/images/lyra.webp" 
+          alt="Lyra the Archivist"
+          class="w-full max-w-2xl mx-auto"
+        />
+        
+      </div>
+    </section>
     <!-- What is Lyra -->
     <section class="section section-narrow">
       <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-6 text-center">What is Lyra?</h2>
