@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const currentYear = new Date().getFullYear()
-
 const footerLinks = {
   learn: [
     { label: 'All Courses', to: '/courses' },
@@ -79,8 +77,7 @@ const footerLinks = {
         </div>
       </div>
 
-      <div class="border-t border-white/5 pt-5 flex justify-between items-center text-sm text-[rgba(224,224,224,0.4)] max-md:flex-col max-md:gap-2 max-md:text-center">
-        <p>&copy; {{ currentYear }} Skill-Wanderer Dojo. Open-source under Apache License.</p>
+      <div class="border-t border-white/5 pt-5 flex justify-center items-center text-sm text-[rgba(224,224,224,0.4)]">
         <p class="flex items-center gap-1">
           Built with <Icon name="mdi:heart" class="text-brand-orange text-sm" /> and <Icon name="mdi:vuejs" class="text-semantic-success text-sm" /> Nuxt
         </p>
