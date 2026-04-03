@@ -2,8 +2,9 @@
 import lesson1 from './ai-first-vs-traditional-learning'
 import lesson2 from './ai-as-a-thinking-partner-not-a-tool'
 import lesson3 from './asking-better-questions'
-import lesson4 from './risks-hallucination-and-blind-trust'
-import lesson5 from './practice-your-first-ai-learning-assignment'
+import lesson4 from './benefits-tradeoffs-and-when-to-use-ai'
+import lesson5 from './module-1-summary-and-bridge-to-practice'
+import lesson6 from './practice-your-first-ai-learning-assignment'
 
 const module1: Module = {
   id: 'module-1',
@@ -16,7 +17,8 @@ const module1: Module = {
     lesson2,
     lesson3,
     lesson4,
-    lesson5
+    lesson5,
+    lesson6
   ],
 }
 
