@@ -95,13 +95,8 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/courses/**': {
-      prerender: true,
-      headers: {
-        'Content-Security-Policy': "frame-src 'self' https://www.youtube-nocookie.com https://open.spotify.com https://cdn.jsdelivr.net;",
-        'Permissions-Policy': 'fullscreen=(self "https://www.youtube-nocookie.com" "https://open.spotify.com")',
-      },
-    },
+    // Headers for /courses/* are in public/_headers (Cloudflare Pages native)
+    // Courses are SSR'd to avoid Cloudflare's 100-char route limit in _routes.json
     '/paths/**': { prerender: true },
     '/': { prerender: true },
     '/about': { prerender: true },
