@@ -186,6 +186,28 @@ function getOptionStatus(questionIndex: number, optionKey: string): 'correct' | 
   return null
 }
 
+function getQuestionFeedback(questionIndex: number): { kind: 'correct' | 'incorrect'; text: string } | null {
+  if (!isChecked.value) return null
+  const question = props.questions[questionIndex]
+  if (!question) return null
+
+  const selected = selectedAnswers.value[questionIndex]
+  if (selected === undefined) return null
+
+  if (selected === question.answer) {
+    if (!question.correctExplanation) return null
+    return {
+      kind: 'correct',
+      text: question.correctExplanation,
+    }
+  }
+
+  return {
+    kind: 'incorrect',
+    text: question.incorrectExplanation ?? 'Review the lesson summary and compare the correct answer with the role AI should actually play in that situation.',
+  }
+}
+
 const allAnswered = computed(() => {
   return props.questions.every((_, i) => selectedAnswers.value[i] !== undefined)
 })
@@ -289,6 +311,19 @@ const scorePercentage = computed(() => {
               <Icon name="mdi:check-circle-outline" />
             </span>
           </label>
+        </div>
+        <div
+          v-if="getQuestionFeedback(qi)"
+          class="quiz-feedback"
+          :class="getQuestionFeedback(qi)?.kind === 'correct' ? 'quiz-feedback--correct' : 'quiz-feedback--incorrect'"
+        >
+          <p class="quiz-feedback-title">
+            {{ getQuestionFeedback(qi)?.kind === 'correct' ? 'Why this is right' : 'Why this is wrong' }}
+          </p>
+          <p class="quiz-feedback-text">{{ getQuestionFeedback(qi)?.text }}</p>
+          <p v-if="getQuestionFeedback(qi)?.kind === 'incorrect'" class="quiz-feedback-answer">
+            Correct answer: <strong>{{ question.answer }}. {{ question.options[question.answer] }}</strong>
+          </p>
         </div>
       </li>
     </ol>
@@ -432,6 +467,32 @@ const scorePercentage = computed(() => {
 }
 .quiz-option--disabled {
   @apply cursor-default;
+}
+
+/* Question Feedback */
+.quiz-feedback {
+  @apply mt-3 rounded-lg border px-4 py-3;
+}
+.quiz-feedback--correct {
+  @apply border-[rgba(76,175,80,0.28)] bg-[rgba(76,175,80,0.08)];
+}
+.quiz-feedback--incorrect {
+  @apply border-[rgba(255,193,7,0.25)] bg-[rgba(255,193,7,0.08)];
+}
+.quiz-feedback-title {
+  @apply m-0 mb-1 text-[0.82rem] font-semibold uppercase tracking-wide;
+}
+.quiz-feedback--correct .quiz-feedback-title {
+  @apply text-[#4caf50];
+}
+.quiz-feedback--incorrect .quiz-feedback-title {
+  @apply text-[#ffc107];
+}
+.quiz-feedback-text {
+  @apply m-0 text-[0.92rem] leading-relaxed text-[#e0e0e0];
+}
+.quiz-feedback-answer {
+  @apply m-0 mt-2 text-[0.88rem] leading-relaxed text-[rgba(224,224,224,0.72)];
 }
 
 /* Option Key Circles */

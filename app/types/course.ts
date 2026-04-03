@@ -32,6 +32,8 @@ export interface QuizQuestion {
   question: string
   options: Record<string, string>
   answer: string
+  correctExplanation?: string
+  incorrectExplanation?: string
 }
 
 export interface Lesson {
