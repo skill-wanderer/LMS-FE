@@ -3,7 +3,7 @@ const lesson: Lesson = {
 	id: 'lesson-1-1',
 	slug: 'ai-first-vs-traditional-learning',
 	title: 'AI-First vs Traditional Learning',
-	type: 'article',
+	type: 'lesson',
 	status: 'published',
 	durationMinutes: 15,
 	order: 1,

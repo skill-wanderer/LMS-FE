@@ -36,12 +36,12 @@ export function buildLessonContent(moduleTitle: string, moduleSummary: string, l
 </div>`
 }
 
-export function createDraftLesson(moduleOrder: number, lessonOrder: number, moduleTitle: string, moduleSummary: string, lessonTitle: string): Lesson {
+export function createDraftLesson(moduleOrder: number, lessonOrder: number, moduleTitle: string, moduleSummary: string, lessonTitle: string, type: 'lesson' | 'assignment' = 'lesson'): Lesson {
   return {
     id: `lesson-${moduleOrder}-${lessonOrder}`,
     slug: slugify(lessonTitle),
     title: lessonTitle,
-    type: 'article',
+    type,
     status: 'draft',
     durationMinutes: 12,
     order: lessonOrder,
@@ -50,12 +50,12 @@ export function createDraftLesson(moduleOrder: number, lessonOrder: number, modu
   }
 }
 
-export function createPublishedLesson(id: string, title: string, order: number): Lesson {
+export function createPublishedLesson(id: string, title: string, order: number, type: 'lesson' | 'assignment' = 'lesson'): Lesson {
   return {
     id,
     slug: slugify(title),
     title,
-    type: 'article',
+    type,
     status: 'published',
     durationMinutes: 15,
     order,

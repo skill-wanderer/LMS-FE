@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-1-3',
   slug: 'economics-of-software-failure',
   title: 'The Economics of Software Failure: Why Testing is Your Best Strategic Insurance',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 20,
   order: 3,
   content: `<div class="format-selector">

@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-2-4',
   slug: 'waterfall-vs-agile-a-guide-for-black-box-testers',
   title: 'Waterfall vs. Agile: A Guide for Black Box Testers',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 20,
   order: 10,
   content: `<div class="format-selector">

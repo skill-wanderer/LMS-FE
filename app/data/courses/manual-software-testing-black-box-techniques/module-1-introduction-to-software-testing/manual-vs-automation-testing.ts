@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-1-4',
   slug: 'manual-vs-automation-testing',
   title: 'Manual vs. Automation Testing: Key Differences & Professional Strategy',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 15,
   order: 4,
   content: `<div class="format-selector">

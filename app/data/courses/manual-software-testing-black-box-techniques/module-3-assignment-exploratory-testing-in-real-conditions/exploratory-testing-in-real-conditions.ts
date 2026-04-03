@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-3-1',
   slug: 'exploratory-testing-in-real-conditions',
   title: 'Assignment: Exploratory Testing in Real Conditions',
-  type: 'article',
+  type: 'assignment',
   durationMinutes: 840,
   order: 12,
   hideCompletion: true,

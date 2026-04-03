@@ -10,6 +10,22 @@ const props = defineProps<{
 
 const { formatDuration } = useCourses()
 const isAvailable = computed(() => isPublishedLesson(props.lesson))
+
+const typeIcon = computed(() => {
+  switch (props.lesson.type) {
+    case 'video': return 'mdi:play-circle-outline'
+    case 'assignment': return 'mdi:clipboard-text-outline'
+    default: return 'mdi:file-document-outline'
+  }
+})
+
+const typeLabel = computed(() => {
+  switch (props.lesson.type) {
+    case 'video': return 'Video'
+    case 'assignment': return 'Assignment'
+    default: return 'Lesson'
+  }
+})
 </script>
 
 <template>
@@ -30,8 +46,8 @@ const isAvailable = computed(() => isPublishedLesson(props.lesson))
       <h4 class="text-base font-semibold mb-1">{{ lesson.title }}</h4>
       <div class="flex items-center gap-3 text-[0.8rem] text-[rgba(224,224,224,0.5)]">
         <span class="flex items-center gap-1">
-          <Icon :name="lesson.type === 'video' ? 'mdi:play-circle-outline' : 'mdi:file-document-outline'" size="14" />
-          {{ lesson.type === 'video' ? 'Video' : 'Article' }}
+          <Icon :name="typeIcon" size="14" />
+          {{ typeLabel }}
         </span>
         <span v-if="lesson.durationMinutes" class="flex items-center gap-1">
           <Icon name="mdi:clock-outline" size="14" />
@@ -59,8 +75,8 @@ const isAvailable = computed(() => isPublishedLesson(props.lesson))
       </div>
       <div class="flex items-center gap-3 text-[0.8rem] text-[rgba(224,224,224,0.5)]">
         <span class="flex items-center gap-1">
-          <Icon :name="lesson.type === 'video' ? 'mdi:play-circle-outline' : 'mdi:file-document-outline'" size="14" />
-          {{ lesson.type === 'video' ? 'Video' : 'Article' }}
+          <Icon :name="typeIcon" size="14" />
+          {{ typeLabel }}
         </span>
         <span v-if="lesson.durationMinutes" class="flex items-center gap-1">
           <Icon name="mdi:clock-outline" size="14" />

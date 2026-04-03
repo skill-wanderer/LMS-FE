@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-1-6',
   slug: 'module-1-summary-and-takeaway',
   title: 'Module 1 Summary & Takeaway + Optional Quiz',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 20,
   order: 6,
   content: `<div class="format-selector">

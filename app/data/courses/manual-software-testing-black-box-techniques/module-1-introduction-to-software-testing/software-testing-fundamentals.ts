@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-1-1',
   slug: 'software-testing-fundamentals',
   title: 'Software Testing Fundamentals: It\'s More Than Just Finding Bugs!',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 15,
   order: 1,
   content: `<div class="format-selector">

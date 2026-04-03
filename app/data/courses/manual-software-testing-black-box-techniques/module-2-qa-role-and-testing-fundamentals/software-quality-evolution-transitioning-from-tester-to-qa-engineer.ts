@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-2-2',
   slug: 'software-quality-evolution-transitioning-from-tester-to-qa-engineer',
   title: 'Software Quality Evolution: Transitioning from Tester to QA Engineer',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 20,
   order: 8,
   content: `<div class="format-selector">

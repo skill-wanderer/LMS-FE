@@ -237,8 +237,8 @@ async function toggleComplete() {
           <h1 class="text-[clamp(1.5rem,3vw,2.2rem)] font-extrabold mt-2 mb-3">{{ lesson.title }}</h1>
           <div class="flex gap-4 text-sm text-[rgba(224,224,224,0.5)] flex-wrap">
             <span class="flex items-center gap-1">
-              <Icon :name="lesson.type === 'video' ? 'mdi:play-circle-outline' : 'mdi:file-document-outline'" />
-              {{ lesson.type === 'video' ? 'Video' : 'Article' }}
+              <Icon :name="lesson.type === 'video' ? 'mdi:play-circle-outline' : lesson.type === 'assignment' ? 'mdi:clipboard-text-outline' : 'mdi:file-document-outline'" />
+              {{ lesson.type === 'video' ? 'Video' : lesson.type === 'assignment' ? 'Assignment' : 'Lesson' }}
             </span>
             <span v-if="lesson.updatedAt || course.updatedAt" class="flex items-center gap-1 text-[0.82rem] text-[rgba(224,224,224,0.35)]">
               <Icon name="mdi:update" />
