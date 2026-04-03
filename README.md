@@ -36,7 +36,7 @@ Traditional LMS platforms like Moodle are heavy, slow, and often locked behind i
 
 | Technology | Purpose |
 |------------|---------|
-| [Nuxt 4](https://nuxt.com) | Vue framework with SSR/ISR |
+| [Nuxt 4](https://nuxt.com) | Vue framework with SSR |
 | [Vue 3](https://vuejs.org) | Reactive UI framework |
 | [Tailwind CSS](https://tailwindcss.com) | Utility-first CSS |
 | [TypeScript](https://typescriptlang.org) | Type safety |
@@ -125,19 +125,12 @@ npm run build
 npm run preview
 ```
 
-### Static Generation
-
-```bash
-# Generate static site
-npm run generate
-```
-
 ## SEO Configuration
 
 This project is built for public, crawlable access:
 
 - **SSR enabled** — All pages are server-rendered for search engines
-- **ISR for courses** — Course pages regenerate every 60 minutes
+- **SSR-only routing** — No prerendered route rules or ISR-style page generation
 - **Auto-generated sitemap** at `/sitemap.xml`
 - **robots.txt** allows all crawlers
 - **Open Graph + Twitter cards** on every page

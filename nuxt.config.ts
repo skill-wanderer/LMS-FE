@@ -87,23 +87,6 @@ export default defineNuxtConfig({
   nitro: {
     preset: process.env.NITRO_PRESET || 'cloudflare-pages',
     compressPublicAssets: true,
-    prerender: {
-      crawlLinks: true,
-      routes: ['/'],
-      failOnError: false,
-    },
-  },
-
-  routeRules: {
-    // Headers for /courses/* are in public/_headers (Cloudflare Pages native)
-    // Courses are SSR'd to avoid Cloudflare's 100-char route limit in _routes.json
-    '/paths/**': { prerender: true },
-    '/': { prerender: true },
-    '/about': { prerender: true },
-    '/courses': { prerender: true },
-    '/paths': { prerender: true },
-    '/old-material': { prerender: true },
-    '/lyra': { prerender: true },
   },
 
   image: {
