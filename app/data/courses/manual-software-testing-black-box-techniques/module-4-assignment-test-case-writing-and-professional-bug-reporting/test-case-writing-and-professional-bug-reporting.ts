@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-4-1',
   slug: 'test-case-writing-and-professional-bug-reporting',
   title: 'Assignment: Test Case Writing & Professional Bug Reporting',
-  type: 'article',
+  type: 'assignment',
   durationMinutes: 600,
   order: 13,
   hideCompletion: true,

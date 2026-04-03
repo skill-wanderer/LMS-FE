@@ -4,7 +4,7 @@ const lesson: Lesson = {
 	id: 'lesson-1-2',
 	slug: 'ai-as-a-thinking-partner-not-a-tool',
 	title: 'AI as a Thinking Partner (Not a Tool)',
-	type: 'article',
+	type: 'lesson',
 	status: 'published',
 	durationMinutes: 18,
 	order: 2,

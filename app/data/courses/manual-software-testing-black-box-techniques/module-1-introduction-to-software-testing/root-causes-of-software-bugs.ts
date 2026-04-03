@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-1-2',
   slug: 'root-causes-of-software-bugs',
   title: 'The Inevitability of Error: Understanding the Root Causes of Software Bugs',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 18,
   order: 2,
   content: `<div class="format-selector">

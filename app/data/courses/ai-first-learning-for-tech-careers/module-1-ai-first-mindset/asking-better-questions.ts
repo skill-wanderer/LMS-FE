@@ -4,7 +4,7 @@ const lesson: Lesson = {
 	id: 'lesson-1-3',
 	slug: 'asking-better-questions',
 	title: 'Asking Better Questions',
-	type: 'article',
+	type: 'lesson',
 	status: 'published',
 	durationMinutes: 17,
 	order: 3,

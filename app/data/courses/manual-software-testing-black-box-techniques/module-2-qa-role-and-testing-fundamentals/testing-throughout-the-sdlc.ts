@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-2-3',
   slug: 'testing-throughout-the-sdlc',
   title: 'Testing Throughout the SDLC',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 20,
   order: 9,
   content: `<div class="format-selector">

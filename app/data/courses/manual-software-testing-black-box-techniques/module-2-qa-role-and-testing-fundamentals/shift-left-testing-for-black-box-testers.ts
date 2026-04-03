@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-2-5',
   slug: 'shift-left-testing-for-black-box-testers',
   title: 'Shift-Left Testing for Black Box Testers',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 20,
   order: 11,
   content: `<div class="format-selector">

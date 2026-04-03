@@ -38,7 +38,7 @@ export interface Lesson {
   id: string
   slug: string
   title: string
-  type: 'video' | 'article'
+  type: 'video' | 'lesson' | 'assignment'
   status?: PublishStatus
   content?: string
   videoUrl?: string

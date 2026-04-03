@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-2-1',
   slug: 'the-quality-mindset-fundamentals-of-software-assurance',
   title: 'The Quality Mindset: Fundamentals of Software Assurance',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 20,
   order: 7,
   content: `<div class="format-selector">
