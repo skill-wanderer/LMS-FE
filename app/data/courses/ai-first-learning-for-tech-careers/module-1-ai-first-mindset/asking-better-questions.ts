@@ -11,10 +11,48 @@ const lesson: Lesson = {
 	hideCompletion: false,
 	createdAt: '2026-04-03',
 	updatedAt: '2026-04-03',
-	content: `<div class="ai-first-lesson">
-<div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
-	<p><strong>Review release.</strong> This lesson is published so the content can be checked in the app before any final media or follow-up edits are added.</p>
+	content: `<div class="format-selector">
+<div class="format-notice">
+	<span class="format-notice-icon">💡</span>
+	<div>
+		<strong>Choose Your Learning Material</strong>
+		<p>This lesson is available in <strong>multiple formats</strong>. The content is the same - choose the one that fits your learning style and current environment. You do <u>not</u> need to complete all formats.</p>
+	</div>
 </div>
+
+<div class="format-tabs">
+	<button class="format-tab active" data-format="reading" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=reading]').style.display='block';">📖 Reading</button>
+	<button class="format-tab" data-format="video" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=video]').style.display='block';">🎬 Video</button>
+	<button class="format-tab" data-format="audio" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=audio]').style.display='block';">🎧 Audio</button>
+	<button class="format-tab" data-format="slides" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=slides]').style.display='block';">📊 Slides</button>
+</div>
+</div>
+
+<div class="format-content" data-content="video" style="display:none;">
+<h2>🎬 Video Version</h2>
+<div class="video-embed">
+	<iframe src="https://www.youtube-nocookie.com/embed/5LRzyQ3srgs?si=-9LLY_1RbZd6OiJz" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+</div>
+
+<div class="format-content" data-content="audio" style="display:none;">
+<h2>🎧 Audio Version</h2>
+<div class="audio-embed">
+	<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/episode/3POjEeXuQ6xJhlXtsN2ULm?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
+</div>
+
+<div class="format-content" data-content="slides" style="display:none;">
+<h2>📊 Slide Version</h2>
+<div class="slides-embed">
+	<iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/ai-first-learning-for-tech-careers@main/asking-better-questions/Engineering_AI_Clarity.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
+</div>
+</div>
+
+<div class="format-content" data-content="reading" style="display:block;">
+<div class="ai-first-lesson">
+
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/ai-first-learning-for-tech-careers@main/asking-better-questions/infographic.png" alt="Asking Better Questions Infographic" style="max-width:100%;height:auto;border-radius:8px;margin-bottom:2rem;" loading="lazy" />
 
 <h2>Asking Better Questions</h2>
 <p>Most people think AI is inaccurate. Very often the real problem is simpler: they ask incomplete questions and get confident guesses back.</p>
@@ -143,6 +181,7 @@ const lesson: Lesson = {
 	<li>The real loop is: ask better, get an answer, question deeper, then extract the learning.</li>
 </ul>
 
+</div>
 </div>`,
 }
 
