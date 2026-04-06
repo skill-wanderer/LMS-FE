@@ -14,6 +14,8 @@ if (import.meta.client) {
 }
 
 const route = useRoute()
+const currentReturnTo = computed(() => route.fullPath)
+
 watch(() => route.path, () => {
   isMobileOpen.value = false
   isMobileEcosystemOpen.value = false
@@ -133,11 +135,11 @@ const ecosystemLinks = [
         <template v-if="isAuthEnabled">
           <!-- Logged-out state -->
           <template v-if="!isAuthenticated">
-            <a :href="loginUrl()" class="btn btn-outline btn-sm">
+            <a :href="loginUrl(currentReturnTo)" class="btn btn-outline btn-sm">
               <Icon name="mdi:login" size="18" />
               Login
             </a>
-            <a :href="registerUrl()" class="btn btn-primary btn-sm">
+            <a :href="registerUrl(currentReturnTo)" class="btn btn-primary btn-sm">
               <Icon name="mdi:account-plus" size="18" />
               Register
             </a>
@@ -259,10 +261,10 @@ const ecosystemLinks = [
         <!-- Mobile Auth buttons -->
         <template v-if="isAuthEnabled">
           <template v-if="!isAuthenticated">
-            <a :href="loginUrl()" class="mobile-link">
+            <a :href="loginUrl(currentReturnTo)" class="mobile-link">
               <Icon name="mdi:login" class="mr-2" /> Login
             </a>
-            <a :href="registerUrl()" class="mobile-link">
+            <a :href="registerUrl(currentReturnTo)" class="mobile-link">
               <Icon name="mdi:account-plus" class="mr-2" /> Register
             </a>
           </template>
