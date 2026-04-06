@@ -12,6 +12,7 @@ const route = useRoute()
     <TheFooter />
     <ClientOnly>
       <PathfinderChat />
+      <CookieBanner />
     </ClientOnly>
   </div>
 </template>

@@ -4,7 +4,7 @@ const lesson: Lesson = {
   id: 'lesson-1-5',
   slug: 'three-fundamental-testing-concepts',
   title: 'Software Testing 101: The Three Fundamental Concepts You Need to Know',
-  type: 'article',
+  type: 'lesson',
   durationMinutes: 15,
   order: 5,
   content: `<div class="format-selector">

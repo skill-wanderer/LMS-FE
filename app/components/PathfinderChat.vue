@@ -151,6 +151,7 @@ onBeforeUnmount(() => stopReveal())
           <button
             class="lyra-header-btn"
             title="Clear the reading desk"
+            aria-label="Clear the reading desk"
             @click="handleReset"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -159,10 +160,12 @@ onBeforeUnmount(() => stopReveal())
             </svg>
           </button>
           <button
-            class="lyra-header-btn"
-            title="Close"
+            class="lyra-header-btn lyra-close-btn"
+            title="Close chat"
+            aria-label="Close chat"
             @click="toggle"
           >
+            <span class="lyra-close-label">Close</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
@@ -188,6 +191,9 @@ onBeforeUnmount(() => stopReveal())
           </p>
           <p class="text-xs opacity-60 leading-relaxed mb-3">
             Browse the shelves of the Dojo's knowledge. Ask Lyra anything about courses, lessons, and learning paths.
+          </p>
+          <p class="text-[0.65rem] opacity-40 leading-relaxed mb-3">
+            We may store and analyze anonymized conversations to improve the system. You can request deletion at any time. Please avoid sharing personal or sensitive information.
           </p>
           <div class="lyra-suggestions">
             <button
@@ -446,6 +452,19 @@ onBeforeUnmount(() => stopReveal())
 .lyra-header-btn:hover {
   color: #FFD93D;
   background: rgba(255, 217, 61, 0.08);
+}
+
+.lyra-close-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.lyra-close-label {
+  display: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 /* ===== Messages ===== */
@@ -835,6 +854,28 @@ onBeforeUnmount(() => stopReveal())
     border-radius: 0;
     max-width: 100vw;
     max-height: 100vh;
+  }
+
+  .lyra-header {
+    padding: 0.875rem 1rem;
+  }
+
+  .lyra-header-btn {
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+    padding: 0.5rem;
+  }
+
+  .lyra-close-btn {
+    padding-inline: 0.75rem;
+    border-radius: 999px;
+    color: #FFD93D;
+    background: rgba(255, 217, 61, 0.08);
+    border: 1px solid rgba(255, 217, 61, 0.16);
+  }
+
+  .lyra-close-label {
+    display: inline;
   }
 
   .lyra-fab {

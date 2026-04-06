@@ -4,7 +4,7 @@ const lesson: Lesson = {
 	id: 'lesson-1-2',
 	slug: 'ai-as-a-thinking-partner-not-a-tool',
 	title: 'AI as a Thinking Partner (Not a Tool)',
-	type: 'article',
+	type: 'lesson',
 	status: 'published',
 	durationMinutes: 18,
 	order: 2,
@@ -13,15 +13,45 @@ const lesson: Lesson = {
 	updatedAt: '2026-03-18',
 	content: `<div class="format-selector">
 <div class="format-notice">
-	<span class="format-notice-icon">📝</span>
+		<span class="format-notice-icon">💡</span>
 	<div>
-		<strong>Reading Version Available</strong>
-		<p>This lesson is currently available as <strong>text only</strong>. Additional material formats can be added later without changing the core lesson flow.</p>
+			<strong>Choose Your Learning Material</strong>
+			<p>This lesson is available in <strong>multiple formats</strong>. The content is the same - choose the one that fits your learning style and current environment. You do <u>not</u> need to complete all formats.</p>
 	</div>
 </div>
+
+	<div class="format-tabs">
+		<button class="format-tab active" data-format="reading" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=reading]').style.display='block';">📖 Reading</button>
+		<button class="format-tab" data-format="video" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=video]').style.display='block';">🎬 Video</button>
+		<button class="format-tab" data-format="audio" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=audio]').style.display='block';">🎧 Audio</button>
+		<button class="format-tab" data-format="slides" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=slides]').style.display='block';">📊 Slides</button>
+	</div>
 </div>
 
+	<div class="format-content" data-content="video" style="display:none;">
+	<h2>🎬 Video Version</h2>
+	<div class="video-embed">
+		<iframe src="https://www.youtube-nocookie.com/embed/S2ecF7ujbWo?si=-OuEZ2GPA_M468tO" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+	</div>
+	</div>
+
+	<div class="format-content" data-content="audio" style="display:none;">
+	<h2>🎧 Audio Version</h2>
+	<div class="audio-embed">
+		<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/1fHTfc5pvgC70OoXxf8p9U?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+	</div>
+	</div>
+
+	<div class="format-content" data-content="slides" style="display:none;">
+	<h2>📊 Slide Version</h2>
+	<div class="slides-embed">
+		<iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/ai-first-learning-for-tech-careers@main/ai-as-a-thinking-partner-not-a-tool/The_AI_Accountability_Blueprint.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
+	</div>
+	</div>
+
 <div class="format-content" data-content="reading" style="display:block;">
+
+	<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/ai-first-learning-for-tech-careers@main/ai-as-a-thinking-partner-not-a-tool/infographic.png" alt="AI as a Thinking Partner (Not a Tool) Infographic" style="max-width:100%;height:auto;border-radius:8px;margin-bottom:2rem;" />
 
 <h2>AI as a Thinking Partner (Not a Tool)</h2>
 <p>In the AI era, one of the most valuable skills is understanding how something works and what underlying mechanism makes it work. You do not need perfect mastery of every detail, but you do need enough understanding to explain what happened, why it happened, and whether it met the requirement.</p>

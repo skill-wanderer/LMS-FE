@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
     '@nuxt/icon',
     '@nuxt/image',
-    '@nuxt/scripts',
     '@vueuse/nuxt',
     'nuxt-schema-org',
   ],
@@ -86,19 +85,11 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    preset: process.env.NITRO_PRESET || 'cloudflare-pages',
     compressPublicAssets: true,
   },
 
-  // Security headers for iframe embedding
-  routeRules: {
-    '/courses/**': {
-      isr: 3600,
-      headers: {
-        'Content-Security-Policy': "frame-src 'self' https://www.youtube-nocookie.com https://open.spotify.com https://cdn.jsdelivr.net;",
-        'Permissions-Policy': 'fullscreen=(self "https://www.youtube-nocookie.com" "https://open.spotify.com")',
-      },
-    },
-    '/': { prerender: true },
-    '/about': { prerender: true },
+  image: {
+    provider: 'none',
   },
 })

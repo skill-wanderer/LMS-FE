@@ -32,13 +32,15 @@ export interface QuizQuestion {
   question: string
   options: Record<string, string>
   answer: string
+  correctExplanation?: string
+  incorrectExplanation?: string
 }
 
 export interface Lesson {
   id: string
   slug: string
   title: string
-  type: 'video' | 'article'
+  type: 'video' | 'lesson' | 'assignment'
   status?: PublishStatus
   content?: string
   videoUrl?: string

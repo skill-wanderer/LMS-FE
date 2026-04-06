@@ -10,14 +10,14 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "preview:cf": "wrangler pages dev dist",
+    "deploy:cf": "wrangler pages deploy dist",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@nuxt/icon": "^2.2.1",
     "@nuxt/image": "^2.0.0",
-    "@nuxt/scripts": "^0.13.2",
     "@nuxtjs/robots": "^5.7.1",
     "@nuxtjs/sitemap": "^7.6.0",
     "@nuxtjs/tailwindcss": "^6.14.0",
