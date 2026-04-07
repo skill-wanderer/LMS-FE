@@ -132,7 +132,14 @@ function resetQuiz() {
 const returnToWithTab = computed(() => {
   const base = props.returnTo || ''
   if (!base) return ''
-  return base.includes('?') ? `${base}&tab=quiz` : `${base}?tab=quiz`
+  try {
+    const url = new URL(base, 'https://skill-wanderer.com')
+    url.searchParams.set('tab', 'quiz')
+    return `${url.pathname}${url.search}${url.hash}`
+  }
+  catch {
+    return base.includes('?') ? `${base}&tab=quiz` : `${base}?tab=quiz`
+  }
 })
 
 async function submitScore() {
