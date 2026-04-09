@@ -6,22 +6,23 @@ const courseSlug = route.params.slug as string
 const lessonSlug = route.params.lessonSlug as string
 
 const { getCourseBySlug } = useCourses()
-const course = getCourseBySlug(courseSlug)
+const course = getCourseBySlug(courseSlug)!
+const STORAGE_KEY = `course_progress_${courseSlug}`
 
 if (!course) {
   throw createError({ statusCode: 404, statusMessage: 'Course not found' })
 }
 
 const allLessons = getAllLessons(course)
-const lesson = allLessons.find(l => l.slug === lessonSlug)
+const lesson = allLessons.find(l => l.slug === lessonSlug)!
 
 if (!lesson) {
   throw createError({ statusCode: 404, statusMessage: 'Lesson not found' })
 }
 
-if (!isPublishedLesson(lesson)) {
-  throw createError({ statusCode: 404, statusMessage: 'Lesson not published yet' })
-}
+// if (!isPublishedLesson(lesson)) {
+//   throw createError({ statusCode: 404, statusMessage: 'Lesson not published yet' })
+// }
 
 // Extract first YouTube video URL from lesson content for VideoObject schema
 const videoUrlMatch = lesson.content?.match(/youtube(?:-nocookie)?\.com\/embed\/([a-zA-Z0-9_-]{11})/)
@@ -41,12 +42,23 @@ useLessonSeo({
 const sidebarOpen = ref(import.meta.client ? window.innerWidth > 768 : true)
 
 const currentIndex = allLessons.findIndex(l => l.slug === lessonSlug)
-const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null
-const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null
+const prevLesson = computed(() => {
+  const index = allLessons.findIndex(l => l.slug === lessonSlug)
+  return index > 0 ? allLessons[index - 1] : null
+})
+const nextLesson = computed(() => {
+  const index = allLessons.findIndex(l => l.slug === lessonSlug)
+  return index < allLessons.length - 1
+    ? allLessons[index + 1]
+    : null
+})
+
+const nextLessonData = computed(() => nextLesson.value)
 
 const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
 const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
+
 
 // Process YouTube iframes: use privacy-enhanced nocookie domain and add lazy loading
 const processedContent = computed(() => {
@@ -71,11 +83,31 @@ const activeTab = computed<'summary' | 'quiz'>({
   },
 })
 
+const completedCount = computed(() => {
+  return allLessons.filter(l => l.completed).length
+})
+
+const progressPercent = computed(() => {
+  return (completedCount.value / allLessons.length) * 100
+})
+
 const isCompleted = ref(lesson.completed ?? false)
 const isLoading = ref(false)
 const showLoginModal = ref(false)
 const errorToast = ref('')
+const unlockToast = ref('')
 let errorTimer: ReturnType<typeof setTimeout> | null = null
+
+function isLessonUnlocked(index: number) {
+  if (index === 0) return true
+  return allLessons[index - 1]?.completed === true
+}
+
+function getGlobalIndex(mi: number, li: number) {
+  return course.modules
+    .slice(0, mi)
+    .reduce((sum, m) => sum + m.lessons.length, 0) + li
+}
 
 function showError(msg: string) {
   errorToast.value = msg
@@ -97,7 +129,16 @@ function buildAuthHeaders(): Record<string, string> {
 
 // Fetch completion status on mount if user is authenticated
 onMounted(async () => {
+  const saved = localStorage.getItem(STORAGE_KEY)
+  if (saved) {
+    const parsed = JSON.parse(saved)
+    allLessons.forEach(l => {
+      l.completed = parsed[l.slug] || false
+    })
+  }
+
   if (!apiBaseUrl || !isAuthenticated.value) return
+
   try {
     const data = await $fetch<{ completed: boolean }>(buildCompletionUrl(), {
       headers: buildAuthHeaders(),
@@ -107,39 +148,109 @@ onMounted(async () => {
   catch {
     showError('Failed to load completion status. Please try again later.')
   }
+
+  // 🔥 TAMBAHKAN DI SINI (PALING BAWAH)
+  nextTick(() => {
+    const el = document.querySelector('[data-active="true"]')
+    if (el instanceof HTMLElement) {
+      el.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+    }
+  })
 })
 
 async function toggleComplete() {
-  // If auth is enabled but user is not logged in, show login modal
-  if (isAuthEnabled.value && !isAuthenticated.value) {
+  const newState = !isCompleted.value
+  const useLocalMode = !isAuthenticated.value
+
+  if (isCompleted.value === newState) return
+
+  isLoading.value = true
+
+  if (!useLocalMode && isAuthEnabled.value && !isAuthenticated.value) {
     showLoginModal.value = true
+    isLoading.value = false
     return
   }
 
-  const newState = !isCompleted.value
-  isLoading.value = true
-
   try {
-    if (newState) {
-      await $fetch(buildCompletionUrl(), { method: 'POST', headers: buildAuthHeaders() })
+    if (!useLocalMode) {
+      if (newState) {
+        await $fetch(buildCompletionUrl(), {
+          method: 'POST',
+          headers: buildAuthHeaders(),
+        })
+      } else {
+        await $fetch(buildCompletionUrl(), {
+          method: 'DELETE',
+          headers: buildAuthHeaders(),
+        })
+      }
     }
-    else {
-      await $fetch(buildCompletionUrl(), { method: 'DELETE', headers: buildAuthHeaders() })
-    }
+
+    // ✅ UPDATE STATE DULU
     isCompleted.value = newState
-  }
-  catch {
+    const target = allLessons.find(l => l.slug === lessonSlug)
+    if (target) target.completed = newState
+
+    // ✅ UPDATE STORAGE SETELAH STATE
+    const progressMap: Record<string, boolean> = {}
+    allLessons.forEach(l => {
+      progressMap[l.slug] = !!l.completed
+    })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(progressMap))
+
+    // ✅ UNLOCK TOAST (pakai computed)
+    if (newState && nextLesson.value) {
+      unlockToast.value = `New lesson unlocked: ${nextLesson.value.title}`
+
+      setTimeout(() => {
+        unlockToast.value = ''
+      }, 3000)
+    }
+
+    // ✅ FORCE REACTIVITY SYNC
+    await nextTick()
+
+  } catch {
     showError('Something went wrong. Please try again later.')
   }
   finally {
     isLoading.value = false
   }
 }
+
+async function handleNextClick() {
+  if (isLoading.value) return
+
+  if (!isCompleted.value) {
+    await toggleComplete()
+  }
+
+  if (!nextLesson.value) return
+
+  await router.push(`/courses/${course.slug}/lessons/${nextLesson.value.slug}`)
+}
+
+watch(() => route.params.lessonSlug, () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+})
+
 </script>
 
 <template>
   <div v-if="course && lesson">
     <!-- Error Toast -->
+     <Transition name="toast">
+        <div
+          v-if="unlockToast"
+          class="fixed bottom-5 right-5 z-[9999] pointer-events-none bg-brand-orange ..."
+        >
+          🔓 {{ unlockToast }}
+        </div>
+      </Transition>
     <Transition name="toast">
       <div v-if="errorToast" class="fixed top-5 right-5 z-[9999] flex items-center gap-2 py-3 px-4 bg-red-600/95 text-white rounded-[10px] text-sm font-medium shadow-[0_4px_20px_rgba(220,38,38,0.4)] max-w-[380px]" role="alert">
         <Icon name="mdi:alert-circle-outline" />
@@ -194,35 +305,69 @@ async function toggleComplete() {
           <h3 class="text-base font-bold mb-3 text-[#e0e0e0] max-md:hidden">{{ course.title }}</h3>
           <div class="mb-4">
             <div class="progress-bar">
-              <div class="progress-bar-fill" :style="{ width: '0%' }" />
+              <div class="progress-bar-fill" :style="{ width: progressPercent + '%' }" />
             </div>
           </div>
           <nav class="flex flex-col gap-0.5">
             <template v-for="(mod, mi) in course.modules" :key="mod.id">
-              <div class="text-xs font-bold uppercase tracking-wide text-[rgba(224,224,224,0.4)] py-3 px-3 pb-1 mt-2 first:mt-0">{{ mod.title }}</div>
+
+              <!-- MODULE TITLE -->
+              <div class="text-xs font-bold uppercase tracking-wide text-[rgba(224,224,224,0.4)] py-3 px-3 pb-1 mt-2 first:mt-0">
+                {{ mod.title }}
+              </div>
+
+              <!-- LESSONS -->
               <template v-for="(l, li) in mod.lessons" :key="l.id">
-                <NuxtLink
-                  v-if="isPublishedLesson(l)"
-                  :to="`/courses/${course.slug}/lessons/${l.slug}`"
-                  :class="[
-                    'flex items-center gap-2.5 py-2.5 px-3 rounded-lg no-underline text-[0.85rem] transition-all duration-200',
-                    l.slug === lessonSlug
-                      ? 'bg-brand-orange/10 text-brand-orange font-semibold'
-                      : 'text-[rgba(224,224,224,0.6)] hover:bg-white/5 hover:text-[#e0e0e0]'
-                  ]"
-                >
-                  <span :class="['shrink-0 text-xs w-6', l.slug === lessonSlug ? 'text-brand-orange' : 'text-[rgba(224,224,224,0.3)]']">{{ String(course.modules.slice(0, mi).reduce((sum, m) => sum + m.lessons.length, 0) + li + 1).padStart(2, '0') }}</span>
-                  <span>{{ l.title }}</span>
-                </NuxtLink>
+
+                <!-- ONLY ONE ENTRY POINT -->
+                <template v-if="isPublishedLesson(l)">
+
+                  <!-- UNLOCKED -->
+                  <NuxtLink
+                    v-if="isLessonUnlocked(getGlobalIndex(mi, li))"
+                    :data-active="l.slug === lesson.slug"
+                    :to="`/courses/${course.slug}/lessons/${l.slug}`"
+                    :class="[
+                      'flex items-center gap-2.5 py-2.5 px-3 rounded-lg transition-all',
+                      l.slug === lesson.slug
+                        ? 'bg-brand-orange/10 text-brand-orange font-semibold'
+                        : 'text-[#e0e0e0] hover:bg-white/5'
+                    ]"
+                  >
+                    <span class="w-6 text-xs">
+                      {{ String(getGlobalIndex(mi, li) + 1).padStart(2, '0') }}
+                    </span>
+                    <span>{{ l.title }}</span>
+                  </NuxtLink>
+
+                  <!-- LOCKED -->
+                  <div
+                    v-else
+                    class="flex items-center gap-2.5 py-2.5 px-3 rounded-lg opacity-50 cursor-not-allowed"
+                  >
+                    <span class="w-6 text-xs">
+                      {{ String(getGlobalIndex(mi, li) + 1).padStart(2, '0') }}
+                    </span>
+                    <span>{{ l.title }}</span>
+                    <Icon name="mdi:lock" class="ml-auto text-xs" />
+                  </div>
+
+                </template>
+
+                <!-- NOT PUBLISHED -->
                 <div
                   v-else
                   class="flex items-center gap-2.5 py-2.5 px-3 rounded-lg text-[0.85rem] text-[rgba(224,224,224,0.45)]"
                 >
-                  <span class="shrink-0 text-xs w-6 text-[rgba(224,224,224,0.3)]">{{ String(course.modules.slice(0, mi).reduce((sum, m) => sum + m.lessons.length, 0) + li + 1).padStart(2, '0') }}</span>
+                  <span class="w-6 text-xs">
+                    {{ String(getGlobalIndex(mi, li) + 1).padStart(2, '0') }}
+                  </span>
                   <span>{{ l.title }}</span>
-                  <span class="ml-auto text-[0.68rem] uppercase tracking-wider text-brand-orange/75">Planned</span>
+                  <span class="ml-auto text-[0.68rem] uppercase">Planned</span>
                 </div>
+
               </template>
+
             </template>
           </nav>
         </div>
@@ -345,18 +490,28 @@ async function toggleComplete() {
             </div>
           </NuxtLink>
           <div v-else />
-
-          <NuxtLink
-            v-if="nextLesson"
-            :to="`/courses/${course.slug}/lessons/${nextLesson.slug}`"
-            class="flex items-center gap-3 py-4 px-5 no-underline text-[#e0e0e0] text-right justify-end glass-card max-sm:py-3 max-sm:px-3.5 max-sm:gap-2"
+          <button
+            v-if="nextLessonData && currentIndex < allLessons.length - 1"
+            :disabled="isLoading || !isLessonUnlocked(currentIndex + 1)"
+            :class="[
+              'relative z-[9999] flex items-center gap-3 py-4 px-5 text-[#e0e0e0] text-right justify-end glass-card transition-all',
+              isLoading || !isLessonUnlocked(currentIndex + 1)
+                ? 'opacity-50 cursor-not-allowed'
+                : 'hover:scale-[1.02] active:scale-[0.98]'
+            ]"
+            @click="handleNextClick"
           >
             <div>
               <span class="block text-xs text-[rgba(224,224,224,0.4)] uppercase tracking-wide">Next</span>
-              <span class="block font-semibold text-[0.95rem] max-sm:text-[0.85rem]">{{ nextLesson.title }}</span>
+              <span class="block font-semibold text-[0.95rem]">
+                {{ nextLessonData.title }}
+              </span>
             </div>
-            <Icon name="mdi:arrow-right" />
-          </NuxtLink>
+            <Icon
+              :name="isLoading ? 'mdi:loading' : 'mdi:arrow-right'"
+              :class="{ 'animate-spin': isLoading }"
+            />
+          </button>
           <div v-else />
         </nav>
       </main>

@@ -1,3 +1,4 @@
+// app/composables/useCourses.ts
 import type { Course } from '~/types/course'
 import { getAllLessons, isPublishedCourse } from '~/types/course'
 import allCourses from '~/data/courses'
