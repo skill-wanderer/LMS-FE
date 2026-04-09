@@ -47,6 +47,7 @@ const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentInde
 const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
 const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
+const submissionPath = computed(() => `courses/${courseSlug}/lessons/${lessonSlug}/submissions`)
 
 // Process YouTube iframes: use privacy-enhanced nocookie domain and add lazy loading
 const processedContent = computed(() => {
@@ -285,7 +286,7 @@ async function toggleComplete() {
               :questions="lesson.quiz.questions"
               :title="lesson.quiz.title"
               :pass-percentage="lesson.quiz.passPercentage"
-              :return-to="route.fullPath"
+              :return-to="route.path"
               :course-slug="courseSlug"
               :lesson-slug="lessonSlug"
             />
@@ -301,7 +302,7 @@ async function toggleComplete() {
           :questions="lesson.quiz.questions"
           :title="lesson.quiz.title"
           :pass-percentage="lesson.quiz.passPercentage"
-          :return-to="route.fullPath"
+          :return-to="route.path"
           :course-slug="courseSlug"
           :lesson-slug="lessonSlug"
           class="mb-8"
@@ -328,8 +329,21 @@ async function toggleComplete() {
           </button>
         </div>
 
+        <!-- Assignment Submission -->
+        <LessonSubmissionPanel
+          v-if="lesson.type === 'assignment'"
+          :submission-path="submissionPath"
+          :api-base-url="apiBaseUrl"
+          :is-auth-enabled="isAuthEnabled"
+          :is-authenticated="isAuthenticated"
+          :access-token="accessToken ?? ''"
+          :max-files="10"
+          :max-file-size-mb="10"
+          @open-login="showLoginModal = true"
+        />
+
         <!-- Login Required Modal -->
-        <LoginRequiredModal :visible="showLoginModal" :return-to="route.fullPath" @close="showLoginModal = false" />
+        <LoginRequiredModal :visible="showLoginModal" :return-to="route.path" @close="showLoginModal = false" />
 
         <!-- Prev / Next Navigation -->
         <nav class="grid grid-cols-2 gap-4 max-md:grid-cols-1">
