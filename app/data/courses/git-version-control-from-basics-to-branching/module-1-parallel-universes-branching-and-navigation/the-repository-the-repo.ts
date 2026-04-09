@@ -31,7 +31,7 @@ const lesson: Lesson = {
 <div class="format-content" data-content="video" style="display:none;">
 <h2>🎬 Video Version</h2>
 <div class="video-embed">
-  <iframe src="https://www.youtube-nocookie.com/embed/FNZIT8EYVAc" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <iframe title="The Repository (The Repo) lesson video" src="https://www.youtube-nocookie.com/embed/FNZIT8EYVAc" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
 <p><em>Note: You can replace this video with your final lesson recording later.</em></p>
 </div>
