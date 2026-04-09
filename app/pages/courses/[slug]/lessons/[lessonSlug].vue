@@ -95,9 +95,11 @@ function buildAuthHeaders(): Record<string, string> {
   return headers
 }
 
-// Fetch completion status on mount if user is authenticated
+// Load completion state only when the API is configured and auth state permits it.
 onMounted(async () => {
-  if (!apiBaseUrl || !isAuthenticated.value) return
+  if (!apiBaseUrl) return
+  if (isAuthEnabled.value && !isAuthenticated.value) return
+
   try {
     const data = await $fetch<{ completed: boolean }>(buildCompletionUrl(), {
       headers: buildAuthHeaders(),
