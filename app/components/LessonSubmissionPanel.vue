@@ -158,7 +158,14 @@ async function loadSubmissionState() {
     currentState.value = response
     latestSubmission.value = response.latestSubmission
   }
-  catch {
+  catch (error: unknown) {
+    const fetchError = error as {
+      data?: { message?: string | string[] }
+      status?: number
+    }
+    const message = fetchError?.data?.message
+    const parsedMessage = Array.isArray(message) ? message.join(', ') : message
+
     currentState.value = {
       status: 'ACTIVE',
       canSubmit: true,
