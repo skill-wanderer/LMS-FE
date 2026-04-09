@@ -47,7 +47,6 @@ const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentInde
 const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
 const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
-const submissionPath = computed(() => `courses/${courseSlug}/lessons/${lessonSlug}/submissions`)
 
 // Process YouTube iframes: use privacy-enhanced nocookie domain and add lazy loading
 const processedContent = computed(() => {
@@ -328,19 +327,6 @@ async function toggleComplete() {
             {{ isCompleted ? 'Completed' : 'Mark as Complete' }}
           </button>
         </div>
-
-        <!-- Assignment Submission -->
-        <LessonSubmissionPanel
-          v-if="lesson.type === 'assignment'"
-          :submission-path="submissionPath"
-          :api-base-url="apiBaseUrl"
-          :is-auth-enabled="isAuthEnabled"
-          :is-authenticated="isAuthenticated"
-          :access-token="accessToken ?? ''"
-          :max-files="10"
-          :max-file-size-mb="10"
-          @open-login="showLoginModal = true"
-        />
 
         <!-- Login Required Modal -->
         <LoginRequiredModal :visible="showLoginModal" :return-to="route.path" @close="showLoginModal = false" />
