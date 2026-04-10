@@ -2,84 +2,25 @@
 
 import type { Module } from '~/types/course'
 
+import lesson1 from './what-is-rest-and-greybox-thinking'
+import lesson2 from './http-methods-get-post-put-delete'
+import lesson3 from './status-codes-overview'
+import lesson4 from './headers-basics'
+import lesson5 from './assignment-analyze-public-api'
+import lesson6 from './quiz-rest-fundamentals'
+
 const module1: Module = {
   id: 'module-rest-1',
   slug: 'module-1-rest-anatomy',
   title: 'Module 1: REST Anatomy',
   order: 1,
   lessons: [
-    {
-        id: 'lesson-rest-1-1',
-        slug: 'what-is-rest-and-greybox-thinking',
-        title: 'What is REST & Greybox Thinking',
-        type: 'lesson',
-        order: 1,
-        durationMinutes: 10,
-        content: 'Introduction to REST concepts and greybox thinking approach.',
-        status: 'published',
-        createdAt: '2026-04-08',
-        updatedAt: '2026-04-08',
-    },
-    {
-        id: 'lesson-rest-1-2',
-        slug: 'http-methods-get-post-put-delete',
-        title: 'HTTP Methods (GET, POST, PUT, DELETE)',
-        type: 'lesson',
-        order: 2,
-        durationMinutes: 12,
-        content: 'Understanding core HTTP methods and their usage.',
-        status: 'published',
-        createdAt: '2026-04-08',
-        updatedAt: '2026-04-08',
-    },
-    {
-        id: 'lesson-rest-1-3',
-        slug: 'status-codes-overview',
-        title: 'Status Codes (200, 201, 400, 401, 404, 500)',
-        type: 'lesson',
-        order: 3,
-        durationMinutes: 10,
-        content: 'Learn how to interpret HTTP status codes effectively.',
-        status: 'published',
-        createdAt: '2026-04-08',
-        updatedAt: '2026-04-08',
-    },
-    {
-        id: 'lesson-rest-1-4',
-        slug: 'headers-basics',
-        title: 'Headers Basics',
-        type: 'lesson',
-        order: 4,
-        durationMinutes: 8,
-        content: 'Explore request and response headers in API communication.',
-        status: 'published',
-        createdAt: '2026-04-08',
-        updatedAt: '2026-04-08',
-    },
-    {
-        id: 'lesson-rest-1-5',
-        slug: 'assignment-analyze-public-api',
-        title: 'Assignment: Analyze Public API',
-        type: 'assignment',
-        order: 5,
-        durationMinutes: 20,
-        content: 'Analyze a public API and identify its structure and responses.',
-        status: 'published',
-        createdAt: '2026-04-08',
-        updatedAt: '2026-04-08',
-    },
-    {
-        id: 'lesson-rest-1-6',
-        slug: 'quiz-rest-fundamentals',
-        title: 'Quiz: REST Fundamentals',
-        type: 'lesson',
-        order: 6,
-        durationMinutes: 10,
-        content: 'Test your understanding of REST fundamentals.',
-        status: 'published',
-        createdAt: '2026-04-08',
-        updatedAt: '2026-04-08',
-    },
+    lesson1,
+    lesson2,
+    lesson3,
+    lesson4,
+    lesson5,
+    lesson6,
   ],
 }
 

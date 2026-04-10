@@ -19,15 +19,13 @@ import manualSoftwareTesting from './manual-software-testing-black-box-technique
 import aiFirstLearningForTechCareers from './ai-first-learning-for-tech-careers'
 import gitVersionControlFromBasicsToBranching from './git-version-control-from-basics-to-branching'
 import htmlFundamentalsFromStructureToForms from './html-fundamentals-from-structure-to-forms'
-// import restfulApiMasteryGreybox from './restful-api-mastery-greybox'
-import restfulApiMastery from './restful-api-mastery-greybox' // ✅ WAJIB ADA, meskipun belum ada course khusus RESTful API Mastery, kita gunakan placeholder dari greybox dulu
+import restfulApiMastery from './restful-api-mastery-greybox' 
 
 const allCourses: Course[] = [
   manualSoftwareTesting,
   aiFirstLearningForTechCareers,
   gitVersionControlFromBasicsToBranching,
   htmlFundamentalsFromStructureToForms,
-  // restfulApiMasteryGreybox,
   restfulApiMastery, // ✅ WAJIB ADA
 ]
 
