@@ -1,3 +1,5 @@
+// app/data/courses/index.ts
+
 import type { Course } from '~/types/course'
 
 /**
@@ -17,12 +19,14 @@ import manualSoftwareTesting from './manual-software-testing-black-box-technique
 import aiFirstLearningForTechCareers from './ai-first-learning-for-tech-careers'
 import gitVersionControlFromBasicsToBranching from './git-version-control-from-basics-to-branching'
 import htmlFundamentalsFromStructureToForms from './html-fundamentals-from-structure-to-forms'
+import restfulApiMastery from './restful-api-mastery-greybox' 
 
 const allCourses: Course[] = [
   manualSoftwareTesting,
   aiFirstLearningForTechCareers,
   gitVersionControlFromBasicsToBranching,
   htmlFundamentalsFromStructureToForms,
+  restfulApiMastery, 
 ]
 
 export default allCourses
