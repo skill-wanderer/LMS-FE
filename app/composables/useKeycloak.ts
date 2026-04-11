@@ -7,6 +7,12 @@
  * fully anonymous, open-access platform — no auth UI is shown.
  */
 export function useKeycloak() {
+  const RETURN_TO_STORAGE_KEY = 'kc_return_to'
+  const returnToCookie = useCookie<string | null>('kc_return_to', {
+    default: () => null,
+    maxAge: 60 * 10,
+    sameSite: 'lax',
+  })
   const config = useRuntimeConfig()
   const { keycloakRealm, keycloakClientId } = config.public
   // Strip trailing slash to avoid double-slash in URLs
@@ -56,7 +62,49 @@ export function useKeycloak() {
     return `${origin}/auth/callback`
   })
 
+  function sanitizeReturnPath(path?: string) {
+    if (!path || !path.startsWith('/')) return '/'
+    return path
+  }
+
+  function currentPathWithQueryAndHash() {
+    if (!import.meta.client) return '/'
+    return `${window.location.pathname}${window.location.search}${window.location.hash}` || '/'
+  }
+
+  function resolveReturnToPath(returnTo?: string) {
+    return sanitizeReturnPath(returnTo || currentPathWithQueryAndHash())
+  }
+
+  function storeReturnToPath(returnTo: string) {
+    returnToCookie.value = returnTo
+    if (!import.meta.client) return
+    sessionStorage.setItem(RETURN_TO_STORAGE_KEY, returnTo)
+  }
+
+  function consumeStoredReturnToPath() {
+    let storedPath: string | null = null
+
+    if (import.meta.client) {
+      const raw = sessionStorage.getItem(RETURN_TO_STORAGE_KEY)
+      if (raw) {
+        storedPath = raw
+        sessionStorage.removeItem(RETURN_TO_STORAGE_KEY)
+      }
+    }
+
+    const cookiePath = returnToCookie.value
+    returnToCookie.value = null
+
+    if (!storedPath && !cookiePath) return null
+    return sanitizeReturnPath(storedPath || cookiePath || undefined)
+  }
+
   function buildAuthUrl(action: 'login' | 'register', returnTo?: string) {
+    const resolvedReturnTo = resolveReturnToPath(returnTo)
+    // Keep a local fallback in case provider strips/loses the state parameter.
+    storeReturnToPath(resolvedReturnTo)
+
     const params = new URLSearchParams({
       client_id: keycloakClientId as string,
       redirect_uri: redirectUri.value,
@@ -64,11 +112,8 @@ export function useKeycloak() {
       scope: 'openid profile email',
     })
 
-    // Encode the return path in the OAuth state parameter so the callback
-    // page can redirect the user back to where they were.
-    if (returnTo) {
-      params.set('state', returnTo)
-    }
+    // Encode the return path in OAuth state so callback can restore location.
+    params.set('state', resolvedReturnTo)
 
     if (action === 'register') {
       // Keycloak supports a dedicated registration endpoint
@@ -162,5 +207,7 @@ export function useKeycloak() {
     logoutUrl,
     logout,
     refreshAccessToken,
+    consumeStoredReturnToPath,
+    resolveReturnToPath,
   }
 }

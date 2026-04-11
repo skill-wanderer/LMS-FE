@@ -9,6 +9,9 @@ const emit = defineEmits<{
 }>()
 
 const { loginUrl, registerUrl } = useKeycloak()
+const route = useRoute()
+
+const resolvedReturnTo = computed(() => props.returnTo || route.fullPath)
 
 function onOverlayClick(e: MouseEvent) {
   if (e.target === e.currentTarget) {
@@ -37,11 +40,11 @@ function onOverlayClick(e: MouseEvent) {
           </p>
 
           <div class="flex gap-3 justify-center mb-4">
-            <a :href="loginUrl(returnTo)" class="btn btn-primary btn-sm">
+            <a :href="loginUrl(resolvedReturnTo)" class="btn btn-primary btn-sm">
               <Icon name="mdi:login" />
               Login
             </a>
-            <a :href="registerUrl(returnTo)" class="btn btn-secondary btn-sm">
+            <a :href="registerUrl(resolvedReturnTo)" class="btn btn-secondary btn-sm">
               <Icon name="mdi:account-plus-outline" />
               Register
             </a>

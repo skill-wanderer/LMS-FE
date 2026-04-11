@@ -285,7 +285,7 @@ async function toggleComplete() {
               :questions="lesson.quiz.questions"
               :title="lesson.quiz.title"
               :pass-percentage="lesson.quiz.passPercentage"
-              :return-to="route.path"
+              :return-to="route.fullPath"
               :course-slug="courseSlug"
               :lesson-slug="lessonSlug"
             />
@@ -301,7 +301,7 @@ async function toggleComplete() {
           :questions="lesson.quiz.questions"
           :title="lesson.quiz.title"
           :pass-percentage="lesson.quiz.passPercentage"
-          :return-to="route.path"
+          :return-to="route.fullPath"
           :course-slug="courseSlug"
           :lesson-slug="lessonSlug"
           class="mb-8"
@@ -329,7 +329,7 @@ async function toggleComplete() {
         </div>
 
         <!-- Login Required Modal -->
-        <LoginRequiredModal :visible="showLoginModal" :return-to="route.path" @close="showLoginModal = false" />
+        <LoginRequiredModal :visible="showLoginModal" :return-to="route.fullPath" @close="showLoginModal = false" />
 
         <!-- Prev / Next Navigation -->
         <nav class="grid grid-cols-2 gap-4 max-md:grid-cols-1">

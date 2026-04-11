@@ -4,7 +4,7 @@ const lesson = createGitPlannedLesson({
   id: 'lesson-git-1',
   slug: 'what-is-a-branch',
   title: 'What is a Branch? Creating a Separate Timeline to Experiment Without Fear',
-  order: 1,
+  order: 2,
   moduleTitle: 'Module 1: Parallel Universes (Branching & Navigation)',
   whyItMatters: 'A branch is how you isolate risky or unfinished work from main, so experimentation does not damage the version of the product everyone depends on.',
   focusPoints: [

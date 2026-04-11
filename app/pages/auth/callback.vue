@@ -11,7 +11,7 @@ definePageMeta({ layout: false })
 const config = useRuntimeConfig()
 const { keycloakRealm, keycloakClientId } = config.public
 const keycloakUrl = (config.public.keycloakUrl as string || '').replace(/\/+$/, '')
-const { user, accessToken, refreshToken, tokenExpiresAt } = useKeycloak()
+const { user, accessToken, refreshToken, tokenExpiresAt, consumeStoredReturnToPath } = useKeycloak()
 
 const error = ref<string | null>(null)
 const loading = ref(true)
@@ -67,10 +67,11 @@ onMounted(async () => {
       preferred_username: userInfo.preferred_username,
     }
 
-    // Redirect to the page the user was on before login, or home
-    const returnTo = (route.query.state as string) || '/'
-    // Only allow relative paths to prevent open-redirect
-    const safePath = returnTo.startsWith('/') ? returnTo : '/'
+    // Prefer OAuth state, then local fallback, then homepage.
+    const returnFromState = typeof route.query.state === 'string' ? route.query.state : undefined
+    const safePath = (returnFromState && returnFromState.startsWith('/'))
+      ? returnFromState
+      : (consumeStoredReturnToPath() || '/')
     await navigateTo(safePath, { replace: true })
   } catch (e: any) {
     console.error('Keycloak token exchange failed', e)
