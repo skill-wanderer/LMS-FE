@@ -12,9 +12,12 @@ interface SeoOptions {
 
 export function useSeo(options: SeoOptions) {
   const config = useRuntimeConfig()
+  const requestUrl = useRequestURL()
+  const canonical = options.url || `${requestUrl.origin}${requestUrl.pathname}`
 
   useHead({
     title: options.title,
+    link: [{ rel: 'canonical', href: canonical }],
     meta: [
       { name: 'description', content: options.description },
       { property: 'og:title', content: options.title },
@@ -81,7 +84,7 @@ export function useCourseSeo(course: CourseSeoOptions) {
   useSeo({
     title: `${course.title} — Skill-Wanderer Dojo`,
     description: course.description,
-    image: course.thumbnail || '/og-image.png',
+    image: course.thumbnail || '/images/courses/manual-software-testing.png', // TODO: replace fallback with branded /og-image.png
     url: `${siteUrl}/courses/${course.slug}`,
     type: 'article',
     datePublished: course.datePublished,
@@ -173,9 +176,19 @@ export function useLessonSeo(lesson: LessonSeoOptions) {
     }
   }
 
-  if (schemas.length) {
-    useSchemaOrg(schemas)
+  // Fallback structured data for lessons without video content
+  if (!schemas.length) {
+    schemas.push({
+      '@type': 'LearningResource',
+      'name': lesson.title,
+      'description': lesson.description || `Lesson: ${lesson.title} from ${lesson.courseTitle}`,
+      'learningResourceType': 'lesson',
+      'url': lessonUrl,
+      'isAccessibleForFree': true,
+    })
   }
+
+  useSchemaOrg(schemas)
 }
 
 /**
