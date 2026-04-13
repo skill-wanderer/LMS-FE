@@ -28,7 +28,7 @@ export default defineNuxtConfig({
         { property: 'og:type', content: 'website' },
         { property: 'og:title', content: 'Skill-Wanderer Dojo — Free Open Learning Platform' },
         { property: 'og:description', content: 'Browse courses, track progress, and master new skills — free and open to everyone.' },
-        { property: 'og:image', content: '/og-image.png' },
+        { property: 'og:image', content: '/images/courses/manual-software-testing.png' }, // TODO: replace with branded /og-image.png once designed
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: 'Skill-Wanderer Dojo — Free Open Learning Platform' },
         { name: 'twitter:description', content: 'Browse courses, track progress, and master new skills — free and open to everyone.' },
