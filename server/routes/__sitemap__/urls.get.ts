@@ -1,49 +1,51 @@
 import { defineSitemapEventHandler, asSitemapUrl } from '#imports'
+import allCourses from '~/data/courses'
+import { getAllLessons, isPublishedLesson, isPublishedCourse } from '~/types/course'
 
 /**
- * Provides dynamic course and lesson URLs to the sitemap module.
+ * Provides all public URLs to the sitemap module.
  *
- * When adding a new course, add its course URL and all lesson URLs here
- * so they appear in /sitemap.xml.
+ * Imports course data dynamically — no hardcoded lesson slugs.
+ * New courses are picked up automatically when added to the course registry.
+ *
+ * Senior Rule: read-only import, no mutation of course objects.
  */
 export default defineSitemapEventHandler(() => {
-  const courseSlug = 'manual-software-testing-black-box-techniques'
-  const lastmod = '2026-01-08'
+  const urls: ReturnType<typeof asSitemapUrl>[] = []
 
-  const lessonSlugs = [
-    // Module 1 — Introduction to Software Testing
-    'software-testing-fundamentals',
-    'root-causes-of-software-bugs',
-    'economics-of-software-failure',
-    'manual-vs-automation-testing',
-    'three-fundamental-testing-concepts',
-    'module-1-summary-and-takeaway',
-    // Module 2 — QA Role & Testing Fundamentals
-    'the-quality-mindset-fundamentals-of-software-assurance',
-    'software-quality-evolution-transitioning-from-tester-to-qa-engineer',
-    'testing-throughout-the-sdlc',
-    'waterfall-vs-agile-a-guide-for-black-box-testers',
-    'shift-left-testing-for-black-box-testers',
-    // Module 3 — Assignment: Exploratory Testing in Real Conditions
-    'exploratory-testing-in-real-conditions',
-    // Module 4 — Assignment: Test Case Writing & Professional Bug Reporting
-    'test-case-writing-and-professional-bug-reporting',
-  ]
+  // Static pages
+  const staticPages = [
+    { loc: '/', priority: 1.0 },
+    { loc: '/courses', priority: 0.9 },
+    { loc: '/paths', priority: 0.7 },
+    { loc: '/about', priority: 0.6 },
+  ] as const
 
-  return [
-    asSitemapUrl({
-      loc: `/courses/${courseSlug}`,
-      lastmod,
+  for (const page of staticPages) {
+    urls.push(asSitemapUrl({ ...page, changefreq: 'weekly' }))
+  }
+
+  // Dynamic: all published courses and their published lessons
+  for (const course of allCourses) {
+    if (!isPublishedCourse(course)) continue
+
+    urls.push(asSitemapUrl({
+      loc: `/courses/${course.slug}`,
+      lastmod: course.updatedAt,
       changefreq: 'monthly',
       priority: 0.8,
-    }),
-    ...lessonSlugs.map(lesson =>
-      asSitemapUrl({
-        loc: `/courses/${courseSlug}/lessons/${lesson}`,
-        lastmod,
+    }))
+
+    for (const lesson of getAllLessons(course)) {
+      if (!isPublishedLesson(lesson)) continue
+      urls.push(asSitemapUrl({
+        loc: `/courses/${course.slug}/lessons/${lesson.slug}`,
+        lastmod: lesson.updatedAt || course.updatedAt,
         changefreq: 'monthly',
         priority: 0.7,
-      }),
-    ),
-  ]
+      }))
+    }
+  }
+
+  return urls
 })
