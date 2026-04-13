@@ -19,8 +19,8 @@ export function createCourse(
     lessons: module.lessons.map(lesson => ({
       ...lesson,
       status: openLessons.has(lesson.slug)
-        ? ('published' as const)
-        : ('draft' as const),
+      ? ('published' as const)
+      : (lesson.status ?? course.status ?? 'draft'),
     })),
   }))
 

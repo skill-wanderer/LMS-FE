@@ -1,6 +1,5 @@
 // app/data/courses/restful-api-mastery-greybox/index.ts
 
-import type { Course } from '~/types/course'
 import { reiReltroner } from '~/data/authors'
 import { createCourse } from '~/data/core/course'
 import type { CourseInput } from '~/data/core/course'
@@ -71,7 +70,7 @@ By the end of this course, you will not just "use APIs" — you will understand 
   author: reiReltroner,
 
   createdAt: '2026-04-08',
-  updatedAt: '2026-04-11',
+  updatedAt: '2026-04-13',
 }
 
 const course = createCourse(baseCourse, {
