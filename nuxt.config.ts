@@ -50,7 +50,8 @@ export default defineNuxtConfig({
   },
 
   robots: {
-    allow: '/',
+    disallow: ['/auth/', '/search'],
+    sitemap: 'https://dojo.skill-wanderer.com/sitemap.xml',
   },
 
   schemaOrg: {
