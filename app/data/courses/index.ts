@@ -26,7 +26,7 @@ const allCourses: Course[] = [
   aiFirstLearningForTechCareers,
   gitVersionControlFromBasicsToBranching,
   htmlFundamentalsFromStructureToForms,
-  restfulApiMastery, 
+  restfulApiMastery,
 ]
 
 export default allCourses

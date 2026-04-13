@@ -1,0 +1,9 @@
+html-lesson-shell.ts
+index.ts
+module-1-rest-anatomy/index.ts
+module-2-payload-meta/index.ts
+module-3-security/index.ts
+module-4-crud-debug/index.ts
+module-5-automation/index.ts
+module-6-tool-agnostic/index.ts
+structure.txt
