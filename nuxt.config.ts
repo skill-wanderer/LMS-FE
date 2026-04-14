@@ -85,8 +85,15 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: process.env.NITRO_PRESET || 'cloudflare-pages',
+    preset: process.env.NITRO_PRESET || 'cloudflare-module',
     compressPublicAssets: true,
+    prerender: {
+      crawlLinks: false,
+      routes: [],
+    },
+    cloudflare: {
+      nodeCompat: true,
+    },
   },
 
   image: {
