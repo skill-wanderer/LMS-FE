@@ -24,7 +24,7 @@ const course: Course = {
   instructor: 'Skill-Wanderer',
   author: thanhNguyen,
   createdAt: '2026-03-25',
-  updatedAt: '2026-03-30',
+  updatedAt: '2026-04-07',
 }
 
 export default course
