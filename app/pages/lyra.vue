@@ -7,32 +7,53 @@ useSeo({
 
 <template>
   <div>
-    <!-- Hero -->
-    <TheHero
-      title="Meet Lyra"
-      subtitle="The Archivist"
-      description="Your AI-powered guide to the Dojo's knowledge. Ask Lyra about courses, lessons, learning paths, and more."
-      :cta-primary="{ label: 'Browse Courses', to: '/courses' }"
-      :cta-secondary="{ label: 'Explore Learning Paths', to: '/paths' }"
-    />
+    <!-- Cinematic Hero -->
+    <section class="relative overflow-hidden bg-gradient-to-b from-surface-darker to-surface-dark">
+      <!-- Ambient glow layer 1 -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+        <div class="w-[520px] h-[520px] bg-brand-orange/15 blur-[120px] rounded-full" />
+      </div>
+      <!-- Ambient glow layer 2 -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+        <div class="w-[300px] h-[300px] bg-brand-yellow/10 blur-[80px] rounded-full translate-y-16" />
+      </div>
 
-    <!-- Lyra Visual -->
-    <section class="section section-narrow pt-0">
-      <div class="relative flex justify-center">
-        <!-- Glow effect -->
-        <div class="absolute inset-0 flex justify-center">
-          <div class="w-72 h-72 bg-brand-orange/20 blur-3xl rounded-full" />
+      <div class="relative z-10 flex flex-col items-center text-center px-4 py-20">
+        <!-- Circular avatar with gradient glow ring -->
+        <div class="relative mb-8">
+          <div class="absolute inset-0 rounded-full bg-brand-orange/30 blur-2xl scale-110" aria-hidden="true" />
+          <div class="relative p-[3px] rounded-full bg-gradient-to-br from-brand-orange via-brand-yellow to-brand-deep-orange">
+            <div class="w-48 h-48 rounded-full overflow-hidden bg-surface-darker">
+              <NuxtImg
+                src="/images/lyra.webp"
+                alt="Lyra the Archivist"
+                width="192"
+                height="192"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+          </div>
         </div>
-        <!-- Image -->
-        <NuxtImg
-          src="/images/lyra.webp"
-          alt="Lyra the Archivist"
-          width="1536"
-          height="768"
-          class="w-full max-w-2xl mx-auto"
-        />
+
+        <!-- Title & subtitle -->
+        <h1 class="text-6xl md:text-7xl font-black gradient-text mb-3 leading-tight">Lyra</h1>
+        <p class="text-sm tracking-[0.3em] text-gray-400 uppercase mb-6 font-medium">The Archivist</p>
+        <p class="text-lg text-gray-300 max-w-md leading-relaxed mb-10">
+          Your AI-powered guide to the Dojo's knowledge. Ask Lyra about courses, lessons, learning paths, and more.
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex gap-4 justify-center flex-wrap">
+          <NuxtLink to="/courses" class="btn btn-primary">
+            Browse Courses <Icon name="mdi:arrow-right" />
+          </NuxtLink>
+          <NuxtLink to="/paths" class="btn btn-outline">
+            Explore Learning Paths <Icon name="mdi:arrow-right" />
+          </NuxtLink>
+        </div>
       </div>
     </section>
+
     <!-- What is Lyra -->
     <section class="section section-narrow">
       <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-6 text-center">What is Lyra?</h2>
