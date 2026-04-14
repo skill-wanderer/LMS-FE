@@ -10,8 +10,50 @@ const lesson: Lesson = {
 	order: 5,
 	hideCompletion: false,
 	createdAt: '2026-04-03',
-	updatedAt: '2026-04-05',
-	content: `<div class="ai-first-lesson">
+	updatedAt: '2026-04-14',
+	content: `<div class="format-selector">
+<div class="format-notice">
+	<span class="format-notice-icon">💡</span>
+	<div>
+		<strong>Choose Your Learning Material</strong>
+		<p>This lesson is available in <strong>multiple formats</strong>. The content is the same - choose the one that fits your learning style and current environment. You do <u>not</u> need to complete all formats.</p>
+	</div>
+</div>
+
+<div class="format-tabs">
+	<button class="format-tab active" data-format="reading" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=reading]').style.display='block';">📖 Reading</button>
+	<button class="format-tab" data-format="video" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=video]').style.display='block';">🎬 Video</button>
+	<button class="format-tab" data-format="audio" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=audio]').style.display='block';">🎧 Audio</button>
+	<button class="format-tab" data-format="slides" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=slides]').style.display='block';">📊 Slides</button>
+</div>
+</div>
+
+<div class="format-content" data-content="video" style="display:none;">
+<h2>🎬 Video Version</h2>
+<div class="video-embed">
+	<iframe src="https://www.youtube-nocookie.com/embed/EErn736Y0pE?si=mhYmj8i9byeaols6" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+</div>
+
+<div class="format-content" data-content="audio" style="display:none;">
+<h2>🎧 Audio Version</h2>
+<div class="audio-embed">
+	<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/episode/6y0f0b4MKjkrqzweZaZQnQ?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
+</div>
+
+<div class="format-content" data-content="slides" style="display:none;">
+<h2>📊 Slide Version</h2>
+<div class="slides-embed">
+	<iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/ai-first-learning-for-tech-careers@main/Module%201%20Summary%20%26%20Bridge%20to%20Practice/Managing_the_Multiplier.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
+</div>
+</div>
+
+<div class="format-content" data-content="reading" style="display:block;">
+<div class="ai-first-lesson">
+
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/ai-first-learning-for-tech-careers@main/Module%201%20Summary%20%26%20Bridge%20to%20Practice/infographic.png" alt="Module 1 Summary & Bridge to Practice Infographic" style="max-width:100%;height:auto;border-radius:8px;margin-bottom:2rem;" loading="lazy" />
+
 <div class="glass-card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
 	<p><strong>Review release.</strong> This summary lesson is published so the text can be reviewed in the same lesson flow as the rest of Module 1.</p>
 </div>
@@ -97,6 +139,7 @@ const lesson: Lesson = {
 <p>In the next lesson, you will stop treating these ideas as theory only. You will practise using AI deliberately on a real learning task, move faster through action, and test whether you can stay in control while AI supports the work.</p>
 <p>That matters because Module 1 is not complete when the ideas sound reasonable. It is only complete when you can actually use them. The next step is to see whether you can begin with a real task, ask better questions, use AI for leverage, and still remain the person who owns the direction and the judgment. That is the bridge from mindset into practice.</p>
 
+</div>
 </div>`,
 	quiz: {
 		title: 'Module 1 Quiz - AI-First Mindset',
