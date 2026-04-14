@@ -16,3 +16,16 @@ export const thanhNguyen: AuthorInfo = {
   linkedinUrl: 'https://www.linkedin.com/in/nguyen-ho-thien-thanh/',
   websiteUrl: 'https://skill-wanderer.com',
 }
+
+export const reiReltroner: AuthorInfo = {
+  name: 'Rei Reltroner',
+  title: 'Full-Cycle Solutions Associate · Software Engineer · API & Security Specialist',
+
+  bio: 'A system-focused Software Engineer specializing in modular architecture, secure authentication, and deterministic system design. Experienced in building ERP-scale systems with Laravel, implementing OIDC/SSO (Keycloak), and designing audit-grade financial infrastructures with immutable data models. Contributed to full-cycle product delivery across distributed teams, improving system reliability, scalability, and security posture. Known for bridging backend systems with real-world problem solving through REST APIs, debugging strategies, and production-ready engineering practices. Experienced in building multi-service systems with SSO, CI/CD pipelines, and audit-safe financial reporting.',
+
+  avatarUrl: 'https://skill-wanderer.com/learners/Rei-Reltroner.jpeg',
+
+  linkedinUrl: 'https://www.linkedin.com/in/rei-reltroner-a3a7b8173/',
+
+  websiteUrl: 'https://www.reltroner.com/blog/for-recruiters',
+}
