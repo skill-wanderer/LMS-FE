@@ -81,6 +81,8 @@ export default defineNuxtConfig({
         sessionExpiryMinutes: Number(process.env.NUXT_PUBLIC_PATHFINDER_SESSION_EXPIRY_MINUTES) || 30,
         sessionStorage: process.env.NUXT_PUBLIC_PATHFINDER_SESSION_STORAGE || 'browser',
       },
+      // Enable mock fallback only when explicitly opted-in (never default true in production)
+      enableMockFallback: process.env.NUXT_PUBLIC_ENABLE_MOCK_FALLBACK === 'true',
     },
   },
 
