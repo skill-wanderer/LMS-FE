@@ -125,6 +125,21 @@ npm run build
 npm run preview
 ```
 
+### Deploy to Cloudflare Workers
+
+```bash
+# Build the Cloudflare Worker SSR bundle
+npm run build
+
+# Preview with Wrangler
+npm run preview:cf
+
+# Deploy the worker and static assets
+npm run deploy:cf
+```
+
+The Cloudflare deployment now uses the Worker runtime with an asset binding, so all routes stay server-rendered instead of mixing static Pages output with edge execution.
+
 ## SEO Configuration
 
 This project is built for public, crawlable access:
