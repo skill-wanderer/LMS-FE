@@ -59,7 +59,7 @@ export default defineNuxtConfig({
       type: 'Organization',
       name: 'Skill-Wanderer Dojo',
       url: 'https://dojo.skill-wanderer.com',
-      logo: '/logo.png',
+      logo: '/skill-wanderer-favicon.svg', // TODO: replace with branded /logo.png (square, ≥112×112px) once provided by design team
     },
   },
 
