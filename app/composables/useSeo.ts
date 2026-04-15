@@ -35,6 +35,28 @@ export function useSeo(options: SeoOptions) {
     ],
   })
 
+  // Dev-mode SEO health checks — zero production impact
+  if (import.meta.dev) {
+    // Gap #9: title/description length enforcement
+    if (options.title.length > 60) {
+      console.warn(`[SEO] Title too long (${options.title.length} chars, max 60): "${options.title}"`)
+    }
+    if (options.description.length > 160) {
+      console.warn(`[SEO] Description too long (${options.description.length} chars, max 160): "${options.description.slice(0, 80)}…"`)
+    }
+
+    // Gap #10: H1 uniqueness check — runs client-side after render
+    onMounted(() => {
+      const h1List = document.querySelectorAll('h1')
+      if (h1List.length === 0) {
+        console.warn(`[SEO] No <h1> found on page: "${options.title}"`)
+      }
+      else if (h1List.length > 1) {
+        console.warn(`[SEO] Multiple <h1> tags found (${h1List.length}) on page: "${options.title}"`)
+      }
+    })
+  }
+
   const schemas: any[] = [
     defineWebPage({
       name: options.title,
