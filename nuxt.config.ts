@@ -23,18 +23,43 @@ export default defineNuxtConfig({
       title: 'Skill-Wanderer Dojo — Free Open Learning Platform',
       htmlAttrs: { lang: 'en' },
       meta: [
-        { name: 'description', content: 'Skill-Wanderer Dojo is a free, open-access learning management system. Browse courses, track progress, and master new skills — no paywall, no barriers.' },
+        {
+          name: 'description',
+          content:
+            'Skill-Wanderer Dojo is a free, open-access learning management system. Browse courses, track progress, and master new skills — no paywall, no barriers.',
+        },
         { name: 'theme-color', content: '#FF6B35' },
         { property: 'og:type', content: 'website' },
-        { property: 'og:title', content: 'Skill-Wanderer Dojo — Free Open Learning Platform' },
-        { property: 'og:description', content: 'Browse courses, track progress, and master new skills — free and open to everyone.' },
-        { property: 'og:image', content: '/og-image.png' },
+        {
+          property: 'og:title',
+          content: 'Skill-Wanderer Dojo — Free Open Learning Platform',
+        },
+        {
+          property: 'og:description',
+          content:
+            'Browse courses, track progress, and master new skills — free and open to everyone.',
+        },
+        {
+          property: 'og:image',
+          content: '/images/courses/manual-software-testing.png',
+        }, // TODO: replace with branded /og-image.png once designed
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: 'Skill-Wanderer Dojo — Free Open Learning Platform' },
-        { name: 'twitter:description', content: 'Browse courses, track progress, and master new skills — free and open to everyone.' },
+        {
+          name: 'twitter:title',
+          content: 'Skill-Wanderer Dojo — Free Open Learning Platform',
+        },
+        {
+          name: 'twitter:description',
+          content:
+            'Browse courses, track progress, and master new skills — free and open to everyone.',
+        },
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/skill-wanderer-favicon.svg' },
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: '/skill-wanderer-favicon.svg',
+        },
       ],
     },
   },
@@ -50,7 +75,8 @@ export default defineNuxtConfig({
   },
 
   robots: {
-    allow: '/',
+    disallow: ['/auth/', '/search'],
+    sitemap: 'https://dojo.skill-wanderer.com/sitemap.xml',
   },
 
   schemaOrg: {
@@ -58,7 +84,7 @@ export default defineNuxtConfig({
       type: 'Organization',
       name: 'Skill-Wanderer Dojo',
       url: 'https://dojo.skill-wanderer.com',
-      logo: '/logo.png',
+      logo: '/skill-wanderer-favicon.svg', // TODO: replace with branded /logo.png
     },
   },
 
@@ -70,19 +96,30 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://dojo.skill-wanderer.com',
+      siteUrl:
+        process.env.NUXT_PUBLIC_SITE_URL ||
+        'https://dojo.skill-wanderer.com',
       keycloakUrl: process.env.NUXT_PUBLIC_KEYCLOAK_URL || '',
       keycloakRealm: process.env.NUXT_PUBLIC_KEYCLOAK_REALM || '',
-      keycloakClientId: process.env.NUXT_PUBLIC_KEYCLOAK_CLIENT_ID || '',
+      keycloakClientId:
+        process.env.NUXT_PUBLIC_KEYCLOAK_CLIENT_ID || '',
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || '',
       pathfinder: {
-        apiUrl: process.env.NUXT_PUBLIC_PATHFINDER_API_URL || 'http://localhost:8000',
-        domains: process.env.NUXT_PUBLIC_PATHFINDER_DOMAINS || 'dojo.skill-wanderer.com',
-        sessionExpiryMinutes: Number(process.env.NUXT_PUBLIC_PATHFINDER_SESSION_EXPIRY_MINUTES) || 30,
-        sessionStorage: process.env.NUXT_PUBLIC_PATHFINDER_SESSION_STORAGE || 'browser',
+        apiUrl:
+          process.env.NUXT_PUBLIC_PATHFINDER_API_URL ||
+          'http://localhost:8000',
+        domains:
+          process.env.NUXT_PUBLIC_PATHFINDER_DOMAINS ||
+          'dojo.skill-wanderer.com',
+        sessionExpiryMinutes:
+          Number(
+            process.env
+              .NUXT_PUBLIC_PATHFINDER_SESSION_EXPIRY_MINUTES
+          ) || 30,
+        sessionStorage:
+          process.env
+            .NUXT_PUBLIC_PATHFINDER_SESSION_STORAGE || 'browser',
       },
-      // Enable mock fallback only when explicitly opted-in (never default true in production)
-      enableMockFallback: process.env.NUXT_PUBLIC_ENABLE_MOCK_FALLBACK === 'true',
     },
   },
 
@@ -101,4 +138,4 @@ export default defineNuxtConfig({
   image: {
     provider: 'none',
   },
-})
+});
