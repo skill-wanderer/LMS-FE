@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { getAllLessons, isPublishedLesson } from '~/types/course'
 
+definePageMeta({
+  middleware: ['submission-auth'],
+})
+
 const route = useRoute()
 const courseSlug = route.params.slug as string
 const lessonSlug = route.params.lessonSlug as string
@@ -336,11 +340,6 @@ async function toggleComplete() {
           v-if="lesson.type === 'assignment'"
           :submission-path="submissionPath"
           :api-base-url="apiBaseUrl"
-          :is-auth-enabled="isAuthEnabled"
-          :is-authenticated="isAuthenticated"
-          :access-token="accessToken ?? ''"
-          :max-files="10"
-          :max-file-size-mb="10"
           @open-login="showLoginModal = true"
         />
 

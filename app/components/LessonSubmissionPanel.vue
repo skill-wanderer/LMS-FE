@@ -1,5 +1,5 @@
 <script setup lang="ts">
-interface SubmissionFileItem {
+interface SubmissionFileApiDto {
   id: string
   fileName: string
   fileMimetype: string
@@ -8,37 +8,57 @@ interface SubmissionFileItem {
   createdAt: string
 }
 
-interface SubmissionResponse {
+interface SubmissionApiDto {
   submissionId: string
   lessonId: string
   userId: string
   status: string
+  canSubmit: boolean
   version: number
   contentText: string | null
   createdAt: string
   updatedAt: string
-  files: SubmissionFileItem[]
+  files: SubmissionFileApiDto[]
+}
+
+interface SubmissionStateApiDto {
+  status: string
+  canSubmit: boolean
+  latestSubmission: SubmissionApiDto | null
+}
+
+interface SubmissionConstraintsApiDto {
+  maxFiles: number
+  maxFileSizeMb: number
+  allowedMimeTypes: string[]
 }
 
 type SubmissionStateStatus = 'ACTIVE' | 'WAITING' | 'GRADING' | 'PASS' | 'FAIL'
 
-interface SubmissionStateResponse {
+interface SubmissionResponseViewModel {
+  submissionId: string
+  lessonId: string
+  userId: string
+  status: string
+  canSubmit: boolean
+  version: number
+  contentText: string | null
+  createdAt: string
+  updatedAt: string
+  files: SubmissionFileApiDto[]
+}
+
+interface SubmissionStateViewModel {
   status: SubmissionStateStatus
   canSubmit: boolean
-  latestSubmission: SubmissionResponse | null
+  latestSubmission: SubmissionResponseViewModel | null
 }
 
 const props = withDefaults(defineProps<{
   submissionPath: string
   apiBaseUrl: string
-  isAuthEnabled: boolean
-  isAuthenticated: boolean
-  accessToken: string
-  maxFiles: number
-  maxFileSizeMb: number
 }>(), {
-  maxFiles: 10,
-  maxFileSizeMb: 10,
+  apiBaseUrl: '',
 })
 
 const emit = defineEmits<{
@@ -50,10 +70,17 @@ const selectedFiles = ref<File[]>([])
 const isSubmitting = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
-const latestSubmission = ref<SubmissionResponse | null>(null)
-const currentState = ref<SubmissionStateResponse | null>(null)
+const latestSubmission = ref<SubmissionResponseViewModel | null>(null)
+const currentState = ref<SubmissionStateViewModel | null>(null)
+const constraints = ref<SubmissionConstraintsApiDto>({
+  maxFiles: 10,
+  maxFileSizeMb: 10,
+  allowedMimeTypes: [],
+})
 
-const maxFileSizeBytes = computed(() => props.maxFileSizeMb * 1024 * 1024)
+const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
+
+const maxFileSizeBytes = computed(() => constraints.value.maxFileSizeMb * 1024 * 1024)
 const hasApiBase = computed(() => Boolean(props.apiBaseUrl))
 const hasSubmissionContent = computed(() => Boolean(contentText.value.trim()) || selectedFiles.value.length > 0)
 const canSubmit = computed(() => hasSubmissionContent.value && (currentState.value?.canSubmit ?? true))
@@ -96,15 +123,15 @@ function onSelectFiles(event: Event) {
   const target = event.target as HTMLInputElement
   const files = Array.from(target.files || [])
 
-  if (files.length > props.maxFiles) {
-    errorMessage.value = `You can upload up to ${props.maxFiles} files.`
-    selectedFiles.value = files.slice(0, props.maxFiles)
+  if (files.length > constraints.value.maxFiles) {
+    errorMessage.value = `You can upload up to ${constraints.value.maxFiles} files.`
+    selectedFiles.value = files.slice(0, constraints.value.maxFiles)
     return
   }
 
   const oversized = files.find(file => file.size > maxFileSizeBytes.value)
   if (oversized) {
-    errorMessage.value = `File ${oversized.name} exceeds ${props.maxFileSizeMb}MB.`
+    errorMessage.value = `File ${oversized.name} exceeds ${constraints.value.maxFileSizeMb}MB.`
     selectedFiles.value = []
     target.value = ''
     return
@@ -119,12 +146,12 @@ function removeFile(index: number) {
 }
 
 function buildHeaders(): HeadersInit {
-  if (!props.accessToken) {
+  if (!accessToken.value) {
     return {}
   }
 
   return {
-    Authorization: `Bearer ${props.accessToken}`,
+    Authorization: `Bearer ${accessToken.value}`,
   }
 }
 
@@ -137,7 +164,7 @@ async function loadSubmissionState() {
     return
   }
 
-  if (props.isAuthEnabled && !props.isAuthenticated) {
+  if (isAuthEnabled.value && !isAuthenticated.value) {
     currentState.value = {
       status: 'ACTIVE',
       canSubmit: true,
@@ -148,15 +175,15 @@ async function loadSubmissionState() {
   }
 
   try {
-    const response = await $fetch<SubmissionStateResponse>(
+    const response = await $fetch<SubmissionStateApiDto>(
       `${normalizeApiBase(props.apiBaseUrl)}/api/${props.submissionPath.replace(/^\/+/, '')}/state`,
       {
         headers: buildHeaders(),
       },
     )
 
-    currentState.value = response
-    latestSubmission.value = response.latestSubmission
+    currentState.value = mapSubmissionStateApi(response)
+    latestSubmission.value = currentState.value.latestSubmission
   }
   catch (error: unknown) {
     const fetchError = error as {
@@ -174,8 +201,75 @@ async function loadSubmissionState() {
   }
 }
 
-onMounted(() => {
-  void loadSubmissionState()
+async function loadSubmissionConstraints() {
+  if (!hasApiBase.value) {
+    return
+  }
+
+  try {
+    const response = await $fetch<SubmissionConstraintsApiDto>(
+      `${normalizeApiBase(props.apiBaseUrl)}/api/submissions/constraints`,
+      {
+        headers: buildHeaders(),
+      },
+    )
+
+    constraints.value = {
+      maxFiles: response.maxFiles,
+      maxFileSizeMb: response.maxFileSizeMb,
+      allowedMimeTypes: response.allowedMimeTypes,
+    }
+  }
+  catch {
+    // Keep safe fallback limits when constraints endpoint is unavailable.
+    constraints.value = {
+      maxFiles: 10,
+      maxFileSizeMb: 10,
+      allowedMimeTypes: [],
+    }
+  }
+}
+
+function toStateStatus(status: string): SubmissionStateStatus {
+  switch (status) {
+    case 'WAITING':
+    case 'GRADING':
+    case 'PASS':
+    case 'FAIL':
+      return status
+    default:
+      return 'ACTIVE'
+  }
+}
+
+function mapSubmissionApi(submission: SubmissionApiDto): SubmissionResponseViewModel {
+  return {
+    submissionId: submission.submissionId,
+    lessonId: submission.lessonId,
+    userId: submission.userId,
+    status: submission.status,
+    canSubmit: submission.canSubmit,
+    version: submission.version,
+    contentText: submission.contentText,
+    createdAt: submission.createdAt,
+    updatedAt: submission.updatedAt,
+    files: submission.files,
+  }
+}
+
+function mapSubmissionStateApi(response: SubmissionStateApiDto): SubmissionStateViewModel {
+  return {
+    status: toStateStatus(response.status),
+    canSubmit: response.canSubmit,
+    latestSubmission: response.latestSubmission
+      ? mapSubmissionApi(response.latestSubmission)
+      : null,
+  }
+}
+
+onMounted(async () => {
+  await loadSubmissionConstraints()
+  await loadSubmissionState()
 })
 
 async function submit() {
@@ -192,7 +286,7 @@ async function submit() {
     return
   }
 
-  if (props.isAuthEnabled && !props.isAuthenticated) {
+  if (isAuthEnabled.value && !isAuthenticated.value) {
     emit('openLogin')
     return
   }
@@ -220,7 +314,7 @@ async function submit() {
       formData.append('files', file)
     }
 
-    const response = await $fetch<SubmissionResponse>(
+    const response = await $fetch<SubmissionApiDto>(
       `${normalizeApiBase(props.apiBaseUrl)}/api/${props.submissionPath.replace(/^\/+/, '')}`,
       {
         method: 'POST',
@@ -229,12 +323,8 @@ async function submit() {
       },
     )
 
-    currentState.value = {
-      status: 'WAITING',
-      canSubmit: true,
-      latestSubmission: response,
-    }
-    latestSubmission.value = response
+    latestSubmission.value = mapSubmissionApi(response)
+    await loadSubmissionState()
     successMessage.value = `Submitted successfully. Version ${response.version} is now waiting for grading.`
     contentText.value = ''
     selectedFiles.value = []
@@ -270,7 +360,7 @@ async function submit() {
       <p class="text-brand-orange text-xs uppercase tracking-[0.18em] font-semibold">Assignment Submission</p>
       <h3 class="text-xl font-bold mt-2">Submit your work</h3>
       <p class="text-sm text-[rgba(224,224,224,0.65)] mt-1">
-        Attach files and optional notes. Max {{ maxFiles }} files, {{ maxFileSizeMb }}MB each.
+        Attach files and optional notes. Max {{ constraints.maxFiles }} files, {{ constraints.maxFileSizeMb }}MB each.
       </p>
     </header>
 
