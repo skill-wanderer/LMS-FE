@@ -178,14 +178,22 @@ onBeforeUnmount(() => stopReveal())
       <div ref="messagesEl" class="lyra-messages">
         <!-- Welcome -->
         <div v-if="history.length === 0" class="lyra-welcome">
-          <svg class="lyra-welcome-book" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF8C42" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            <path d="M6 8h2" />
-            <path d="M6 12h2" />
-            <path d="M16 8h2" />
-            <path d="M16 12h2" />
-          </svg>
+          <div class="flex justify-center mb-4">
+            <div class="relative">
+              <div class="absolute inset-0 rounded-full bg-brand-orange/25 blur-xl" aria-hidden="true" />
+              <div class="relative p-[2px] rounded-full bg-gradient-to-br from-brand-orange via-brand-yellow to-brand-deep-orange">
+                <div class="w-20 h-20 rounded-full overflow-hidden bg-surface-darker">
+                  <NuxtImg
+                    src="/images/lyra.webp"
+                    alt="Lyra the Archivist"
+                    width="80"
+                    height="80"
+                    class="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
           <p class="text-sm font-semibold mt-3 mb-1">
             Welcome to the Archives!
           </p>
@@ -214,11 +222,16 @@ onBeforeUnmount(() => stopReveal())
             :class="msg.role === 'user' ? 'lyra-msg-user' : 'lyra-msg-assistant'"
           >
             <!-- Assistant avatar -->
-            <div v-if="msg.role === 'assistant'" class="lyra-avatar">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF8C42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-              </svg>
+            <div v-if="msg.role === 'assistant'" class="lyra-avatar-ring">
+              <div class="lyra-avatar">
+                <NuxtImg
+                  src="/images/lyra.webp"
+                  alt="Lyra"
+                  width="24"
+                  height="24"
+                  class="rounded-full object-cover"
+                />
+              </div>
             </div>
             <!-- Last assistant message: show typewriter text while revealing -->
             <!-- eslint-disable-next-line vue/no-v-html -->
@@ -240,11 +253,16 @@ onBeforeUnmount(() => stopReveal())
 
         <!-- Typing indicator -->
         <div v-if="loading" class="lyra-msg lyra-msg-assistant">
-          <div class="lyra-avatar">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF8C42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            </svg>
+          <div class="lyra-avatar-ring">
+            <div class="lyra-avatar">
+              <NuxtImg
+                src="/images/lyra.webp"
+                alt="Lyra"
+                width="24"
+                height="24"
+                class="rounded-full object-cover"
+              />
+            </div>
           </div>
           <div class="lyra-bubble lyra-typing">
             <span /><span /><span />
@@ -362,11 +380,11 @@ onBeforeUnmount(() => stopReveal())
   max-width: calc(100vw - 2rem);
   max-height: calc(100vh - 3rem);
   background: #0d1117;
-  border: 1px solid rgba(255, 217, 61, 0.12);
-  border-radius: 18px;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 24px;
   box-shadow: 0 8px 48px rgba(0, 0, 0, 0.6),
-    0 0 1px rgba(255, 107, 53, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 0 2px rgba(255, 107, 53, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -525,6 +543,14 @@ onBeforeUnmount(() => stopReveal())
   justify-content: flex-start;
 }
 
+.lyra-avatar-ring {
+  padding: 1.5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF6B35, #FFD93D);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
 .lyra-avatar {
   width: 24px;
   height: 24px;
@@ -533,8 +559,6 @@ onBeforeUnmount(() => stopReveal())
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  margin-top: 2px;
 }
 
 .lyra-bubble {
@@ -793,6 +817,14 @@ onBeforeUnmount(() => stopReveal())
 .lyra-send-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+.lyra-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 /* ===== Animations ===== */
