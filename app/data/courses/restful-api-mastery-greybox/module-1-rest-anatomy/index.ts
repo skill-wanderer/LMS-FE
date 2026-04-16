@@ -2,6 +2,7 @@
 
 import type { Module } from '~/types/course'
 
+import lesson0 from './introduction-to-rest-api'
 import lesson1 from './what-is-rest-and-greybox-thinking'
 import lesson2 from './http-methods-get-post-put-delete'
 import lesson3 from './status-codes-overview'
@@ -15,6 +16,7 @@ const module1: Module = {
   title: 'Module 1: REST Anatomy',
   order: 1,
   lessons: [
+    lesson0,
     lesson1,
     lesson2,
     lesson3,
