@@ -20,6 +20,7 @@ const lesson = createLesson({
 <li>A payment button on a website calls a payment provider's API.</li>
 <li>A mobile app displays your feed by calling a social platform's API.</li>
 </ul>
+<p>In every case the pattern is the same: the <strong>client</strong> sends a request, the <strong>server</strong> processes it, and the server sends back a response. REST is the set of rules that makes this exchange predictable.</p>
 
 <h2>What is REST?</h2>
 <p><strong>REST (Representational State Transfer)</strong> is an architectural style for designing networked APIs. It was introduced by Roy Fielding in his 2000 doctoral dissertation. REST defines a set of constraints that, when followed, produce a consistent, scalable, and easy-to-understand API.</p>
@@ -54,6 +55,15 @@ const lesson = createLesson({
 <p>The combination of a <strong>method + URI</strong> tells the server exactly what you want to do and with which resource.</p>
 <p><strong>PATCH vs PUT:</strong> Use <code>PUT</code> when replacing the entire resource; use <code>PATCH</code> when updating only specific fields. <strong>HEAD</strong> is useful to check if a resource exists or to read metadata without downloading the body. <strong>OPTIONS</strong> is used by browsers for CORS preflight checks.</p>
 
+<h3>Idempotency</h3>
+<p><strong>Idempotency</strong> means that making the same request multiple times produces the same result as making it once. This matters when retrying failed requests.</p>
+<ul>
+<li><code>GET</code> — <strong>safe and idempotent</strong>: reads data, never changes server state.</li>
+<li><code>PUT</code> — <strong>idempotent</strong>: replacing a resource with the same data twice yields the same outcome.</li>
+<li><code>POST</code> — <strong>not idempotent</strong>: each call creates a new resource, so repeating it creates duplicates.</li>
+</ul>
+<p><strong>Safe methods</strong> (<code>GET</code>, <code>HEAD</code>) never change server state. <strong>Unsafe methods</strong> (<code>POST</code>, <code>PUT</code>, <code>PATCH</code>, <code>DELETE</code>) may modify data.</p>
+
 <h3>Stateless</h3>
 <p>REST APIs are <strong>stateless</strong>: each request from the client must contain all the information the server needs to fulfill it. The server does not store any session state between requests. Every request stands on its own.</p>
 <p>This makes REST APIs easier to scale — any server in a cluster can handle any request because there is no shared session memory to maintain.</p>
@@ -69,6 +79,21 @@ const lesson = createLesson({
 <li><code>/api/users</code> — the resource URI: the collection of all users.</li>
 </ul>
 
+<h2>URL Design Patterns</h2>
+<p>Well-designed REST URLs are predictable and consistent. Follow these conventions:</p>
+<ul>
+<li>Use <strong>nouns</strong>, not verbs — <code>/api/users</code>, not <code>/api/getUsers</code>.</li>
+<li>Use <strong>plural names</strong> for collections — <code>/api/orders</code>, not <code>/api/order</code>.</li>
+<li>Nest resources to show relationships — <code>/api/users/42/orders</code> for orders belonging to user 42.</li>
+</ul>
+
+<h2>Path vs Query Parameters</h2>
+<p>There are two ways to pass data in a URL, each with a clear purpose:</p>
+<ul>
+<li><strong>Path parameter</strong> — identifies a specific resource. It is part of the URL path: <code>/api/users/42</code> (42 is the path parameter).</li>
+<li><strong>Query parameter</strong> — filters or modifies the result. It is appended after <code>?</code>: <code>/api/users?role=admin&amp;page=2</code>.</li>
+</ul>
+
 <h2>Anatomy of a Request</h2>
 <p>Every HTTP request is composed of the following parts:</p>
 <ul>
@@ -79,11 +104,19 @@ const lesson = createLesson({
 <li><strong>Query Parameters</strong> — Key-value pairs appended to the URL after <code>?</code>, used to filter or modify results, e.g. <code>/api/users?role=admin&amp;page=2</code>.</li>
 </ul>
 
+<h2>Important Headers</h2>
+<p>Some headers appear in almost every real-world API interaction:</p>
+<ul>
+<li><code>Authorization</code> — Proves your identity to the server, e.g. <code>Authorization: Bearer &lt;token&gt;</code>.</li>
+<li><code>Content-Type</code> — Tells the server the format of the request body, e.g. <code>Content-Type: application/json</code>.</li>
+<li><code>Accept</code> — Tells the server what format the client expects in the response, e.g. <code>Accept: application/json</code>.</li>
+</ul>
+
 <h2>Anatomy of a Response</h2>
 <p>When the server processes a request, it returns a response containing:</p>
 <ul>
 <li><strong>Status Code</strong> — A three-digit number indicating the outcome of the request (e.g. <code>200</code>, <code>404</code>).</li>
-<li><strong>Headers</strong> — Metadata about the response, such as <code>Content-Type: application/json</code> or <code>Cache-Control</code> directives.</li>
+<li><strong>Headers</strong> — Metadata about the response, such as <code>Content-Type: application/json</code> or <code>Cache-Control</code> directives. For example: <code>Content-Type: application/json</code>, <code>Cache-Control: no-cache</code>.</li>
 <li><strong>Body</strong> — The actual payload returned by the server. For REST APIs this is almost always <strong>JSON</strong>.</li>
 </ul>
 
@@ -102,6 +135,18 @@ const lesson = createLesson({
 </tbody>
 </table>
 <p>You will study the full range of status codes — including <code>401 Unauthorized</code>, <code>403 Forbidden</code>, and <code>429 Too Many Requests</code> — in a dedicated lesson later in this course.</p>
+
+<h2>Error Response Example</h2>
+<p>When a request fails, the server returns an appropriate status code <em>and</em> a JSON body explaining what went wrong:</p>
+<blockquote>
+<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">HTTP/1.1 404 Not Found
+
+{
+  "error": "User not found",
+  "code": 404
+}</pre>
+</blockquote>
+<p>Always read both the status code and the response body — the body often contains the specific reason for failure.</p>
 
 <h2>Representation Format: JSON</h2>
 <p><strong>JSON (JavaScript Object Notation)</strong> is the standard data format used in REST API responses. It is lightweight, human-readable, and supported by every major programming language. A JSON object uses key-value pairs enclosed in curly braces:</p>
@@ -126,6 +171,10 @@ const lesson = createLesson({
 <li>A request carries a <strong>method</strong>, <strong>URL</strong>, optional <strong>headers</strong>, optional <strong>body</strong>, and optional <strong>query parameters</strong>.</li>
 <li>A response carries a <strong>status code</strong>, <strong>headers</strong>, and a <strong>body</strong> (usually JSON).</li>
 <li>REST APIs are <strong>stateless</strong>: every request carries all the information the server needs.</li>
+<li><strong>Idempotent</strong> methods (<code>GET</code>, <code>PUT</code>) are safe to repeat; <code>POST</code> is not — each call creates a new resource.</li>
+<li>REST URLs use <strong>nouns and plural names</strong>; path segments identify resources, query parameters filter them.</li>
+<li>Key headers: <code>Authorization</code> (identity), <code>Content-Type</code> (request body format), <code>Accept</code> (expected response format).</li>
+<li>Error responses combine a status code with a JSON body describing the specific failure.</li>
 <li>Responses are delivered as <strong>JSON</strong> with an HTTP status code indicating success or failure.</li>
 </ul>`,
 })
