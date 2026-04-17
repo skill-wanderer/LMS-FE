@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'http-methods-get-post-put-delete',
   title: 'HTTP Methods (GET, POST, PUT, DELETE)',
   type: 'lesson',
+  status: 'draft',
   order: 2,
   durationMinutes: 12,
   content: 'Understanding core HTTP methods and their usage.',

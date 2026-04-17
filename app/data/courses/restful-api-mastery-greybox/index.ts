@@ -13,7 +13,6 @@ import module6 from './module-6-tool-agnostic'
 
 const OPEN_LESSON_SLUGS = new Set<string>([
   'introduction-to-rest-api',
-  'what-is-rest-and-greybox-thinking',
 ])
 
 const baseCourse: CourseInput = {

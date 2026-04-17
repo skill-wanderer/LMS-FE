@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'status-codes-overview',
   title: 'Status Codes (200, 201, 400, 401, 404, 500)',
   type: 'lesson',
+  status: 'draft',
   order: 3,
   durationMinutes: 10,
   content: 'Learn how to interpret HTTP status codes effectively.',

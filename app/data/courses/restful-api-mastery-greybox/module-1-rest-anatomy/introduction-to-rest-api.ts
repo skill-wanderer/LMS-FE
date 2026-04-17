@@ -46,9 +46,13 @@ const lesson = createLesson({
 <tr><td><code>POST</code></td><td>Create a new resource</td><td><code>POST /api/users</code></td></tr>
 <tr><td><code>PUT</code></td><td>Replace / update a resource fully</td><td><code>PUT /api/users/42</code></td></tr>
 <tr><td><code>DELETE</code></td><td>Remove a resource</td><td><code>DELETE /api/users/42</code></td></tr>
+<tr><td><code>PATCH</code></td><td>Partially update a resource</td><td><code>PATCH /api/users/42</code></td></tr>
+<tr><td><code>HEAD</code></td><td>Same as GET but returns headers only (no body)</td><td><code>HEAD /api/users</code></td></tr>
+<tr><td><code>OPTIONS</code></td><td>Describe communication options for a resource</td><td><code>OPTIONS /api/users</code></td></tr>
 </tbody>
 </table>
 <p>The combination of a <strong>method + URI</strong> tells the server exactly what you want to do and with which resource.</p>
+<p><strong>PATCH vs PUT:</strong> Use <code>PUT</code> when replacing the entire resource; use <code>PATCH</code> when updating only specific fields. <strong>HEAD</strong> is useful to check if a resource exists or to read metadata without downloading the body. <strong>OPTIONS</strong> is used by browsers for CORS preflight checks.</p>
 
 <h3>Stateless</h3>
 <p>REST APIs are <strong>stateless</strong>: each request from the client must contain all the information the server needs to fulfill it. The server does not store any session state between requests. Every request stands on its own.</p>
@@ -65,24 +69,64 @@ const lesson = createLesson({
 <li><code>/api/users</code> — the resource URI: the collection of all users.</li>
 </ul>
 
-<h2>JSON Response Example</h2>
-<p>The server processes the request and responds with data in <strong>JSON (JavaScript Object Notation)</strong> format — the standard data format for REST APIs:</p>
+<h2>Anatomy of a Request</h2>
+<p>Every HTTP request is composed of the following parts:</p>
+<ul>
+<li><strong>Method</strong> — The action to perform (<code>GET</code>, <code>POST</code>, <code>PATCH</code>, etc.).</li>
+<li><strong>URL</strong> — The address of the resource, e.g. <code>https://api.example.com/api/users/42</code>.</li>
+<li><strong>Headers</strong> — Key-value pairs that carry metadata about the request, such as <code>Content-Type: application/json</code> or <code>Authorization: Bearer &lt;token&gt;</code>.</li>
+<li><strong>Body</strong> — Optional data sent with the request, typically used with <code>POST</code>, <code>PUT</code>, and <code>PATCH</code>. Usually formatted as JSON.</li>
+<li><strong>Query Parameters</strong> — Key-value pairs appended to the URL after <code>?</code>, used to filter or modify results, e.g. <code>/api/users?role=admin&amp;page=2</code>.</li>
+</ul>
+
+<h2>Anatomy of a Response</h2>
+<p>When the server processes a request, it returns a response containing:</p>
+<ul>
+<li><strong>Status Code</strong> — A three-digit number indicating the outcome of the request (e.g. <code>200</code>, <code>404</code>).</li>
+<li><strong>Headers</strong> — Metadata about the response, such as <code>Content-Type: application/json</code> or <code>Cache-Control</code> directives.</li>
+<li><strong>Body</strong> — The actual payload returned by the server. For REST APIs this is almost always <strong>JSON</strong>.</li>
+</ul>
+
+<h2>HTTP Status Codes</h2>
+<p>Status codes tell you whether a request succeeded or failed, and why. They are grouped by their first digit:</p>
+<table>
+<thead>
+<tr><th>Code</th><th>Name</th><th>Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td><code>200</code></td><td>OK</td><td>Request succeeded. Data is returned in the response body.</td></tr>
+<tr><td><code>201</code></td><td>Created</td><td>A new resource was successfully created (common after <code>POST</code>).</td></tr>
+<tr><td><code>400</code></td><td>Bad Request</td><td>The request was malformed or missing required data.</td></tr>
+<tr><td><code>404</code></td><td>Not Found</td><td>The requested resource does not exist.</td></tr>
+<tr><td><code>500</code></td><td>Internal Server Error</td><td>The server encountered an unexpected error.</td></tr>
+</tbody>
+</table>
+<p>You will study the full range of status codes — including <code>401 Unauthorized</code>, <code>403 Forbidden</code>, and <code>429 Too Many Requests</code> — in a dedicated lesson later in this course.</p>
+
+<h2>Representation Format: JSON</h2>
+<p><strong>JSON (JavaScript Object Notation)</strong> is the standard data format used in REST API responses. It is lightweight, human-readable, and supported by every major programming language. A JSON object uses key-value pairs enclosed in curly braces:</p>
+<blockquote>
+<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">{ "id": 42, "name": "Alice", "email": "alice@example.com" }</pre>
+</blockquote>
+<p>Arrays of objects are wrapped in square brackets:</p>
 <blockquote>
 <pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">[
   { "id": 1, "name": "Alice", "email": "alice@example.com" },
   { "id": 2, "name": "Bob",   "email": "bob@example.com"   }
 ]</pre>
 </blockquote>
-<p>Along with the data, the server also returns an <strong>HTTP status code</strong>. A status of <code>200 OK</code> means the request succeeded and the data was found. You will learn more about status codes in a later lesson.</p>
+<p>The server signals the format via the <code>Content-Type: application/json</code> response header so clients know how to parse the body.</p>
 
 <h2>Summary</h2>
 <ul>
 <li>An <strong>API</strong> is a contract that lets two applications communicate.</li>
 <li><strong>REST</strong> is an architectural style for HTTP APIs built around resources and standard methods.</li>
 <li>A <strong>resource</strong> is any named piece of data, identified by a URI such as <code>/api/users</code>.</li>
-<li>The four core HTTP methods are <code>GET</code>, <code>POST</code>, <code>PUT</code>, and <code>DELETE</code>.</li>
+<li>The seven HTTP methods are <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>, <code>HEAD</code>, and <code>OPTIONS</code>.</li>
+<li>A request carries a <strong>method</strong>, <strong>URL</strong>, optional <strong>headers</strong>, optional <strong>body</strong>, and optional <strong>query parameters</strong>.</li>
+<li>A response carries a <strong>status code</strong>, <strong>headers</strong>, and a <strong>body</strong> (usually JSON).</li>
 <li>REST APIs are <strong>stateless</strong>: every request carries all the information the server needs.</li>
-<li>Responses are typically delivered as <strong>JSON</strong> with an HTTP status code.</li>
+<li>Responses are delivered as <strong>JSON</strong> with an HTTP status code indicating success or failure.</li>
 </ul>`,
 })
 
