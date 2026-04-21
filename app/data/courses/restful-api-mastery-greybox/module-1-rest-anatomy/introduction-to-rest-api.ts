@@ -54,6 +54,16 @@ const lesson = createLesson({
 </table>
 <p>The combination of a <strong>method + URI</strong> tells the server exactly what you want to do and with which resource.</p>
 <p><strong>PATCH vs PUT:</strong> Use <code>PUT</code> when replacing the entire resource; use <code>PATCH</code> when updating only specific fields. <strong>HEAD</strong> is useful to check if a resource exists or to read metadata without downloading the body. <strong>OPTIONS</strong> is used by browsers for CORS preflight checks.</p>
+<p>In practice, the HTTP method should match your intent before anyone reads the request body. A well-designed API becomes easier to understand because the method already signals whether the client is reading, creating, replacing, editing, deleting, or inspecting a resource.</p>
+<ul>
+<li><code>GET</code> is commonly used to list collections or fetch one existing record.</li>
+<li><code>POST</code> is commonly used to create something new or trigger a server-side action.</li>
+<li><code>PUT</code> fits cases where the client sends a complete new version of a resource.</li>
+<li><code>PATCH</code> fits partial edits such as changing only a status, email, or display name.</li>
+<li><code>DELETE</code> removes a resource or marks it as deleted.</li>
+<li><code>HEAD</code> lets clients check existence or metadata without downloading the response body.</li>
+<li><code>OPTIONS</code> tells the client which methods and cross-origin rules are available for that endpoint.</li>
+</ul>
 
 <h3>Idempotency</h3>
 <p><strong>Idempotency</strong> means that making the same request multiple times produces the same result as making it once. This matters when retrying failed requests.</p>
@@ -67,6 +77,28 @@ const lesson = createLesson({
 <h3>Stateless</h3>
 <p>REST APIs are <strong>stateless</strong>: each request from the client must contain all the information the server needs to fulfill it. The server does not store any session state between requests. Every request stands on its own.</p>
 <p>This makes REST APIs easier to scale — any server in a cluster can handle any request because there is no shared session memory to maintain.</p>
+
+<h2>Request and Response Anatomy</h2>
+<p>Before looking at more endpoints, it helps to understand the full shape of an HTTP exchange. The client sends a <strong>request</strong> to a server, and the server answers with a <strong>response</strong>. If you can read those two messages clearly, you can debug most API problems much faster.</p>
+
+<h3>Request Structure</h3>
+<p>A request tells the server what resource the client wants and what action to perform. For example, <code>POST https://api.example.com/api/users?role=student</code> means the client is sending data to create a user, and the query string adds extra instruction to the request.</p>
+<ul>
+<li><strong>URL</strong> — Identifies the target resource, such as <code>https://api.example.com/api/users/42</code>.</li>
+<li><strong>Headers</strong> — Carry metadata about the request. Common examples are <code>Content-Type: application/json</code> to describe the body format and <code>Authorization: Bearer &lt;token&gt;</code> to prove identity.</li>
+<li><strong>Body</strong> — Sends data to the server, usually with <code>POST</code>, <code>PUT</code>, or <code>PATCH</code>. A body might contain JSON with a user's name, email, and role.</li>
+<li><strong>Query Parameters</strong> — Add filters or options after <code>?</code>, such as <code>/api/users?role=admin&amp;page=2</code>.</li>
+</ul>
+<p>Not every request uses every part. A simple <code>GET /api/users</code> may have no body at all, while an authenticated <code>PATCH</code> request may use the URL, headers, body, and query parameters together.</p>
+
+<h3>Response Structure</h3>
+<p>A response tells the client what happened after the server processed the request. It usually contains a status code, headers, and sometimes a body.</p>
+<ul>
+<li><strong>Status Code</strong> — Shows the outcome, such as <code>200 OK</code> for success or <code>404 Not Found</code> if the resource does not exist.</li>
+<li><strong>Headers</strong> — Describe the response, for example <code>Content-Type: application/json</code> so the client knows how to parse the returned data.</li>
+<li><strong>Body</strong> — Contains the returned data or an error message. Successful responses often include resource data, while failed responses often include details about what went wrong.</li>
+</ul>
+<p>Reading the request and response together gives you the full story: what the client asked for, how the server interpreted it, and what came back.</p>
 
 <h2>Example Endpoint</h2>
 <p>Let's look at a real-world example. To retrieve a list of users, a client sends:</p>
@@ -148,7 +180,23 @@ const lesson = createLesson({
 </blockquote>
 <p>Always read both the status code and the response body — the body often contains the specific reason for failure.</p>
 
+<h2>Representation Formats</h2>
+<p>The body of a request or response is called a <strong>representation</strong>. JSON is the most common format in modern REST APIs, but it is not the only one you will encounter.</p>
+<ul>
+<li><strong>JSON</strong> — The default format for most modern APIs because it is lightweight and easy to read.</li>
+<li><strong>form-data</strong> — Used when submitting form fields that may include file uploads such as images or PDFs.</li>
+<li><strong>x-www-form-urlencoded</strong> — A simple key-value format often used by HTML forms and older APIs.</li>
+<li><strong>raw</strong> — Sends plain text or another unstructured payload exactly as written.</li>
+<li><strong>binary</strong> — Sends file data such as images, videos, or documents without converting it into readable text first.</li>
+<li><strong>GraphQL</strong> — A query-based way to ask for exactly the data fields you need, usually sent over HTTP.</li>
+<li><strong>JavaScript</strong> — Sometimes used when a server returns executable script or configuration snippets, though this is less common in modern public APIs.</li>
+<li><strong>HTML</strong> — Useful when the server returns rendered markup, such as an embedded page or server-rendered fragment.</li>
+<li><strong>XML</strong> — An older but still important structured format used in enterprise systems, feeds, and some legacy integrations.</li>
+</ul>
+<p>The format is usually declared with the <code>Content-Type</code> header so both client and server know how to handle the data correctly.</p>
+
 <h2>Representation Format: JSON</h2>
+<p>Among all representation formats, JSON is the one you will see most often in beginner-friendly REST APIs.</p>
 <p><strong>JSON (JavaScript Object Notation)</strong> is the standard data format used in REST API responses. It is lightweight, human-readable, and supported by every major programming language. A JSON object uses key-value pairs enclosed in curly braces:</p>
 <blockquote>
 <pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">{ "id": 42, "name": "Alice", "email": "alice@example.com" }</pre>
@@ -176,6 +224,7 @@ const lesson = createLesson({
 <li>Key headers: <code>Authorization</code> (identity), <code>Content-Type</code> (request body format), <code>Accept</code> (expected response format).</li>
 <li>Error responses combine a status code with a JSON body describing the specific failure.</li>
 <li>Responses are delivered as <strong>JSON</strong> with an HTTP status code indicating success or failure.</li>
+<li><strong>Representation formats</strong> describe how the body is encoded: JSON is the most common, but APIs may also use form-data, URL-encoded data, raw text, binary files, HTML, XML, or GraphQL-style payloads.</li>
 </ul>`,
 })
 
