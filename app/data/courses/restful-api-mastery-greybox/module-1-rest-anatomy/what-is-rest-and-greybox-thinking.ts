@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'what-is-rest-and-greybox-thinking',
   title: 'What is REST & Greybox Thinking',
   type: 'lesson',
+  status: 'draft',
   order: 1,
   durationMinutes: 10,
   content: 'Introduction to REST concepts and greybox thinking approach.',

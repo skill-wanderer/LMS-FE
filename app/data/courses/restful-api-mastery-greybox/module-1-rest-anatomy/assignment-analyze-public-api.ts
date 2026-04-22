@@ -6,6 +6,7 @@ const lesson = createLesson({
   slug: 'assignment-analyze-public-api',
   title: 'Assignment: Analyze Public API',
   type: 'assignment',
+  status: 'draft',
   order: 5,
   durationMinutes: 20,
   content: 'Analyze a public API and identify its structure and responses.',

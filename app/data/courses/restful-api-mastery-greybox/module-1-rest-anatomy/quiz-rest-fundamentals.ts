@@ -6,6 +6,7 @@ const lesson = createLesson({
   slug: 'quiz-rest-fundamentals',
   title: 'Quiz: REST Fundamentals',
   type: 'lesson',
+  status: 'draft',
   order: 6,
   durationMinutes: 10,
   content: 'Test your understanding of REST fundamentals.',

@@ -6,6 +6,7 @@ const lesson = createLesson({
   slug: 'headers-basics',
   title: 'Headers Basics',
   type: 'lesson',
+  status: 'draft',
   order: 4,
   durationMinutes: 8,
   content: 'Explore request and response headers in API communication.',
