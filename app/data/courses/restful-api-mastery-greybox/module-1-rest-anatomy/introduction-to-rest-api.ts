@@ -195,37 +195,11 @@ const lesson = createLesson({
 <li>Nest resources to show relationships — <code>/api/users/42/orders</code> for orders belonging to user 42.</li>
 </ul>
 
-<h2>Path vs Query Parameters</h2>
+<h2>Path vs Query</h2>
 <p>There are two ways to pass data in a URL, each with a clear purpose:</p>
 <ul>
 <li><strong>Path parameter</strong> — identifies a specific resource. It is part of the URL path: <code>/api/users/42</code> (42 is the path parameter).</li>
 <li><strong>Query parameter</strong> — filters or modifies the result. It is appended after <code>?</code>: <code>/api/users?role=admin&amp;page=2</code>.</li>
-</ul>
-
-<h2>Anatomy of a Request</h2>
-<p>Every HTTP request is composed of the following parts:</p>
-<ul>
-<li><strong>Method</strong> — The action to perform (<code>GET</code>, <code>POST</code>, <code>PATCH</code>, etc.).</li>
-<li><strong>URL</strong> — The address of the resource, e.g. <code>https://api.example.com/api/users/42</code>.</li>
-<li><strong>Headers</strong> — Key-value pairs that carry metadata about the request, such as <code>Content-Type: application/json</code> or <code>Authorization: Bearer &lt;token&gt;</code>.</li>
-<li><strong>Body</strong> — Optional data sent with the request, typically used with <code>POST</code>, <code>PUT</code>, and <code>PATCH</code>. Usually formatted as JSON.</li>
-<li><strong>Query Parameters</strong> — Key-value pairs appended to the URL after <code>?</code>, used to filter or modify results, e.g. <code>/api/users?role=admin&amp;page=2</code>.</li>
-</ul>
-
-<h2>Important Headers</h2>
-<p>Some headers appear in almost every real-world API interaction:</p>
-<ul>
-<li><code>Authorization</code> — Proves your identity to the server, e.g. <code>Authorization: Bearer &lt;token&gt;</code>.</li>
-<li><code>Content-Type</code> — Tells the server the format of the request body, e.g. <code>Content-Type: application/json</code>.</li>
-<li><code>Accept</code> — Tells the server what format the client expects in the response, e.g. <code>Accept: application/json</code>.</li>
-</ul>
-
-<h2>Anatomy of a Response</h2>
-<p>When the server processes a request, it returns a response containing:</p>
-<ul>
-<li><strong>Status Code</strong> — A three-digit number indicating the outcome of the request (e.g. <code>200</code>, <code>404</code>).</li>
-<li><strong>Headers</strong> — Metadata about the response, such as <code>Content-Type: application/json</code> or <code>Cache-Control</code> directives. For example: <code>Content-Type: application/json</code>, <code>Cache-Control: no-cache</code>.</li>
-<li><strong>Body</strong> — The actual payload returned by the server. For REST APIs this is almost always <strong>JSON</strong>.</li>
 </ul>
 
 <h2>HTTP Status Codes</h2>
@@ -244,7 +218,7 @@ const lesson = createLesson({
 </table>
 <p>You will study the full range of status codes — including <code>401 Unauthorized</code>, <code>403 Forbidden</code>, and <code>429 Too Many Requests</code> — in a dedicated lesson later in this course.</p>
 
-<h2>Error Response Example</h2>
+<h2>Error Example</h2>
 <p>When a request fails, the server returns an appropriate status code <em>and</em> a JSON body explaining what went wrong:</p>
 <blockquote>
 <pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">HTTP/1.1 404 Not Found
@@ -258,18 +232,160 @@ const lesson = createLesson({
 
 <h2>Representation Formats</h2>
 <p>The body of a request or response is called a <strong>representation</strong>. JSON is the most common format in modern REST APIs, but it is not the only one you will encounter.</p>
-<ul>
-<li><strong>JSON</strong> — The default format for most modern APIs because it is lightweight and easy to read.</li>
-<li><strong>form-data</strong> — Used when submitting form fields that may include file uploads such as images or PDFs.</li>
-<li><strong>x-www-form-urlencoded</strong> — A simple key-value format often used by HTML forms and older APIs.</li>
-<li><strong>raw</strong> — Sends plain text or another unstructured payload exactly as written.</li>
-<li><strong>binary</strong> — Sends file data such as images, videos, or documents without converting it into readable text first.</li>
-<li><strong>GraphQL</strong> — A query-based way to ask for exactly the data fields you need, usually sent over HTTP.</li>
-<li><strong>JavaScript</strong> — Sometimes used when a server returns executable script or configuration snippets, though this is less common in modern public APIs.</li>
-<li><strong>HTML</strong> — Useful when the server returns rendered markup, such as an embedded page or server-rendered fragment.</li>
-<li><strong>XML</strong> — An older but still important structured format used in enterprise systems, feeds, and some legacy integrations.</li>
-</ul>
+<table>
+<thead>
+<tr><th>Format</th><th>What</th><th>When to Use</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><code>JSON</code></td><td>Structured key-value data using objects and arrays.</td><td>Default for most REST request and response bodies.</td><td><code>{ "name": "Ava", "role": "student" }</code></td><td>JSON is the reference data model for modern API payloads.</td></tr>
+<tr><td><code>form-data</code></td><td>Multipart payload made of separate named parts.</td><td>File uploads with text fields such as profile forms.</td><td><code>avatar=[file], name=Ava</code></td><td><code>multipart/form-data</code> separates binary files from metadata.</td></tr>
+<tr><td><code>x-www-form-urlencoded</code></td><td>Compact key-value body encoded like a query string.</td><td>Simple HTML forms and legacy endpoints.</td><td><code>name=Ava&amp;role=student</code></td><td>Highly compatible, but weak for nested data and files.</td></tr>
+<tr><td><code>raw</code></td><td>Plain text or custom payload sent exactly as written.</td><td>Webhooks, signatures, or simple text bodies.</td><td><code>Hello from client</code></td><td>The application must interpret the payload itself.</td></tr>
+<tr><td><code>binary</code></td><td>Raw file bytes without text encoding.</td><td>Streaming images, videos, archives, or documents.</td><td><code>application/octet-stream</code></td><td>Efficient for files, but not human-readable.</td></tr>
+<tr><td><code>GraphQL</code></td><td>Query-driven request payload, usually sent as JSON.</td><td>Flexible data fetching when clients choose fields.</td><td><code>{ "query": "{ user(id: 42) { name } }" }</code></td><td>GraphQL shifts responsibility from many endpoints to schema and query structure.</td></tr>
+<tr><td><code>JavaScript</code></td><td>Executable script or runtime configuration snippet.</td><td>Rare browser-specific integrations or legacy script delivery.</td><td><code>window.appConfig = { apiBase: "/api" }</code></td><td>Powerful in browsers, but carries stronger security constraints.</td></tr>
+<tr><td><code>HTML</code></td><td>Rendered markup for pages or fragments.</td><td>Server-rendered content, widgets, or partial page updates.</td><td><code>&lt;div&gt;Profile&lt;/div&gt;</code></td><td>HTML returns presentation, not only data.</td></tr>
+<tr><td><code>XML</code></td><td>Hierarchical tag-based structured format.</td><td>Legacy systems, enterprise integrations, and feeds.</td><td><code>&lt;user id="42"&gt;&lt;name&gt;Ava&lt;/name&gt;&lt;/user&gt;</code></td><td>Verbose, but strong for schema-driven compatibility.</td></tr>
+</tbody>
+</table>
 <p>The format is usually declared with the <code>Content-Type</code> header so both client and server know how to handle the data correctly.</p>
+
+<h3>JSON</h3>
+<table>
+<thead>
+<tr><th>Aspect</th><th>Explanation</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>What</strong></td><td>JSON is a text-based structured format that represents data as key-value objects and arrays.</td><td><code>{ "id": 42, "name": "Alice" }</code></td><td>JSON is the default representation model for most REST APIs.</td></tr>
+<tr><td><strong>Why</strong></td><td>It is readable, language-agnostic, and easy for clients and servers to exchange.</td><td><code>{ "role": "student", "active": true }</code></td><td>Its cross-language compatibility lowers integration cost.</td></tr>
+<tr><td><strong>When</strong></td><td>Use it for most structured business data in request and response bodies.</td><td><code>POST /api/users</code> with JSON payload</td><td>JSON works best for records, collections, and configuration-like data.</td></tr>
+<tr><td><strong>Where</strong></td><td>It appears in the message body with <code>Content-Type: application/json</code>.</td><td><code>Content-Type: application/json</code></td><td>Middleware often parses JSON before controllers run.</td></tr>
+<tr><td><strong>Who</strong></td><td>Clients serialize native objects into JSON, and servers parse and validate them against expected schemas.</td><td>A frontend sends a user object, and the backend validates its fields.</td><td>Schema validation sits between raw JSON parsing and business logic.</td></tr>
+<tr><td><strong>How</strong></td><td>The payload is sent as text, parsed into native objects, and then processed. The trade-off is that JSON is not efficient for raw binary files.</td><td><code>[{ "id": 1 }, { "id": 2 }]</code></td><td>JSON is portable and debuggable, but files usually need another format.</td></tr>
+</tbody>
+</table>
+
+<h3>form-data</h3>
+<table>
+<thead>
+<tr><th>Aspect</th><th>Explanation</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>What</strong></td><td><code>form-data</code> is a multipart body made of separate named parts, where each part can contain text or a file.</td><td><code>avatar=[file], name=Ava</code></td><td><code>multipart/form-data</code> enables file transfer with metadata separation.</td></tr>
+<tr><td><strong>Why</strong></td><td>It lets the client upload files and normal fields together in one request.</td><td>Profile image plus <code>displayName</code></td><td>Files and form fields can travel in one transport envelope.</td></tr>
+<tr><td><strong>When</strong></td><td>Use it for image uploads, document submissions, and other file-oriented forms.</td><td><code>POST /api/profile/avatar</code></td><td>It is the standard choice when binary content and text must be combined.</td></tr>
+<tr><td><strong>Where</strong></td><td>It appears in the request body with a boundary-aware header such as <code>Content-Type: multipart/form-data</code>.</td><td><code>Content-Type: multipart/form-data; boundary=---</code></td><td>The boundary tells the server where each part begins and ends.</td></tr>
+<tr><td><strong>Who</strong></td><td>Browsers and clients build the multipart body, and backend parsers split it into files and text fields.</td><td>A backend extracts <code>req.file</code> and <code>req.body.name</code>.</td><td>Specialized upload middleware usually handles multipart parsing.</td></tr>
+<tr><td><strong>How</strong></td><td>Each part carries its own headers and content. The trade-off is more parsing complexity than JSON, but broader support for uploads.</td><td>One part for a JPEG, one part for a user ID</td><td>Multipart uploads are flexible, but heavier than plain JSON requests.</td></tr>
+</tbody>
+</table>
+
+<h3>x-www-form-urlencoded</h3>
+<table>
+<thead>
+<tr><th>Aspect</th><th>Explanation</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>What</strong></td><td>This format encodes the body as simple key-value pairs joined by <code>&amp;</code>.</td><td><code>email=ava%40example.com&amp;role=student</code></td><td>It reuses the same encoding style seen in query strings.</td></tr>
+<tr><td><strong>Why</strong></td><td>It is compact and widely supported by browsers, forms, and older servers.</td><td>Login or token exchange forms</td><td>Compatibility is its main strength.</td></tr>
+<tr><td><strong>When</strong></td><td>Use it for small form submissions, search forms, or legacy endpoints that expect simple fields.</td><td><code>POST /oauth/token</code></td><td>It works well when the payload is flat and text-only.</td></tr>
+<tr><td><strong>Where</strong></td><td>It appears in the request body with <code>Content-Type: application/x-www-form-urlencoded</code>.</td><td><code>Content-Type: application/x-www-form-urlencoded</code></td><td>Servers decode it into field dictionaries before validation.</td></tr>
+<tr><td><strong>Who</strong></td><td>Browsers and HTTP clients encode the data, and server parsers decode it back into field values.</td><td>A backend reads <code>email</code> and <code>password</code> from the body.</td><td>The server still validates types and required fields after decoding.</td></tr>
+<tr><td><strong>How</strong></td><td>Values are percent-encoded as text. The trade-off is weak support for nested objects and no native support for file uploads.</td><td><code>grant_type=client_credentials&amp;scope=read</code></td><td>It is simple and portable, but not ideal for complex payloads.</td></tr>
+</tbody>
+</table>
+
+<h3>raw</h3>
+<table>
+<thead>
+<tr><th>Aspect</th><th>Explanation</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>What</strong></td><td><code>raw</code> means the body is sent as plain text or custom bytes without being wrapped in a higher-level data structure.</td><td><code>Hello from client</code></td><td>The application, not the format, defines the meaning of the payload.</td></tr>
+<tr><td><strong>Why</strong></td><td>It preserves the exact payload, which is useful for plain text, signed messages, or custom protocols.</td><td>Webhook signature verification</td><td>Exact byte preservation matters in security-sensitive integrations.</td></tr>
+<tr><td><strong>When</strong></td><td>Use it when a service expects plain text, exact raw bytes, or a custom media type instead of JSON.</td><td><code>text/plain</code> note submission</td><td>It fits special cases more than mainstream API payloads.</td></tr>
+<tr><td><strong>Where</strong></td><td>It appears in the body with a media type such as <code>text/plain</code> or another custom <code>Content-Type</code>.</td><td><code>Content-Type: text/plain</code></td><td>The media type becomes the main hint for backend interpretation.</td></tr>
+<tr><td><strong>Who</strong></td><td>The client sends the raw bytes, and the backend reads them without automatic JSON or form parsing.</td><td>A server reads the request body as one text blob.</td><td>Manual parsing gives flexibility, but increases application responsibility.</td></tr>
+<tr><td><strong>How</strong></td><td>The server processes the body exactly as received. The trade-off is flexibility versus the loss of shared structure and automatic validation helpers.</td><td>Custom signed payload body</td><td>Raw bodies are powerful, but they push parsing and validation logic into the application layer.</td></tr>
+</tbody>
+</table>
+
+<h3>binary</h3>
+<table>
+<thead>
+<tr><th>Aspect</th><th>Explanation</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>What</strong></td><td><code>binary</code> sends raw file bytes instead of a text-based structure.</td><td><code>application/octet-stream</code></td><td>Binary prioritizes transport efficiency over readability.</td></tr>
+<tr><td><strong>Why</strong></td><td>It avoids converting files into text, which is more efficient for large media or archive content.</td><td>Uploading a ZIP archive</td><td>Streaming bytes reduces unnecessary encoding overhead.</td></tr>
+<tr><td><strong>When</strong></td><td>Use it for file uploads, downloads, media streaming, and storage pipelines.</td><td><code>PUT /api/files/report.pdf</code></td><td>Binary is best when the payload itself is the file.</td></tr>
+<tr><td><strong>Where</strong></td><td>It appears directly in the body with a binary media type such as <code>application/octet-stream</code> or a specific file type.</td><td><code>Content-Type: application/pdf</code></td><td>Metadata often moves to headers or path parameters when the body is pure bytes.</td></tr>
+<tr><td><strong>Who</strong></td><td>Upload clients stream the bytes, and storage or media services receive them through stream-aware handlers.</td><td>A server streams the upload into object storage.</td><td>Binary handling often depends on streaming rather than full in-memory parsing.</td></tr>
+<tr><td><strong>How</strong></td><td>The transport sends bytes exactly as they are. The trade-off is strong performance for files, but weak human readability and less self-describing structure.</td><td>Video upload stream</td><td>Binary formats usually need external metadata to describe the content safely.</td></tr>
+</tbody>
+</table>
+
+<h3>GraphQL</h3>
+<table>
+<thead>
+<tr><th>Aspect</th><th>Explanation</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>What</strong></td><td>GraphQL requests carry a query and optional variables, usually inside a JSON payload over HTTP.</td><td><code>{ "query": "{ user(id: 42) { name } }" }</code></td><td>GraphQL changes the payload contract from endpoint-driven to query-driven.</td></tr>
+<tr><td><strong>Why</strong></td><td>It lets the client request only the fields it needs instead of accepting a fixed response shape from many separate endpoints.</td><td>Ask only for <code>name</code> and <code>email</code></td><td>Field selection moves more control to the client.</td></tr>
+<tr><td><strong>When</strong></td><td>Use it when clients need flexible data fetching across related resources and want to avoid over-fetching.</td><td>Mobile app dashboards with custom field needs</td><td>GraphQL is useful for rich clients, but adds schema and resolver complexity.</td></tr>
+<tr><td><strong>Where</strong></td><td>It often appears in a JSON body sent to a single endpoint such as <code>/graphql</code>.</td><td><code>POST /graphql</code></td><td>The query structure matters more than the path itself.</td></tr>
+<tr><td><strong>Who</strong></td><td>The client builds the query, and the GraphQL server parses it against a schema before resolvers fetch the data.</td><td>A GraphQL resolver loads a user by ID.</td><td>Schema validation replaces much of the route-by-route contract style of REST.</td></tr>
+<tr><td><strong>How</strong></td><td>The server parses the query, validates it, resolves fields, and returns a shaped response. The trade-off is flexibility versus harder caching and operational control.</td><td>Query plus <code>variables</code> in JSON</td><td>GraphQL shifts responsibility from many endpoints to schema design, query cost, and resolver performance.</td></tr>
+</tbody>
+</table>
+
+<h3>JavaScript</h3>
+<table>
+<thead>
+<tr><th>Aspect</th><th>Explanation</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>What</strong></td><td>JavaScript format means the response body contains executable script or a runtime configuration snippet.</td><td><code>window.appConfig = { apiBase: "/api" }</code></td><td>JavaScript is executable content, not just passive data.</td></tr>
+<tr><td><strong>Why</strong></td><td>It can configure browser behavior or deliver script-based integrations, especially in older or specialized setups.</td><td>Legacy widget bootstrap script</td><td>The server can shape client behavior directly through code delivery.</td></tr>
+<tr><td><strong>When</strong></td><td>Use it only when a browser truly needs script output. It is rare in modern public API design.</td><td><code>application/javascript</code> response</td><td>Modern APIs prefer JSON because script delivery raises security and coupling concerns.</td></tr>
+<tr><td><strong>Where</strong></td><td>It appears in the body with a JavaScript media type such as <code>application/javascript</code>.</td><td><code>Content-Type: application/javascript</code></td><td>Browsers treat it as code, not as plain data.</td></tr>
+<tr><td><strong>Who</strong></td><td>The server emits the script, and the browser or client runtime executes or loads it.</td><td>A page loads a remote config script</td><td>The execution environment becomes part of the compatibility contract.</td></tr>
+<tr><td><strong>How</strong></td><td>The client fetches the script and evaluates it in a JavaScript runtime. The trade-off is strong browser integration versus higher security, caching, and maintenance risk.</td><td>Dynamic script tag response</td><td>JavaScript payloads are powerful, but they require stricter trust and CSP policies.</td></tr>
+</tbody>
+</table>
+
+<h3>HTML</h3>
+<table>
+<thead>
+<tr><th>Aspect</th><th>Explanation</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>What</strong></td><td>HTML is markup that represents rendered content such as pages, fragments, or embedded widgets.</td><td><code>&lt;div class="profile"&gt;Alice&lt;/div&gt;</code></td><td>HTML returns presentation-ready output, not only raw data.</td></tr>
+<tr><td><strong>Why</strong></td><td>It lets the server send content that the browser can display immediately without client-side templating.</td><td>Server-rendered profile card</td><td>Presentation logic stays closer to the server response.</td></tr>
+<tr><td><strong>When</strong></td><td>Use it for server-rendered pages, SSR fragments, emails, or embedded content blocks.</td><td><code>GET /profile/42</code> returning markup</td><td>HTML is useful when display, not data reuse, is the main goal.</td></tr>
+<tr><td><strong>Where</strong></td><td>It appears in the body with <code>Content-Type: text/html</code>.</td><td><code>Content-Type: text/html</code></td><td>The browser can render it directly without converting it into objects first.</td></tr>
+<tr><td><strong>Who</strong></td><td>Template engines or SSR frameworks generate the HTML, and browsers render it.</td><td>A server returns a rendered dashboard fragment</td><td>Compatibility is strongest in browsers, weaker in pure machine-to-machine clients.</td></tr>
+<tr><td><strong>How</strong></td><td>The server builds markup from templates and data. The trade-off is fast rendering for users versus less reuse for API consumers that want raw structured data.</td><td>Rendered card component HTML</td><td>HTML mixes data and presentation, which is useful for UI delivery but less neutral than JSON.</td></tr>
+</tbody>
+</table>
+
+<h3>XML</h3>
+<table>
+<thead>
+<tr><th>Aspect</th><th>Explanation</th><th>Example</th><th>System Insight</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>What</strong></td><td>XML is a hierarchical structured format built from tags, attributes, and nested elements.</td><td><code>&lt;user id="42"&gt;&lt;name&gt;Ava&lt;/name&gt;&lt;/user&gt;</code></td><td>XML emphasizes explicit structure and schema-driven contracts.</td></tr>
+<tr><td><strong>Why</strong></td><td>It supports rich structure, namespaces, and formal schemas used by many enterprise and legacy systems.</td><td>SOAP or feed payload</td><td>XML remains important where strict interoperability rules already exist.</td></tr>
+<tr><td><strong>When</strong></td><td>Use it for legacy integrations, enterprise messaging, industry standards, and older service ecosystems.</td><td>Payment gateway or ERP integration</td><td>XML is often chosen for compatibility, not simplicity.</td></tr>
+<tr><td><strong>Where</strong></td><td>It appears in the body with media types such as <code>application/xml</code> or <code>text/xml</code>.</td><td><code>Content-Type: application/xml</code></td><td>XML parsers and schemas usually sit in front of application logic.</td></tr>
+<tr><td><strong>Who</strong></td><td>Clients and servers with XML parsers exchange it, often under contract-driven integration rules.</td><td>A backend validates the XML against an XSD.</td><td>Schema validation is a common part of XML-based compatibility guarantees.</td></tr>
+<tr><td><strong>How</strong></td><td>The payload is parsed as tagged text and may be validated against a schema. The trade-off is strong structure and compatibility versus more verbosity than JSON.</td><td>Nested XML document</td><td>XML is expressive and contract-friendly, but usually heavier to read and maintain.</td></tr>
+</tbody>
+</table>
+
+<p>Among these formats, JSON is the one you will see most often in beginner-friendly REST APIs. The next section keeps the original JSON explanation and examples intact.</p>
 
 <h2>Representation Format: JSON</h2>
 <p>Among all representation formats, JSON is the one you will see most often in beginner-friendly REST APIs.</p>
