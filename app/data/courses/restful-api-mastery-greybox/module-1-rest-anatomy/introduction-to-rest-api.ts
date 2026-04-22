@@ -89,6 +89,46 @@ const lesson = createLesson({
 <li><strong>Body</strong> — Sends data to the server, usually with <code>POST</code>, <code>PUT</code>, or <code>PATCH</code>. A body might contain JSON with a user's name, email, and role.</li>
 <li><strong>Query Parameters</strong> — Add filters or options after <code>?</code>, such as <code>/api/users?role=admin&amp;page=2</code>.</li>
 </ul>
+
+<h4>URL</h4>
+<ul>
+<li><strong>What</strong> — The URL is the full address of the request, such as <code>https://api.example.com/api/users/42</code>.</li>
+<li><strong>Why</strong> — It identifies the resource the client wants, such as the user with ID 42.</li>
+<li><strong>When</strong> — Every HTTP request needs a URL, whether the client wants to read, create, update, or delete data.</li>
+<li><strong>Where</strong> — It appears at the start of the request and includes the path to the resource, plus query parameters when needed.</li>
+<li><strong>Who</strong> — The client builds the URL, and the server uses it to route the request to the correct endpoint.</li>
+<li><strong>How</strong> — The HTTP method works with the same URL to define the action: <code>GET /api/users/42</code> reads that user, while <code>PATCH /api/users/42</code> updates it.</li>
+</ul>
+
+<h4>Headers</h4>
+<ul>
+<li><strong>What</strong> — Headers are key-value pairs such as <code>Content-Type: application/json</code>, <code>Authorization: Bearer &lt;token&gt;</code>, and <code>Accept: application/json</code>.</li>
+<li><strong>Why</strong> — They carry metadata so the server knows how to read the request and what kind of response the client expects.</li>
+<li><strong>When</strong> — Use them when the request needs format details, authentication, caching rules, or content negotiation.</li>
+<li><strong>Where</strong> — They sit between the request line and the body in the HTTP message.</li>
+<li><strong>Who</strong> — Clients send headers, and servers read them to validate identity, parse data, and shape the response.</li>
+<li><strong>How</strong> — <code>Content-Type</code> describes the body format, <code>Authorization</code> proves identity, and <code>Accept</code> asks for a response format such as JSON.</li>
+</ul>
+
+<h4>Body</h4>
+<ul>
+<li><strong>What</strong> — The body is the optional data payload sent with a request.</li>
+<li><strong>Why</strong> — It lets the client send new or updated values without placing all data in the URL.</li>
+<li><strong>When</strong> — It is common with <code>POST</code>, <code>PUT</code>, and <code>PATCH</code>, while many <code>GET</code> requests have no body at all.</li>
+<li><strong>Where</strong> — It comes after the headers and contains the main payload for the server to process.</li>
+<li><strong>Who</strong> — The client sends the body, and the server validates it before storing or applying the data.</li>
+<li><strong>How</strong> — In REST APIs, the body is often JSON, such as <code>{ "name": "Ava", "email": "ava@example.com", "role": "student" }</code>.</li>
+</ul>
+
+<h4>Query Parameters</h4>
+<ul>
+<li><strong>What</strong> — Query parameters are key-value pairs added after <code>?</code> in the URL.</li>
+<li><strong>Why</strong> — They refine the result without changing the main resource path.</li>
+<li><strong>When</strong> — Use them for filtering, pagination, sorting, searching, or other optional controls.</li>
+<li><strong>Where</strong> — They appear at the end of the URL and are joined with <code>&amp;</code> when there are multiple parameters.</li>
+<li><strong>Who</strong> — The client chooses the parameters, and the server reads them to shape the returned dataset.</li>
+<li><strong>How</strong> — A request like <code>/api/users?role=admin&amp;page=2&amp;sort=name</code> filters by role, paginates to page 2, and sorts by name.</li>
+</ul>
 <p>Not every request uses every part. A simple <code>GET /api/users</code> may have no body at all, while an authenticated <code>PATCH</code> request may use the URL, headers, body, and query parameters together.</p>
 
 <h3>Response Structure</h3>
