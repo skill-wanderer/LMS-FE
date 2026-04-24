@@ -152,6 +152,18 @@ This project is built for public, crawlable access:
 - **JSON-LD structured data** — `Course` schema with `isAccessibleForFree: true`
 - **Semantic HTML** — proper heading hierarchy, landmark roles
 
+## Adding Course Content
+
+Course content is bundled with the frontend. To add a new course, see [docs/ADDING_COURSES.md](./docs/ADDING_COURSES.md) for the full step-by-step guide covering:
+
+- Folder structure under `app/data/courses/<course-slug>/`
+- Required fields for `Course`, `Module`, and `Lesson`
+- How to register the course in `app/data/courses/index.ts`
+- How `status: 'draft'` vs `'published'` affects catalog visibility
+- Local verification URLs
+
+A minimal working example is available at [`app/data/courses/example-course/`](./app/data/courses/example-course/).
+
 ## Design System
 
 See [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) for the full Skill-Wanderer design specification including:
