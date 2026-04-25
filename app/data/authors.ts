@@ -16,3 +16,12 @@ export const thanhNguyen: AuthorInfo = {
   linkedinUrl: 'https://www.linkedin.com/in/nguyen-ho-thien-thanh/',
   websiteUrl: 'https://skill-wanderer.com',
 }
+
+export const aryanSingh: AuthorInfo = {
+  name: 'Aryan Singh',
+  title: 'Associate Full Stack Developer',
+  bio: 'A hands-on builder with a strong foundation in full stack development. Aryan works across modern web technologies — creating responsive UIs, handling backend logic, and connecting systems end-to-end. He believes in learning by doing: building, breaking, and improving with every project. Still early in his journey, but growing stronger with every line of code.',
+  avatarUrl: '/images/aryan-singh-avatar.png',
+  linkedinUrl: 'https://www.linkedin.com/in/justcodesaryan/',
+  websiteUrl: 'https://skill-wanderer.com',
+}
