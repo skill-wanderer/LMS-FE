@@ -1,0 +1,395 @@
+/* ========================================
+   Skill-Wanderer Dojo  Tailwind Extensions
+   ======================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply font-sans bg-surface-dark text-[#e0e0e0] leading-relaxed min-h-screen overflow-x-hidden;
+  }
+
+  a {
+    @apply text-brand-orange no-underline transition-colors duration-300;
+  }
+
+  a:hover {
+    @apply text-brand-yellow;
+  }
+
+  img {
+    @apply max-w-full h-auto block;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-gradient-to-br from-brand-orange to-brand-yellow bg-clip-text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@layer components {
+  /* ---- Buttons ---- */
+  .btn {
+    @apply py-[15px] px-[30px] rounded-pill text-lg font-semibold border-none cursor-pointer
+           transition-all duration-300 inline-flex items-center gap-2.5 no-underline leading-none
+           max-sm:py-3 max-sm:px-6 max-sm:text-base;
+  }
+
+  .btn-primary {
+    @apply text-white shadow-brand;
+    background: linear-gradient(135deg, #FF6B35, #E85D25);
+  }
+
+  .btn-primary:hover {
+    @apply -translate-y-0.5 shadow-brand-lg text-white;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-brand-orange border-2 border-brand-orange;
+  }
+
+  .btn-secondary:hover {
+    @apply bg-brand-orange text-white -translate-y-0.5;
+  }
+
+  .btn-outline {
+    @apply bg-transparent text-[#e0e0e0] border border-brand-orange/30;
+  }
+
+  .btn-outline:hover {
+    @apply bg-brand-orange/10 border-brand-orange text-brand-orange;
+  }
+
+  .btn-sm {
+    @apply py-2.5 px-5 text-[0.95rem];
+  }
+
+  /* ---- Glass Card ---- */
+  .glass-card {
+    @apply bg-surface-card border border-brand-orange/20 rounded-card transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply -translate-y-1 border-brand-orange/40 bg-surface-card-hover;
+  }
+
+  /* ---- Badges ---- */
+  .badge {
+    @apply inline-block py-1 px-3 rounded-pill text-[0.8rem] font-semibold uppercase tracking-wider;
+  }
+
+  .badge-beginner {
+    @apply text-semantic-success bg-[rgba(76,175,80,0.15)];
+  }
+
+  .badge-intermediate {
+    @apply text-semantic-growth bg-[rgba(33,150,243,0.15)];
+  }
+
+  .badge-advanced {
+    @apply text-semantic-wisdom bg-[rgba(156,39,176,0.15)];
+  }
+
+  .badge-free {
+    @apply text-brand-orange bg-brand-orange/15;
+  }
+
+  /* ---- Progress Bar ---- */
+  .progress-bar {
+    @apply h-2 bg-white/10 rounded overflow-hidden;
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded;
+    background: linear-gradient(90deg, #FF6B35, #FFD93D);
+    transition: width 0.6s ease;
+  }
+
+  /* ---- Section Layout ---- */
+  .section {
+    @apply py-12 px-4 md:py-20 md:px-5 max-w-content mx-auto;
+  }
+
+  .section-narrow {
+    @apply max-w-narrow;
+  }
+
+  .section-glow {
+    @apply relative;
+  }
+
+  /* ---- Card Grid ---- */
+  .card-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8;
+  }
+}
+
+/* ---- Prose Content for Rendered Lesson HTML ---- */
+.prose-content {
+  color: rgba(224, 224, 224, 0.85);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.prose-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: #e0e0e0;
+  border-bottom: 1px solid rgba(255, 107, 53, 0.15);
+  padding-bottom: 0.5rem;
+}
+
+.prose-content h2:first-child {
+  margin-top: 0;
+}
+
+.prose-content h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #e0e0e0;
+}
+
+.prose-content .html-assignment-h2 {
+  font-size: 1.58rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  margin-top: 2.5rem;
+  margin-bottom: 1.05rem;
+  background: linear-gradient(135deg, #ff7f50 0%, #ffd166 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border-bottom: 1px solid rgba(255, 107, 53, 0.22);
+  padding-bottom: 0.55rem;
+}
+
+.prose-content .html-assignment-h2:first-child {
+  margin-top: 0;
+}
+
+.prose-content .react-assignment-h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-top: 2.5rem;
+  margin-bottom: 1.2rem;
+  color: #FF6B35;
+  border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+  padding-bottom: 0.6rem;
+  text-shadow: none; /* Ensure no text shadow */
+}
+
+.prose-content .react-assignment-h2:first-child {
+  margin-top: 0;
+}
+
+.prose-content .react-assignment-h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+  color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prose-content .react-assignment-h3::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 1.2em;
+  background: #FF6B35;
+  border-radius: 2px;
+}
+
+.prose-content .html-assignment-h3 {
+  font-size: 1.16rem;
+  font-weight: 700;
+  margin-top: 1.6rem;
+  margin-bottom: 0.8rem;
+  color: #ffd9ca;
+  border-left: 3px solid rgba(255, 107, 53, 0.9);
+  background: rgba(255, 107, 53, 0.08);
+  border-radius: 0 8px 8px 0;
+  padding: 0.3rem 0.7rem;
+}
+
+.prose-content p {
+  margin-bottom: 1rem;
+}
+
+.prose-content ul,
+.prose-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.prose-content ul { list-style-type: disc; }
+.prose-content ol { list-style-type: decimal; }
+
+.prose-content li {
+  margin-bottom: 0.4rem;
+}
+
+.prose-content li ul,
+.prose-content li ol {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.prose-content blockquote {
+  border-left: 3px solid #FF6B35;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  background: rgba(255, 107, 53, 0.05);
+  border-radius: 0 8px 8px 0;
+}
+
+.prose-content blockquote p {
+  margin-bottom: 0;
+}
+
+.prose-content strong {
+  color: #e0e0e0;
+  font-weight: 600;
+}
+
+.prose-content em {
+  color: rgba(224, 224, 224, 0.7);
+}
+
+.prose-content code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #FF6B35;
+}
+
+.prose-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.prose-content thead {
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.prose-content th {
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: #e0e0e0;
+  border-bottom: 2px solid rgba(255, 107, 53, 0.2);
+}
+
+.prose-content td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.prose-content tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.prose-content hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 2rem 0;
+}
+
+/* Format notice & tabs */
+.prose-content .format-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: rgba(255, 193, 7, 0.08);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-left: 4px solid #ffc107;
+  margin-bottom: 20px;
+}
+
+.prose-content .format-notice-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.prose-content .format-notice > div > strong {
+  color: #ffc107;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.prose-content .format-notice p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(224, 224, 224, 0.7);
+}
+
+.prose-content .format-notice p strong {
+  color: #ffc107;
+  display: inline;
+  font-size: inherit;
+}
+
+.prose-content .format-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.prose-content .format-tab {
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  background: transparent;
+  color: rgba(224, 224, 224, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.prose-content .format-tab:hover {
+  border-color: #FF6B35;
+  color: #FF6B35;
+}
+
+.prose-content .format-tab.active {
+  background: #FF6B35;
+  border-color: #FF6B35;
+  color: #fff;
+}
+
+.prose-content .video-embed iframe,
+.prose-content .audio-embed iframe,
+.prose-content .slides-embed iframe {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-width: 100%;
+}
+
+.prose-content .format-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
