@@ -6,10 +6,11 @@ const props = defineProps<{
   lesson: Lesson
   courseSlug: string
   index: number
+  isLocked?: boolean
 }>()
 
 const { formatDuration } = useCourses()
-const isAvailable = computed(() => isPublishedLesson(props.lesson))
+const isAvailable = computed(() => isPublishedLesson(props.lesson) && !props.isLocked)
 
 const typeIcon = computed(() => {
   switch (props.lesson.type) {
@@ -71,7 +72,7 @@ const typeLabel = computed(() => {
     <div class="flex-1">
       <div class="flex items-center gap-2 mb-1 flex-wrap">
         <h4 class="text-base font-semibold">{{ lesson.title }}</h4>
-        <span class="text-[0.7rem] uppercase tracking-wider text-brand-orange/80">Planned</span>
+        <span class="text-[0.7rem] uppercase tracking-wider text-brand-orange/80">{{ isPublishedLesson(lesson) ? 'Locked' : 'Planned' }}</span>
       </div>
       <div class="flex items-center gap-3 text-[0.8rem] text-[rgba(224,224,224,0.5)]">
         <span class="flex items-center gap-1">
