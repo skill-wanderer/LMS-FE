@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { getAllLessons, isPublishedLesson, isLessonLocked } from '~/types/course'
+import type { Lesson, Module } from '~/types/course'
+import { getAllLessons, isPublishedLesson } from '~/types/course'
 
 const route = useRoute()
 const slug = route.params.slug as string
-const { isAuthenticated } = useKeycloak()
+const { isAuthEnabled, isAuthenticated } = useKeycloak()
 const showLoginModal = ref(false)
 
 const { getCourseBySlug, formatDuration, getCourseDuration } = useCourses()
@@ -35,16 +36,17 @@ const progressPercent = computed(() =>
     : 0
 )
 
-function isUnlocked(lesson: any) {
+function isUnlocked(lesson: Lesson) {
   const index = allLessons.value.findIndex(l => l.slug === lesson.slug)
   if (index <= 0) return true
   const prevLesson = allLessons.value[index - 1]
-  return completedLessons.value.includes(prevLesson.slug)
+  return prevLesson ? completedLessons.value.includes(prevLesson.slug) : true
 }
 
-function isModuleUnlocked(mod: any) {
-  if (!mod.lessons || !mod.lessons.length) return true
-  return isUnlocked(mod.lessons[0])
+function isModuleUnlocked(mod: Module) {
+  const firstLesson = mod.lessons?.[0]
+  if (!firstLesson) return true
+  return isUnlocked(firstLesson)
 }
 
 const difficultyClass = computed(() => {
@@ -110,7 +112,7 @@ onMounted(() => {
           </div>
 
           <NuxtLink
-            v-if="availableLessons.length && isAuthenticated"
+            v-if="availableLessons.length && (!isAuthEnabled || isAuthenticated)"
             :to="`/courses/${course.slug}/lessons/${availableLessons[0]?.slug}`"
             class="btn btn-primary mt-6"
           >
@@ -118,7 +120,7 @@ onMounted(() => {
           </NuxtLink>
           
           <button
-            v-else-if="availableLessons.length && !isAuthenticated"
+            v-else-if="availableLessons.length && isAuthEnabled && !isAuthenticated"
             class="btn btn-primary mt-6"
             @click="showLoginModal = true"
           >

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { getAllLessons, isPublishedLesson, isLessonLocked } from '~/types/course'
+import type { Lesson } from '~/types/course'
+import { getAllLessons, isPublishedLesson } from '~/types/course'
 
 definePageMeta({
-  key: route => route.fullPath
+  key: (r) => r.fullPath
 })
 
 const route = useRoute()
@@ -100,11 +101,11 @@ function buildAuthHeaders(): Record<string, string> {
   return headers
 }
 
-function isUnlocked(l: any) {
+function isUnlocked(l: Lesson) {
   const idx = allLessons.findIndex(x => x.slug === l.slug)
   if (idx <= 0) return true
   const prevLesson = allLessons[idx - 1]
-  return completedLessons.value.includes(prevLesson.slug)
+  return prevLesson ? completedLessons.value.includes(prevLesson.slug) : true
 }
 
 // Fetch completion status on mount if user is authenticated
