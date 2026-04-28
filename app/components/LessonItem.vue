@@ -6,10 +6,17 @@ const props = defineProps<{
   lesson: Lesson
   courseSlug: string
   index: number
+  isLocked?: boolean
 }>()
 
 const { formatDuration } = useCourses()
-const isAvailable = computed(() => isPublishedLesson(props.lesson))
+const isAvailable = computed(() => isPublishedLesson(props.lesson) && props.isLocked !== true)
+
+const statusLabel = computed(() => {
+  if (!isPublishedLesson(props.lesson)) return 'Planned'
+  if (props.isLocked === true) return 'Locked'
+  return ''
+})
 
 const typeIcon = computed(() => {
   switch (props.lesson.type) {
@@ -62,7 +69,7 @@ const typeLabel = computed(() => {
   <div
     v-else
     class="lesson-item glass-card flex items-center gap-4 py-4 px-5 text-[#e0e0e0] opacity-80"
-    :aria-label="`Lesson ${index + 1}: ${lesson.title} (planned)`"
+    :aria-label="`Lesson ${index + 1}: ${lesson.title} (${statusLabel || 'unavailable'})`"
   >
     <div class="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center bg-brand-orange/10">
       <span class="text-sm font-bold text-brand-orange">{{ String(index + 1).padStart(2, '0') }}</span>
@@ -71,7 +78,12 @@ const typeLabel = computed(() => {
     <div class="flex-1">
       <div class="flex items-center gap-2 mb-1 flex-wrap">
         <h4 class="text-base font-semibold">{{ lesson.title }}</h4>
-        <span class="text-[0.7rem] uppercase tracking-wider text-brand-orange/80">Planned</span>
+        <span
+          v-if="statusLabel"
+          class="text-[0.7rem] uppercase tracking-wider text-brand-orange/80"
+        >
+          {{ statusLabel }}
+        </span>
       </div>
       <div class="flex items-center gap-3 text-[0.8rem] text-[rgba(224,224,224,0.5)]">
         <span class="flex items-center gap-1">

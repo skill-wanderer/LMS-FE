@@ -20,6 +20,7 @@ import aiFirstLearningForTechCareers from './ai-first-learning-for-tech-careers'
 import gitVersionControlFromBasicsToBranching from './git-version-control-from-basics-to-branching'
 import htmlFundamentalsFromStructureToForms from './html-fundamentals-from-structure-to-forms'
 import restfulApiMastery from './restful-api-mastery-greybox'
+import reactFoundationsBuildingRealUis from './react-foundations-building-real-uis'
 
 const allCourses: Course[] = [
   manualSoftwareTesting,
@@ -27,6 +28,7 @@ const allCourses: Course[] = [
   gitVersionControlFromBasicsToBranching,
   htmlFundamentalsFromStructureToForms,
   restfulApiMastery,
+  reactFoundationsBuildingRealUis,
 ]
 
 export default allCourses
