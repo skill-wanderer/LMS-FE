@@ -81,13 +81,6 @@ export function isPublishedLesson(lesson: Lesson): boolean {
   return lesson.status !== 'draft'
 }
 
-export function isLessonLocked(lesson: Lesson, allLessons: Lesson[]): boolean {
-  if (!isPublishedLesson(lesson)) return true
-  const index = allLessons.indexOf(lesson)
-  if (index <= 0) return false
-  return !allLessons[index - 1].completed
-}
-
 export interface LearningPath {
   id: string
   slug: string
