@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { getAllLessons, isPublishedLesson } from '~/types/course'
 
+definePageMeta({
+  middleware: ['submission-auth'],
+})
+
 const route = useRoute()
 const courseSlug = route.params.slug as string
 const lessonSlug = route.params.lessonSlug as string
@@ -47,6 +51,7 @@ const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentInde
 const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
 const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
+const submissionPath = computed(() => `courses/${courseSlug}/lessons/${lessonSlug}/submissions`)
 
 // Process YouTube iframes: use privacy-enhanced nocookie domain and add lazy loading
 const processedContent = computed(() => {
@@ -95,9 +100,11 @@ function buildAuthHeaders(): Record<string, string> {
   return headers
 }
 
-// Fetch completion status on mount if user is authenticated
+// Load completion state only when the API is configured and auth state permits it.
 onMounted(async () => {
-  if (!apiBaseUrl || !isAuthenticated.value) return
+  if (!apiBaseUrl) return
+  if (isAuthEnabled.value && !isAuthenticated.value) return
+
   try {
     const data = await $fetch<{ completed: boolean }>(buildCompletionUrl(), {
       headers: buildAuthHeaders(),
@@ -285,7 +292,7 @@ async function toggleComplete() {
               :questions="lesson.quiz.questions"
               :title="lesson.quiz.title"
               :pass-percentage="lesson.quiz.passPercentage"
-              :return-to="route.fullPath"
+              :return-to="route.path"
               :course-slug="courseSlug"
               :lesson-slug="lessonSlug"
             />
@@ -301,7 +308,7 @@ async function toggleComplete() {
           :questions="lesson.quiz.questions"
           :title="lesson.quiz.title"
           :pass-percentage="lesson.quiz.passPercentage"
-          :return-to="route.fullPath"
+          :return-to="route.path"
           :course-slug="courseSlug"
           :lesson-slug="lessonSlug"
           class="mb-8"
@@ -328,8 +335,16 @@ async function toggleComplete() {
           </button>
         </div>
 
+        <!-- Assignment Submission -->
+        <LessonSubmissionPanel
+          v-if="lesson.type === 'assignment'"
+          :submission-path="submissionPath"
+          :api-base-url="apiBaseUrl"
+          @open-login="showLoginModal = true"
+        />
+
         <!-- Login Required Modal -->
-        <LoginRequiredModal :visible="showLoginModal" :return-to="route.fullPath" @close="showLoginModal = false" />
+        <LoginRequiredModal :visible="showLoginModal" :return-to="route.path" @close="showLoginModal = false" />
 
         <!-- Prev / Next Navigation -->
         <nav class="grid grid-cols-2 gap-4 max-md:grid-cols-1">
