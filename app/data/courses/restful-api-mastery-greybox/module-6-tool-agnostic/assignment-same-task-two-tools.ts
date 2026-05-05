@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'assignment-same-task-two-tools',
   title: 'Assignment: Solve Same Task in 2 Tools',
   type: 'assignment',
+  status: 'draft',
   order: 4,
   durationMinutes: 20,
   content: 'Complete the same API task using different tools.',

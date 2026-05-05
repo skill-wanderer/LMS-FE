@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'bearer-token-and-api-key',
   title: 'Bearer Token & API Key',
   type: 'lesson',
+  status: 'draft',
   order: 2,
   durationMinutes: 10,
   content: 'Learn how API keys and bearer tokens work.',

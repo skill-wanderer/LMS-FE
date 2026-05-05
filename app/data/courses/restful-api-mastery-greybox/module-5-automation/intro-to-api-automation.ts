@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'intro-to-api-automation',
   title: 'Intro to API Automation',
   type: 'lesson',
+  status: 'draft',
   order: 1,
   durationMinutes: 10,
   content: 'Introduction to automating API workflows.',

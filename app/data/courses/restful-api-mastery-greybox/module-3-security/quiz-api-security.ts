@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'quiz-api-security',
   title: 'Quiz: API Security',
   type: 'lesson',
+  status: 'draft',
   order: 5,
   durationMinutes: 10,
   content: 'Test your knowledge of API security concepts.',

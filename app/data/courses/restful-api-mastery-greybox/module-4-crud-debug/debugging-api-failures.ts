@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'debugging-api-failures',
   title: 'Debugging API Failures',
   type: 'lesson',
+  status: 'draft',
   order: 3,
   durationMinutes: 12,
   content: 'Learn techniques to debug failing API requests.',
