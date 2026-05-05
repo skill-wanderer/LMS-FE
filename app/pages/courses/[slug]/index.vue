@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import type { Lesson, Module } from '~/types/course'
 import { getAllLessons, isPublishedLesson } from '~/types/course'
 
 const route = useRoute()
 const slug = route.params.slug as string
+const { isAuthEnabled, isAuthenticated } = useKeycloak()
+const showLoginModal = ref(false)
 
 const { getCourseBySlug, formatDuration, getCourseDuration } = useCourses()
 const course = getCourseBySlug(slug)
@@ -25,14 +28,26 @@ useCourseSeo({
 const allLessons = computed(() => getAllLessons(course))
 const availableLessons = computed(() => allLessons.value.filter(isPublishedLesson))
 
-const completedCount = computed(() =>
-  availableLessons.value.filter(l => l.completed).length
-)
+const completedLessons = ref<string[]>([])
+
 const progressPercent = computed(() =>
   availableLessons.value.length
-    ? Math.round((completedCount.value / availableLessons.value.length) * 100)
+    ? Math.round((completedLessons.value.length / availableLessons.value.length) * 100)
     : 0
 )
+
+function isUnlocked(lesson: Lesson) {
+  const index = allLessons.value.findIndex(l => l.slug === lesson.slug)
+  if (index <= 0) return true
+  const prevLesson = allLessons.value[index - 1]
+  return prevLesson ? completedLessons.value.includes(prevLesson.slug) : true
+}
+
+function isModuleUnlocked(mod: Module) {
+  const firstLesson = mod.lessons?.[0]
+  if (!firstLesson) return true
+  return isUnlocked(firstLesson)
+}
 
 const difficultyClass = computed(() => {
   switch (course.difficulty) {
@@ -44,6 +59,15 @@ const difficultyClass = computed(() => {
 })
 
 const totalDuration = computed(() => getCourseDuration(course))
+
+onMounted(() => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(`completedLessons-${course.slug}`) || '[]')
+    completedLessons.value = stored
+  } catch (e) {
+    console.error('Failed to parse progress', e)
+  }
+})
 </script>
 
 <template>
@@ -88,12 +112,20 @@ const totalDuration = computed(() => getCourseDuration(course))
           </div>
 
           <NuxtLink
-            v-if="availableLessons.length"
+            v-if="availableLessons.length && (!isAuthEnabled || isAuthenticated)"
             :to="`/courses/${course.slug}/lessons/${availableLessons[0]?.slug}`"
             class="btn btn-primary mt-6"
           >
             <Icon name="mdi:play" /> Start Learning
           </NuxtLink>
+          
+          <button
+            v-else-if="availableLessons.length && isAuthEnabled && !isAuthenticated"
+            class="btn btn-primary mt-6"
+            @click="showLoginModal = true"
+          >
+            <Icon name="mdi:lock-open-variant" /> Sign in to Start
+          </button>
 
           <div v-else class="mt-6 rounded-xl border border-dashed border-brand-orange/20 bg-brand-orange/5 py-3 px-4 text-sm text-[rgba(224,224,224,0.68)]">
             Lesson content is being rolled out. The course structure is visible now, and lesson pages will unlock as they are completed.
@@ -105,10 +137,10 @@ const totalDuration = computed(() => getCourseDuration(course))
           <div class="glass-card p-6">
             <h3 class="text-lg font-bold mb-4">Your Progress</h3>
             <div class="progress-bar mb-2">
-              <div class="progress-bar-fill" :style="{ width: `${progressPercent}%` }" />
+              <div class="progress-bar-fill transition-all duration-500 ease-out" :style="{ width: `${progressPercent}%` }" />
             </div>
             <p class="text-sm text-gray-400 mb-4">
-              {{ completedCount }} / {{ availableLessons.length }} available lessons completed
+              {{ completedLessons.length }} / {{ availableLessons.length }} available lessons completed
             </p>
 
             <div class="text-sm text-gray-500 space-y-2">
@@ -170,10 +202,13 @@ const totalDuration = computed(() => getCourseDuration(course))
       <h2 class="text-2xl font-bold mb-6">Course Content</h2>
 
       <div v-for="mod in course.modules" :key="mod.id" class="mb-8 last:mb-0">
-        <div class="flex items-center gap-3 mb-4 p-3 px-4 rounded-xl bg-brand-orange/[0.06] border border-brand-orange/[0.12]">
-          <Icon name="mdi:book-open-variant" class="text-[1.4rem] text-brand-orange" />
+        <div :class="[
+          'flex items-center gap-3 mb-4 p-3 px-4 rounded-xl border transition-all duration-300',
+          isModuleUnlocked(mod) ? 'bg-brand-orange/[0.06] border-brand-orange/[0.12]' : 'bg-white/[0.02] border-white/[0.05] opacity-60'
+        ]">
+          <Icon :name="isModuleUnlocked(mod) ? 'mdi:book-open-variant' : 'mdi:lock'" :class="['text-[1.4rem]', isModuleUnlocked(mod) ? 'text-brand-orange' : 'text-gray-500']" />
           <div>
-            <h3 class="text-[1.1rem] font-bold text-[#e0e0e0]">{{ mod.title }}</h3>
+            <h3 class="text-[1.1rem] font-bold text-[#e0e0e0]">{{ mod.title }} <span v-if="!isModuleUnlocked(mod)" class="text-[0.7rem] uppercase tracking-wider text-gray-500 ml-2 font-normal">Locked</span></h3>
             <span class="text-[0.8rem] text-[rgba(224,224,224,0.5)]">
               {{ mod.lessons.length }} lesson{{ mod.lessons.length !== 1 ? 's' : '' }}
               <template v-if="mod.lessons.some(l => l.durationMinutes)">
@@ -188,11 +223,15 @@ const totalDuration = computed(() => getCourseDuration(course))
             :key="lesson.id"
             :lesson="lesson"
             :course-slug="course.slug"
-            :index="allLessons.indexOf(lesson)"
+            :index="allLessons.findIndex(l => l.slug === lesson.slug)"
+            :is-locked="!isUnlocked(lesson)"
           />
         </div>
       </div>
     </section>
+
+    <!-- Login Required Modal -->
+    <LoginRequiredModal :visible="showLoginModal" :return-to="route.fullPath" @close="showLoginModal = false" />
   </div>
 </template>
 
