@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'cli-vs-gui-philosophy',
   title: 'CLI vs GUI Philosophy',
   type: 'lesson',
+  status: 'draft',
   order: 1,
   durationMinutes: 8,
   content: 'Understand different approaches to working with APIs.',

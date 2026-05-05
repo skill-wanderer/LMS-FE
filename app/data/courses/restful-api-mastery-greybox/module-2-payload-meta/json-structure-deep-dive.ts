@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'json-structure-deep-dive',
   title: 'JSON Structure Deep Dive',
   type: 'lesson',
+  status: 'draft',
   order: 1,
   durationMinutes: 10,
   content: 'Understanding JSON structure and nested data.',

@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'using-postman-for-testing',
   title: 'Using Postman for Testing',
   type: 'lesson',
+  status: 'draft',
   order: 2,
   durationMinutes: 12,
   content: 'Learn how to test APIs using Postman.',

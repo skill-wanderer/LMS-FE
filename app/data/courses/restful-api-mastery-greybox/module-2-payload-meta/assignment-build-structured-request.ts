@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'assignment-build-structured-request',
   title: 'Assignment: Build Structured Request',
   type: 'assignment',
+  status: 'draft',
   order: 4,
   durationMinutes: 20,
   content: 'Build a structured API request using proper JSON and parameters.',

@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'quiz-automation-basics',
   title: 'Quiz: Automation Basics',
   type: 'lesson',
+  status: 'draft',
   order: 5,
   durationMinutes: 10,
   content: 'Test your automation knowledge.',
