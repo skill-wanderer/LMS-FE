@@ -12,7 +12,31 @@ const lesson = createLesson({
   durationMinutes: 10,
   createdAt: '2026-04-16',
   updatedAt: '2026-04-16',
-  content: `<h2>What is an API?</h2>
+  content: `<div class="lesson-formats">
+
+  <div class="format-notice">
+    <span class="format-notice-icon">💡</span>
+    <div>
+      <strong>Choose Your Learning Material</strong>
+      <p>
+        This lesson is available in <strong>multiple formats</strong>. The content is the same - 
+        choose the one that fits your learning style and current environment. 
+        You do not need to complete all formats.
+      </p>
+    </div>
+  </div>
+
+  <div class="format-tabs">
+    <button class="format-tab active" data-format="reading" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=reading]').style.display='block';">Reading</button>
+    <button class="format-tab" data-format="video" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=video]').style.display='block';">Video</button>
+    <button class="format-tab" data-format="audio" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=audio]').style.display='block';">Audio</button>
+    <button class="format-tab" data-format="slides" onclick="document.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=>c.style.display='none');document.querySelector('[data-content=slides]').style.display='block';">Slides</button>
+  </div>
+
+  <div class="format-content active" data-format="reading" data-content="reading" style="display:block;">
+<h3>📖 Reading Version</h3>
+<img src="https://cdn.jsdelivr.net/gh/reltronersk/media@main/introduction-to-rest-api.ts.png" alt="Introduction to REST API" />
+<h2>What is an API?</h2>
 <p>An <strong>API (Application Programming Interface)</strong> is a set of rules that allows two software applications to communicate with each other. Think of it as a waiter in a restaurant: you (the client) place an order, the waiter (the API) carries your request to the kitchen (the server), and brings back your food (the response).</p>
 <p>APIs are everywhere in modern software:</p>
 <ul>
@@ -417,7 +441,31 @@ const lesson = createLesson({
 <li>Error responses combine a status code with a JSON body describing the specific failure.</li>
 <li>Responses are delivered as <strong>JSON</strong> with an HTTP status code indicating success or failure.</li>
 <li><strong>Representation formats</strong> describe how the body is encoded: JSON is the most common, but APIs may also use form-data, URL-encoded data, raw text, binary files, HTML, XML, or GraphQL-style payloads.</li>
-</ul>`,
+</ul>
+  </div>
+
+  <div class="format-content" data-format="video" data-content="video" style="display:none;">
+    <h3>🎬 Video Version</h3>
+    <div class="video-embed">
+      <iframe title="Introduction to REST API lesson video" src="https://www.youtube-nocookie.com/embed/Z23824FWSZ8" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+  </div>
+
+  <div class="format-content" data-format="audio" data-content="audio" style="display:none;">
+    <h3>🎧 Audio Version</h3>
+    <div class="audio-embed">
+      <iframe title="Introduction to REST API lesson audio" style="border-radius:12px" src="https://open.spotify.com/embed/episode/6I9O4HrZdDeUAtdSErw98E" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="format-content" data-format="slides" data-content="slides" style="display:none;">
+    <h3>📊 Slide Version</h3>
+    <div class="slides-embed">
+      <iframe src="https://cdn.jsdelivr.net/gh/reltronersk/media@main/introduction-to-rest-api.ts.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
+    </div>
+  </div>
+
+</div>`,
 })
 
 export default lesson
