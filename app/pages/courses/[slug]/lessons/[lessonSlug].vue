@@ -45,9 +45,10 @@ useLessonSeo({
 
 const sidebarOpen = ref(import.meta.client ? window.innerWidth > 768 : true)
 
-const currentIndex = allLessons.findIndex(l => l.slug === lessonSlug)
-const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null
-const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null
+const publishedLessons = allLessons.filter(isPublishedLesson)
+const currentPublishedIndex = publishedLessons.findIndex(l => l.slug === lessonSlug)
+const prevLesson = currentPublishedIndex > 0 ? publishedLessons[currentPublishedIndex - 1] : null
+const nextLesson = currentPublishedIndex < publishedLessons.length - 1 ? publishedLessons[currentPublishedIndex + 1] : null
 
 const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
@@ -102,10 +103,7 @@ function buildAuthHeaders(): Record<string, string> {
 }
 
 function isUnlocked(l: Lesson) {
-  const idx = allLessons.findIndex(x => x.slug === l.slug)
-  if (idx <= 0) return true
-  const prevLesson = allLessons[idx - 1]
-  return prevLesson ? completedLessons.value.includes(prevLesson.slug) : true
+  return isPublishedLesson(l)
 }
 
 // Fetch completion status on mount if user is authenticated
@@ -117,12 +115,6 @@ onMounted(async () => {
     
     if (stored.includes(lesson.slug)) {
       isCompleted.value = true
-    }
-
-    // Check lock status dynamically after mounting to avoid SSR mismatch
-    if (isAuthEnabled.value && !isAuthenticated.value) {
-      showLoginModal.value = true
-      return
     }
 
     if (!isUnlocked(lesson)) {
@@ -194,11 +186,7 @@ async function toggleComplete() {
 
 <template>
   <div v-if="course && lesson">
-    <!-- Login Required Modal (Always rendered if not authenticated) -->
-    <LoginRequiredModal v-if="isAuthEnabled && !isAuthenticated" :visible="true" :return-to="route.fullPath" />
-
-    <template v-else>
-      <!-- Error Toast -->
+    <!-- Error Toast -->
     <Transition name="toast">
       <div v-if="errorToast" class="fixed top-5 right-5 z-[9999] flex items-center gap-2 py-3 px-4 bg-red-600/95 text-white rounded-[10px] text-sm font-medium shadow-[0_4px_20px_rgba(220,38,38,0.4)] max-w-[380px]" role="alert">
         <Icon name="mdi:alert-circle-outline" />
@@ -293,7 +281,7 @@ async function toggleComplete() {
       <main>
         <div class="mb-8">
           <span class="text-[0.85rem] text-brand-orange font-semibold uppercase tracking-wide">
-            Lesson {{ currentIndex + 1 }} of {{ allLessons.length }}
+            Lesson {{ currentPublishedIndex + 1 }} of {{ publishedLessons.length }}
           </span>
           <h1 class="text-[clamp(1.5rem,3vw,2.2rem)] font-extrabold mt-2 mb-3">{{ lesson.title }}</h1>
           <div class="flex gap-4 text-sm text-[rgba(224,224,224,0.5)] flex-wrap">
@@ -412,10 +400,7 @@ async function toggleComplete() {
             <NuxtLink
               v-if="nextLesson"
               :to="`/courses/${course.slug}/lessons/${nextLesson.slug}`"
-              :class="[
-                'flex items-center gap-3 py-4 px-5 no-underline text-[#e0e0e0] text-right justify-end glass-card max-sm:py-3 max-sm:px-3.5 max-sm:gap-2 transition-all duration-300',
-                !isCompleted ? 'opacity-50 pointer-events-none grayscale-[0.5]' : ''
-              ]"
+              class="flex items-center gap-3 py-4 px-5 no-underline text-[#e0e0e0] text-right justify-end glass-card max-sm:py-3 max-sm:px-3.5 max-sm:gap-2 transition-all duration-300"
             >
               <div>
                 <span class="block text-xs text-[rgba(224,224,224,0.4)] uppercase tracking-wide">Next</span>
@@ -427,7 +412,9 @@ async function toggleComplete() {
         </nav>
       </main>
     </section>
-    </template>
+
+    <!-- Login Required Modal -->
+    <LoginRequiredModal :visible="showLoginModal" :return-to="route.fullPath" @close="showLoginModal = false" />
   </div>
 </template>
 

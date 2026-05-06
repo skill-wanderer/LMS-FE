@@ -4,8 +4,6 @@ import { getAllLessons, isPublishedLesson } from '~/types/course'
 
 const route = useRoute()
 const slug = route.params.slug as string
-const { isAuthEnabled, isAuthenticated } = useKeycloak()
-const showLoginModal = ref(false)
 
 const { getCourseBySlug, formatDuration, getCourseDuration } = useCourses()
 const course = getCourseBySlug(slug)
@@ -37,16 +35,11 @@ const progressPercent = computed(() =>
 )
 
 function isUnlocked(lesson: Lesson) {
-  const index = allLessons.value.findIndex(l => l.slug === lesson.slug)
-  if (index <= 0) return true
-  const prevLesson = allLessons.value[index - 1]
-  return prevLesson ? completedLessons.value.includes(prevLesson.slug) : true
+  return isPublishedLesson(lesson)
 }
 
 function isModuleUnlocked(mod: Module) {
-  const firstLesson = mod.lessons?.[0]
-  if (!firstLesson) return true
-  return isUnlocked(firstLesson)
+  return mod.lessons.some(isPublishedLesson)
 }
 
 const difficultyClass = computed(() => {
@@ -112,23 +105,15 @@ onMounted(() => {
           </div>
 
           <NuxtLink
-            v-if="availableLessons.length && (!isAuthEnabled || isAuthenticated)"
+            v-if="availableLessons.length"
             :to="`/courses/${course.slug}/lessons/${availableLessons[0]?.slug}`"
             class="btn btn-primary mt-6"
           >
             <Icon name="mdi:play" /> Start Learning
           </NuxtLink>
-          
-          <button
-            v-else-if="availableLessons.length && isAuthEnabled && !isAuthenticated"
-            class="btn btn-primary mt-6"
-            @click="showLoginModal = true"
-          >
-            <Icon name="mdi:lock-open-variant" /> Sign in to Start
-          </button>
 
           <div v-else class="mt-6 rounded-xl border border-dashed border-brand-orange/20 bg-brand-orange/5 py-3 px-4 text-sm text-[rgba(224,224,224,0.68)]">
-            Lesson content is being rolled out. The course structure is visible now, and lesson pages will unlock as they are completed.
+            Lesson content is being rolled out. The course structure is visible now, and lesson pages will be published as they are ready.
           </div>
         </div>
 
@@ -229,9 +214,6 @@ onMounted(() => {
         </div>
       </div>
     </section>
-
-    <!-- Login Required Modal -->
-    <LoginRequiredModal :visible="showLoginModal" :return-to="route.fullPath" @close="showLoginModal = false" />
   </div>
 </template>
 
