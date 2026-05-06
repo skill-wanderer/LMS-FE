@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'final-reflection',
   title: 'Final Reflection',
   type: 'lesson',
+  status: 'draft',
   order: 5,
   durationMinutes: 10,
   content: 'Reflect on your API learning journey.',

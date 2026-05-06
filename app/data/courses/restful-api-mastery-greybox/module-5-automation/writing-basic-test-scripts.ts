@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'writing-basic-test-scripts',
   title: 'Writing Basic Test Scripts',
   type: 'lesson',
+  status: 'draft',
   order: 3,
   durationMinutes: 12,
   content: 'Write simple scripts to automate API tests.',

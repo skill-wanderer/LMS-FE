@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'common-security-pitfalls',
   title: 'Common Security Pitfalls',
   type: 'lesson',
+  status: 'draft',
   order: 3,
   durationMinutes: 12,
   content: 'Explore common mistakes in API security.',

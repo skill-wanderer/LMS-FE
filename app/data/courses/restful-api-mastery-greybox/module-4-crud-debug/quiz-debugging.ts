@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'quiz-debugging',
   title: 'Quiz: Debugging',
   type: 'lesson',
+  status: 'draft',
   order: 5,
   durationMinutes: 10,
   content: 'Test your debugging skills.',

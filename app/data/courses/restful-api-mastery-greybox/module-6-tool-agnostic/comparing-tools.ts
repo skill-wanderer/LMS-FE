@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'comparing-tools',
   title: 'Comparing Tools (Postman vs CLI)',
   type: 'lesson',
+  status: 'draft',
   order: 3,
   durationMinutes: 10,
   content: 'Compare different tools for API testing.',

@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'assignment-automate-api-test',
   title: 'Assignment: Automate API Test',
   type: 'assignment',
+  status: 'draft',
   order: 4,
   durationMinutes: 20,
   content: 'Automate a real API testing workflow.',

@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'authentication-vs-authorization',
   title: 'Authentication vs Authorization',
   type: 'lesson',
+  status: 'draft',
   order: 1,
   durationMinutes: 10,
   content: 'Understand the difference between authentication and authorization.',

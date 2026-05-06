@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'error-handling-strategy',
   title: 'Error Handling Strategy',
   type: 'lesson',
+  status: 'draft',
   order: 2,
   durationMinutes: 10,
   content: 'Understand how to handle API errors effectively.',

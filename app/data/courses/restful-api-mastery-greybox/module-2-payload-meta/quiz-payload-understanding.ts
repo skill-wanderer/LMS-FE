@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'quiz-payload-understanding',
   title: 'Quiz: Payload Understanding',
   type: 'lesson',
+  status: 'draft',
   order: 5,
   durationMinutes: 10,
   content: 'Test your understanding of payload structures.',

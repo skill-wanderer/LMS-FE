@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'request-body-vs-query-params',
   title: 'Request Body vs Query Params',
   type: 'lesson',
+  status: 'draft',
   order: 2,
   durationMinutes: 10,
   content: 'Learn the difference between body payload and query parameters.',

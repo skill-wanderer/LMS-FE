@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'crud-operations-in-practice',
   title: 'CRUD Operations in Practice',
   type: 'lesson',
+  status: 'draft',
   order: 1,
   durationMinutes: 10,
   content: 'Learn how CRUD operations work in real APIs.',

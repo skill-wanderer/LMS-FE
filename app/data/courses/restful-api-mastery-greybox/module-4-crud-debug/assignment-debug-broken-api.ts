@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'assignment-debug-broken-api',
   title: 'Assignment: Debug Broken API',
   type: 'assignment',
+  status: 'draft',
   order: 4,
   durationMinutes: 20,
   content: 'Fix issues in a broken API workflow.',

@@ -6,6 +6,7 @@ const lesson = createLesson({
   slug: 'response-structure-and-pagination',
   title: 'Response Structure & Pagination',
   type: 'lesson',
+  status: 'draft',
   order: 3,
   durationMinutes: 12,
   content: 'Understanding API response structures and pagination techniques.',

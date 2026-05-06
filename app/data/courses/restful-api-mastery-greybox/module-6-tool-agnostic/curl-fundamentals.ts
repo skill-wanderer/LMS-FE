@@ -7,6 +7,7 @@ const lesson = createLesson({
   slug: 'curl-fundamentals',
   title: 'cURL Fundamentals',
   type: 'lesson',
+  status: 'draft',
   order: 2,
   durationMinutes: 10,
   content: 'Learn how to use cURL for API interaction.',
