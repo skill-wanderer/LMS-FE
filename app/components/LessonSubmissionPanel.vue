@@ -196,8 +196,8 @@ async function loadSubmissionState() {
     currentState.value = mapSubmissionStateApi(response)
     latestSubmission.value = currentState.value.latestSubmission
   }
-  catch (error: unknown) {
-
+  catch {
+    // State endpoint unavailable — fall back to default active state.
     currentState.value = {
       status: 'ACTIVE',
       canSubmit: true,
