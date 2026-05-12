@@ -10,7 +10,7 @@ export default defineNuxtRouteMiddleware(async () => {
     return
   }
 
-  const shouldRefresh = expiresAt - Date.now() < 60_000
+  const shouldRefresh = Date.now() >= expiresAt
   if (shouldRefresh) {
     await refreshAccessToken()
   }

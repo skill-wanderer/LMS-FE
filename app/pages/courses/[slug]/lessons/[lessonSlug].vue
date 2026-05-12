@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type { Lesson } from '~/types/course'
 import { getAllLessons, isPublishedLesson } from '~/types/course'
 
 definePageMeta({
   middleware: ['submission-auth'],
+  key: (r) => r.fullPath
 })
 
 const route = useRoute()
@@ -44,9 +46,10 @@ useLessonSeo({
 
 const sidebarOpen = ref(import.meta.client ? window.innerWidth > 768 : true)
 
-const currentIndex = allLessons.findIndex(l => l.slug === lessonSlug)
-const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null
-const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null
+const publishedLessons = allLessons.filter(isPublishedLesson)
+const currentPublishedIndex = publishedLessons.findIndex(l => l.slug === lessonSlug)
+const prevLesson = currentPublishedIndex > 0 ? publishedLessons[currentPublishedIndex - 1] : null
+const nextLesson = currentPublishedIndex < publishedLessons.length - 1 ? publishedLessons[currentPublishedIndex + 1] : null
 
 const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
@@ -76,7 +79,8 @@ const activeTab = computed<'summary' | 'quiz'>({
   },
 })
 
-const isCompleted = ref(lesson.completed ?? false)
+const isCompleted = ref(false)
+const completedLessons = ref<string[]>([])
 const isLoading = ref(false)
 const showLoginModal = ref(false)
 const errorToast = ref('')
@@ -100,16 +104,43 @@ function buildAuthHeaders(): Record<string, string> {
   return headers
 }
 
-// Load completion state only when the API is configured and auth state permits it.
-onMounted(async () => {
-  if (!apiBaseUrl) return
-  if (isAuthEnabled.value && !isAuthenticated.value) return
+function isUnlocked(l: Lesson) {
+  return isPublishedLesson(l)
+}
 
+// Fetch completion status on mount if user is authenticated
+onMounted(async () => {
+  // Always sync local storage for sequential unlocking logic
+  try {
+    const stored = JSON.parse(localStorage.getItem(`completedLessons-${course.slug}`) || '[]')
+    completedLessons.value = stored
+    
+    if (stored.includes(lesson.slug)) {
+      isCompleted.value = true
+    }
+
+    if (!isUnlocked(lesson)) {
+      router.replace(`/courses/${course.slug}`)
+      return
+    }
+  } catch (e) {
+    console.error('Failed to parse progress', e)
+  }
+
+  if (!apiBaseUrl || !isAuthenticated.value) return
   try {
     const data = await $fetch<{ completed: boolean }>(buildCompletionUrl(), {
       headers: buildAuthHeaders(),
     })
+    
+    // Server data takes precedence for current lesson
     isCompleted.value = data.completed
+    
+    // Sync back to local storage
+    if (data.completed && !completedLessons.value.includes(lesson.slug)) {
+      completedLessons.value.push(lesson.slug)
+      localStorage.setItem(`completedLessons-${course.slug}`, JSON.stringify(completedLessons.value))
+    }
   }
   catch {
     showError('Failed to load completion status. Please try again later.')
@@ -117,23 +148,35 @@ onMounted(async () => {
 })
 
 async function toggleComplete() {
+  if (!course || !lesson) return
+  if (isCompleted.value) return // Prevent multiple clicks
+
   // If auth is enabled but user is not logged in, show login modal
   if (isAuthEnabled.value && !isAuthenticated.value) {
     showLoginModal.value = true
     return
   }
 
-  const newState = !isCompleted.value
   isLoading.value = true
 
   try {
-    if (newState) {
+    try {
       await $fetch(buildCompletionUrl(), { method: 'POST', headers: buildAuthHeaders() })
+    } catch (apiError) {
+      console.warn('Backend sync failed, falling back to local storage.')
     }
-    else {
-      await $fetch(buildCompletionUrl(), { method: 'DELETE', headers: buildAuthHeaders() })
+    
+    isCompleted.value = true
+
+    // Persist to localStorage array
+    if (!completedLessons.value.includes(lesson.slug)) {
+      completedLessons.value.push(lesson.slug)
+      localStorage.setItem(`completedLessons-${course.slug}`, JSON.stringify(completedLessons.value))
     }
-    isCompleted.value = newState
+
+    if (nextLesson) {
+      router.push(`/courses/${course.slug}/lessons/${nextLesson.slug}`)
+    }
   }
   catch {
     showError('Something went wrong. Please try again later.')
@@ -209,7 +252,7 @@ async function toggleComplete() {
               <div class="text-xs font-bold uppercase tracking-wide text-[rgba(224,224,224,0.4)] py-3 px-3 pb-1 mt-2 first:mt-0">{{ mod.title }}</div>
               <template v-for="(l, li) in mod.lessons" :key="l.id">
                 <NuxtLink
-                  v-if="isPublishedLesson(l)"
+                  v-if="isPublishedLesson(l) && isUnlocked(l)"
                   :to="`/courses/${course.slug}/lessons/${l.slug}`"
                   :class="[
                     'flex items-center gap-2.5 py-2.5 px-3 rounded-lg no-underline text-[0.85rem] transition-all duration-200',
@@ -227,7 +270,9 @@ async function toggleComplete() {
                 >
                   <span class="shrink-0 text-xs w-6 text-[rgba(224,224,224,0.3)]">{{ String(course.modules.slice(0, mi).reduce((sum, m) => sum + m.lessons.length, 0) + li + 1).padStart(2, '0') }}</span>
                   <span>{{ l.title }}</span>
-                  <span class="ml-auto text-[0.68rem] uppercase tracking-wider text-brand-orange/75">Planned</span>
+                  <span class="ml-auto text-[0.68rem] uppercase tracking-wider text-brand-orange/75">
+                    {{ isPublishedLesson(l) ? 'Locked' : 'Planned' }}
+                  </span>
                 </div>
               </template>
             </template>
@@ -239,7 +284,7 @@ async function toggleComplete() {
       <main>
         <div class="mb-8">
           <span class="text-[0.85rem] text-brand-orange font-semibold uppercase tracking-wide">
-            Lesson {{ currentIndex + 1 }} of {{ allLessons.length }}
+            Lesson {{ currentPublishedIndex + 1 }} of {{ publishedLessons.length }}
           </span>
           <h1 class="text-[clamp(1.5rem,3vw,2.2rem)] font-extrabold mt-2 mb-3">{{ lesson.title }}</h1>
           <div class="flex gap-4 text-sm text-[rgba(224,224,224,0.5)] flex-wrap">
@@ -323,18 +368,6 @@ async function toggleComplete() {
           </p>
         </div>
 
-        <!-- Mark Complete -->
-        <div v-if="!lesson.hideCompletion" class="mb-8 flex items-center gap-3">
-          <button
-            :class="['btn', isCompleted ? 'btn-completed' : 'btn-outline']"
-            :disabled="isLoading"
-            @click="toggleComplete"
-          >
-            <Icon :name="isLoading ? 'mdi:loading' : isCompleted ? 'mdi:check-circle' : 'mdi:check-circle-outline'" :class="{ 'animate-spin': isLoading }" />
-            {{ isCompleted ? 'Completed' : 'Mark as Complete' }}
-          </button>
-        </div>
-
         <!-- Assignment Submission -->
         <LessonSubmissionPanel
           v-if="lesson.type === 'assignment'"
@@ -343,11 +376,8 @@ async function toggleComplete() {
           @open-login="showLoginModal = true"
         />
 
-        <!-- Login Required Modal -->
-        <LoginRequiredModal :visible="showLoginModal" :return-to="route.path" @close="showLoginModal = false" />
-
         <!-- Prev / Next Navigation -->
-        <nav class="grid grid-cols-2 gap-4 max-md:grid-cols-1">
+        <nav class="grid grid-cols-[1fr_auto] gap-4 max-md:grid-cols-1">
           <NuxtLink
             v-if="prevLesson"
             :to="`/courses/${course.slug}/lessons/${prevLesson.slug}`"
@@ -361,21 +391,41 @@ async function toggleComplete() {
           </NuxtLink>
           <div v-else />
 
-          <NuxtLink
-            v-if="nextLesson"
-            :to="`/courses/${course.slug}/lessons/${nextLesson.slug}`"
-            class="flex items-center gap-3 py-4 px-5 no-underline text-[#e0e0e0] text-right justify-end glass-card max-sm:py-3 max-sm:px-3.5 max-sm:gap-2"
-          >
-            <div>
-              <span class="block text-xs text-[rgba(224,224,224,0.4)] uppercase tracking-wide">Next</span>
-              <span class="block font-semibold text-[0.95rem] max-sm:text-[0.85rem]">{{ nextLesson.title }}</span>
-            </div>
-            <Icon name="mdi:arrow-right" />
-          </NuxtLink>
-          <div v-else />
+          <div class="flex items-center justify-end gap-3 text-right">
+            <!-- Mark as Completed Button -->
+            <button
+              v-if="!lesson.hideCompletion"
+              :class="[
+                'flex items-center gap-2 py-4 px-5 font-semibold transition-all duration-300 glass-card max-sm:py-3 max-sm:px-3.5 text-[0.95rem] max-sm:text-[0.85rem]',
+                isCompleted ? 'text-semantic-success pointer-events-none cursor-default border border-semantic-success/30 bg-semantic-success/5' : 'text-[#e0e0e0] hover:text-brand-orange hover:border-brand-orange/40 cursor-pointer',
+                isLoading ? 'opacity-50 pointer-events-none' : ''
+              ]"
+              :disabled="isCompleted || isLoading"
+              @click="toggleComplete"
+            >
+              <Icon :name="isLoading ? 'mdi:loading' : isCompleted ? 'mdi:check-circle' : 'mdi:check-circle-outline'" :class="{ 'animate-spin': isLoading }" />
+              {{ isCompleted ? 'Completed' : 'Mark as Completed' }}
+            </button>
+
+            <!-- Next Button -->
+            <NuxtLink
+              v-if="nextLesson"
+              :to="`/courses/${course.slug}/lessons/${nextLesson.slug}`"
+              class="flex items-center gap-3 py-4 px-5 no-underline text-[#e0e0e0] text-right justify-end glass-card max-sm:py-3 max-sm:px-3.5 max-sm:gap-2 transition-all duration-300"
+            >
+              <div>
+                <span class="block text-xs text-[rgba(224,224,224,0.4)] uppercase tracking-wide">Next</span>
+                <span class="block font-semibold text-[0.95rem] max-sm:text-[0.85rem]">{{ nextLesson.title }}</span>
+              </div>
+              <Icon name="mdi:arrow-right" />
+            </NuxtLink>
+          </div>
         </nav>
       </main>
     </section>
+
+    <!-- Login Required Modal -->
+    <LoginRequiredModal :visible="showLoginModal" :return-to="route.fullPath" @close="showLoginModal = false" />
   </div>
 </template>
 

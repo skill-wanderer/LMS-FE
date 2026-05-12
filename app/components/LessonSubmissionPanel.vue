@@ -137,6 +137,17 @@ function onSelectFiles(event: Event) {
     return
   }
 
+  const allowedTypes = constraints.value.allowedMimeTypes
+  if (allowedTypes.length > 0) {
+    const invalid = files.find(file => !allowedTypes.includes(file.type))
+    if (invalid) {
+      errorMessage.value = `File type "${invalid.type || invalid.name}" is not allowed.`
+      selectedFiles.value = []
+      target.value = ''
+      return
+    }
+  }
+
   selectedFiles.value = files
 }
 
@@ -379,6 +390,7 @@ async function submit() {
         <input
           type="file"
           multiple
+          :accept="constraints.allowedMimeTypes.length > 0 ? constraints.allowedMimeTypes.join(',') : undefined"
           class="block w-full text-sm file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border file:border-brand-orange/40 file:bg-brand-orange/10 file:text-brand-orange"
           @change="onSelectFiles"
         >
@@ -394,7 +406,7 @@ async function submit() {
             <p class="truncate">{{ file.name }}</p>
             <p class="text-xs text-[rgba(224,224,224,0.5)]">{{ (file.size / 1024 / 1024).toFixed(2) }} MB</p>
           </div>
-          <button class="text-xs text-red-300 hover:text-red-200" @click="removeFile(index)">Remove</button>
+          <button type="button" class="text-xs text-red-300 hover:text-red-200" @click="removeFile(index)">Remove</button>
         </li>
       </ul>
 
