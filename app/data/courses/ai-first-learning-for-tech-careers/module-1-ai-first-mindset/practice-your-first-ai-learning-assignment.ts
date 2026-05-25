@@ -13,10 +13,22 @@ const lesson: Lesson = {
 	updatedAt: '2026-05-25',
 	content: `<div class="ai-first-lesson">
 
-<h2>Practice: Your First AI Learning Assignment</h2>
-<p>This assignment turns Module 1 from ideas into behavior. Instead of choosing any topic you want, everyone will work on the same fixed topic: <strong>how to learn with AI responsibly</strong>.</p>
-<p>The goal is not to create a perfect final answer about AI. The goal is to practise the exact mindset from Module 1: define the problem, brief AI clearly, use AI as a thinking partner, ask follow-up questions, verify what matters, and explain the learning in your own words.</p>
+<div class="format-selector">
+	<div class="format-notice">
+		<span class="format-notice-icon">i</span>
+		<div>
+			<strong>Assignment Resources</strong>
+			<p>Start with the assignment brief, then use the companion materials when you want extra guidance.</p>
+		</div>
+	</div>
 
+	<div class="format-tabs">
+		<button class="format-tab active" data-format="assignment" onclick="const root=this.closest('.ai-first-lesson');root.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');root.querySelectorAll('.format-content').forEach(c=>c.style.display='none');root.querySelector('[data-content=assignment]').style.display='block';">Assignment Brief</button>
+		<button class="format-tab" data-format="companion" onclick="const root=this.closest('.ai-first-lesson');root.querySelectorAll('.format-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');root.querySelectorAll('.format-content').forEach(c=>c.style.display='none');root.querySelector('[data-content=companion]').style.display='block';">Companion Materials</button>
+	</div>
+</div>
+
+<div class="format-content" data-content="companion" style="display:none;">
 <h2>Companion Materials</h2>
 <p>Use these companion resources to understand the assignment before you build your own workflow. They support the assignment brief; they do not replace your own problem definition, verification, and reflection.</p>
 
@@ -37,6 +49,12 @@ const lesson: Lesson = {
 <div class="slides-embed">
 	<iframe title="AI Learning Operating System assignment slides" src="https://cdn.jsdelivr.net/gh/skill-wanderer/ai-first-learning-for-tech-careers@main/first%20assignment/AI_Learning_Operating_System.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
 </div>
+</div>
+
+<div class="format-content" data-content="assignment" style="display:block;">
+<h2>Practice: Your First AI Learning Assignment</h2>
+<p>This assignment turns Module 1 from ideas into behavior. Instead of choosing any topic you want, everyone will work on the same fixed topic: <strong>how to learn with AI responsibly</strong>.</p>
+<p>The goal is not to create a perfect final answer about AI. The goal is to practise the exact mindset from Module 1: define the problem, brief AI clearly, use AI as a thinking partner, ask follow-up questions, verify what matters, and explain the learning in your own words.</p>
 
 <h2>Fixed Learning Topic</h2>
 <p>Your topic for this assignment is:</p>
@@ -243,6 +261,7 @@ const lesson: Lesson = {
 <h2>Key Takeaway</h2>
 <p>AI-first learning does not mean AI does the learning for you. It means you start from a real problem, use AI to create momentum, question the output, verify what matters, and turn the experience into a workflow you can reuse.</p>
 
+</div>
 </div>`,
 }
 
