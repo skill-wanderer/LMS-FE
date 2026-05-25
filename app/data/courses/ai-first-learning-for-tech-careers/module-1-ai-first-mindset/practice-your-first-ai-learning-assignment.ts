@@ -10,12 +10,33 @@ const lesson: Lesson = {
 	order: 6,
 	hideCompletion: false,
 	createdAt: '2026-05-14',
-	updatedAt: '2026-05-14',
+	updatedAt: '2026-05-25',
 	content: `<div class="ai-first-lesson">
 
 <h2>Practice: Your First AI Learning Assignment</h2>
 <p>This assignment turns Module 1 from ideas into behavior. Instead of choosing any topic you want, everyone will work on the same fixed topic: <strong>how to learn with AI responsibly</strong>.</p>
 <p>The goal is not to create a perfect final answer about AI. The goal is to practise the exact mindset from Module 1: define the problem, brief AI clearly, use AI as a thinking partner, ask follow-up questions, verify what matters, and explain the learning in your own words.</p>
+
+<h2>Companion Materials</h2>
+<p>Use these companion resources to understand the assignment before you build your own workflow. They support the assignment brief; they do not replace your own problem definition, verification, and reflection.</p>
+
+<h3>Video Walkthrough</h3>
+<div class="video-embed">
+	<iframe title="Building Your Active Learning OS assignment video" src="https://www.youtube-nocookie.com/embed/Xo8i_tuCzuA?si=Y1yZDtI1Dker3aCs" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+
+<h3>Audio Companion</h3>
+<div class="audio-embed">
+	<iframe title="Building Your Active Learning OS assignment audio" style="border-radius:12px" src="https://open.spotify.com/embed/episode/326jV5yoKeMpWPDpVRPlr3?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
+
+<h3>Infographic Guide</h3>
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/ai-first-learning-for-tech-careers@main/first%20assignment/AI_Learning_Blueprint_Assignment_Guide.png" alt="AI Learning Blueprint Assignment Guide infographic" style="max-width:100%;height:auto;border-radius:8px;margin-bottom:2rem;" />
+
+<h3>Slide Deck</h3>
+<div class="slides-embed">
+	<iframe title="AI Learning Operating System assignment slides" src="https://cdn.jsdelivr.net/gh/skill-wanderer/ai-first-learning-for-tech-careers@main/first%20assignment/AI_Learning_Operating_System.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
+</div>
 
 <h2>Fixed Learning Topic</h2>
 <p>Your topic for this assignment is:</p>
