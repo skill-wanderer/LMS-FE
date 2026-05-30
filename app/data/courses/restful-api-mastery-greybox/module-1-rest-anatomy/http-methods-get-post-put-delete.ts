@@ -33,263 +33,404 @@ const lesson = createLesson({
 
   <div class="format-content active" data-format="reading" data-content="reading" style="display:block;">
 <h3>📖 Reading Version</h3>
-<img src="https://cdn.jsdelivr.net/gh/reltronersk/media@main/http-methods-get-post-put-delete.png" alt="HTTP Methods (GET, POST, PUT, DELETE)" />
+<img src="https://cdn.jsdelivr.net/gh/reltronersk/media@main/http-methods.png" alt="HTTP Methods (GET, POST, PUT, DELETE)" />
 
-<h2>Why HTTP Methods Matter</h2>
-<p>HTTP methods are the action words of the web. They tell the server whether the client wants to read data, create something new, replace an existing resource, update only part of it, delete it, inspect metadata, or ask which operations are allowed.</p>
-<p>That shared meaning matters because browsers, caches, gateways, backend services, and engineers all make decisions from the method before they even inspect the body. When the method matches the intent, the API becomes easier to understand, safer to use, and easier to debug.</p>
+<h2>HTTP Methods</h2>
+<p>HTTP methods are like <strong>actions</strong> you ask a server to do.<br />
+Every time you visit a website, submit a form, or use an app, your browser or app sends a request to a server using one of these methods.<br />
+They tell the server: &ldquo;Give me this page,&rdquo; &ldquo;Save this data,&rdquo; &ldquo;Update that,&rdquo; or &ldquo;Delete that.&rdquo;</p>
 
-<h2>Quick Method Map</h2>
+<hr />
+
+<h3>Why Do We Need HTTP Methods?</h3>
+<p>Without clear actions, communication between your browser/app and a server would be confusing and unpredictable.<br />
+HTTP methods give <strong>a shared set of rules</strong> so everyone knows what&rsquo;s going on.</p>
+<p>They handle four main data operations:</p>
+<ul>
+<li><strong>Getting</strong> information (reading)</li>
+<li><strong>Creating</strong> new things</li>
+<li><strong>Updating</strong> existing things</li>
+<li><strong>Deleting</strong> things</li>
+</ul>
+
+<hr />
+
+<h3>The Main Idea: Each Method Has a Meaning</h3>
+<p>Every method says <strong>what you want to happen</strong>.</p>
 <table>
 <thead>
-<tr><th>Method</th><th>Simple meaning</th><th>Safe?</th><th>Idempotency / retry guidance</th></tr>
+<tr><th>Method</th><th>Simple meaning</th></tr>
 </thead>
 <tbody>
-<tr><td><code>GET</code></td><td>Show me this information</td><td>Yes</td><td>Idempotent; usually safe to retry</td></tr>
-<tr><td><code>POST</code></td><td>Create something new with this data</td><td>No</td><td>Not idempotent; retry can create duplicates</td></tr>
-<tr><td><code>PUT</code></td><td>Replace the whole thing with my new data</td><td>No</td><td>Idempotent; same full payload should lead to the same final state</td></tr>
-<tr><td><code>PATCH</code></td><td>Only update the parts I am sending</td><td>No</td><td>Depends on the patch operation and server implementation</td></tr>
-<tr><td><code>DELETE</code></td><td>Remove this resource</td><td>No</td><td>Usually safe to retry because the final state stays deleted</td></tr>
-<tr><td><code>HEAD</code></td><td>Give me headers only, not the body</td><td>Yes</td><td>Idempotent; safe to retry</td></tr>
-<tr><td><code>OPTIONS</code></td><td>Tell me what this URL supports</td><td>Yes</td><td>Idempotent; safe to retry</td></tr>
+<tr><td>GET</td><td>&ldquo;Show me this information&rdquo;</td></tr>
+<tr><td>POST</td><td>&ldquo;Create something new with this data&rdquo;</td></tr>
+<tr><td>PUT</td><td>&ldquo;Replace the whole thing with my new data&rdquo;</td></tr>
+<tr><td>PATCH</td><td>&ldquo;Only update the parts I&rsquo;m sending&rdquo;</td></tr>
+<tr><td>DELETE</td><td>&ldquo;Remove this&rdquo;</td></tr>
+</tbody>
+</table>
+<p>Using the right method makes your APIs and websites easier to understand and work with.</p>
+
+<hr />
+
+<h3>Safe vs. Unsafe Methods</h3>
+
+<h4>Safe Methods</h4>
+<p>Safe methods <strong>don&rsquo;t change anything</strong> on the server. They&rsquo;re like reading a book &ndash; you only look at the information.</p>
+<p>Examples: <code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code></p>
+
+<h4>Unsafe Methods</h4>
+<p>Unsafe methods <strong>may change data</strong> on the server. They&rsquo;re like writing in a notebook.</p>
+<p>Examples: <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, <code>DELETE</code></p>
+
+<hr />
+
+<h3>Quick Overview of All Common Methods</h3>
+<table>
+<thead>
+<tr><th>Method</th><th>Purpose</th><th>Safe?</th></tr>
+</thead>
+<tbody>
+<tr><td>GET</td><td>Retrieve data</td><td>Yes</td></tr>
+<tr><td>POST</td><td>Create new resources</td><td>No</td></tr>
+<tr><td>PUT</td><td>Replace whole resource</td><td>No</td></tr>
+<tr><td>PATCH</td><td>Update parts of a resource</td><td>No</td></tr>
+<tr><td>DELETE</td><td>Remove a resource</td><td>No</td></tr>
+<tr><td>HEAD</td><td>Get only headers (no body)</td><td>Yes</td></tr>
+<tr><td>OPTIONS</td><td>Find out what methods are allowed</td><td>Yes</td></tr>
 </tbody>
 </table>
 
-<h2>Which Method Should You Use?</h2>
+<hr />
+
+<h3>Which Method Should I Use?</h3>
 <table>
 <thead>
 <tr><th>What you want to do</th><th>Use this method</th></tr>
 </thead>
 <tbody>
-<tr><td>Fetch data or load a page</td><td><code>GET</code></td></tr>
-<tr><td>Create a new resource such as a signup, order, or upload</td><td><code>POST</code></td></tr>
-<tr><td>Replace an entire existing resource</td><td><code>PUT</code></td></tr>
-<tr><td>Update only selected fields</td><td><code>PATCH</code></td></tr>
-<tr><td>Delete a resource</td><td><code>DELETE</code></td></tr>
-<tr><td>Check metadata without downloading the full body</td><td><code>HEAD</code></td></tr>
-<tr><td>Ask what methods and communication options are allowed</td><td><code>OPTIONS</code></td></tr>
+<tr><td>Fetch data / load a page</td><td>GET</td></tr>
+<tr><td>Create a new resource (signup, upload)</td><td>POST</td></tr>
+<tr><td>Replace a whole resource</td><td>PUT</td></tr>
+<tr><td>Update only some fields</td><td>PATCH</td></tr>
+<tr><td>Delete a resource</td><td>DELETE</td></tr>
+<tr><td>Check file info without downloading it</td><td>HEAD</td></tr>
+<tr><td>Ask what operations a URL supports</td><td>OPTIONS</td></tr>
 </tbody>
 </table>
 
-<h2>Safe vs Unsafe Methods</h2>
-<p><strong>Safe methods</strong> do not change anything on the server. They are for reading or inspecting information only. The common safe methods are <code>GET</code>, <code>HEAD</code>, and <code>OPTIONS</code>.</p>
-<p><strong>Unsafe methods</strong> may change server-side state. That includes <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, and <code>DELETE</code>. Unsafe does not mean wrong. It means the request can create, replace, edit, or remove data.</p>
-<p>This distinction matters in real systems. Browsers can preload or refresh safe requests more confidently, while unsafe requests need stronger care because repeating them may create or modify data.</p>
+<hr />
 
-<h2>GET: Ask for Information</h2>
-<p><code>GET</code> is used to read data from the server. It should never create, update, or delete anything.</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">GET /products/10</pre>
-</blockquote>
-<p>A typical response body might look like this:</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">{
+<h3>GET &ndash; Ask for Information</h3>
+<p><code>GET</code> is used whenever you want to <strong>read</strong> data from the server.<br />
+It should <strong>never change</strong> anything on the server.</p>
+<p>Example:</p>
+<pre><code class="language-http">GET /products/10</code></pre>
+<p>Response (the product info):</p>
+<pre><code class="language-json">{
   "id": 10,
   "name": "Laptop"
-}</pre>
-</blockquote>
-<p><code>GET</code> is <strong>safe</strong>, <strong>cacheable</strong>, <strong>bookmarkable</strong>, and <strong>shareable</strong>. It is also where query parameters are commonly used for filtering, pagination, sorting, and searching.</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">GET /products?page=1&amp;limit=20
-GET /search?q=laptop</pre>
-</blockquote>
+}</code></pre>
+<p>GET is:</p>
+<ul>
+<li><strong>Safe</strong> (doesn&rsquo;t change server state)</li>
+<li><strong>Cacheable</strong> (browser can save a copy)</li>
+<li><strong>Bookmarkable</strong> (you can save the link)</li>
+<li><strong>Linkable</strong> (you can share it)</li>
+</ul>
 
-<h2>POST: Send Data to Create Something</h2>
-<p><code>POST</code> is used to submit data and usually create a new resource. It is common for signups, orders, form submissions, uploads, and other create-like operations.</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">POST /users
-Content-Type: application/json
+<h4>Why GET Is Safe</h4>
+<p><code>GET</code> is considered <strong>safe</strong> because it is intended only for retrieving information.<br />
+A client can call the same GET request many times without creating, modifying, or deleting data on the server.</p>
+<p>Example:</p>
+<pre><code class="language-http">GET /users/10</code></pre>
+<p>This only reads the user data.<br />
+It does not:</p>
+<ul>
+<li>Create a new user</li>
+<li>Update existing data</li>
+<li>Remove anything</li>
+</ul>
+<p>Because of this behavior:</p>
+<ul>
+<li>Browsers can safely preload GET requests</li>
+<li>Search engines can crawl GET URLs</li>
+<li>Users can refresh the page without accidental data modification</li>
+</ul>
 
-{
+<h4>Common Query Parameters</h4>
+<pre><code>GET /products?page=1&amp;limit=20
+GET /search?q=laptop</code></pre>
+<p>Used for:</p>
+<ul>
+<li>Pagination</li>
+<li>Filtering</li>
+<li>Sorting</li>
+<li>Searching</li>
+</ul>
+
+<hr />
+
+<h3>POST &ndash; Send Data to Create Something</h3>
+<p><code>POST</code> is for <strong>submitting data</strong> and usually <strong>creating a new resource</strong>.</p>
+<p>Example:</p>
+<pre><code class="language-http">POST /users
+Content-Type: application/json</code></pre>
+<p>Body:</p>
+<pre><code class="language-json">{
   "name": "John Doe"
-}</pre>
-</blockquote>
-<p><code>POST</code> is <strong>not safe</strong> and <strong>not idempotent</strong>. Repeating the same request can create duplicate records or trigger the same business action twice, such as placing two orders or sending two notifications.</p>
+}</code></pre>
+<p>POST is typically used for:</p>
+<ul>
+<li>Form submissions (login, signup)</li>
+<li>Creating a new user, order, post</li>
+<li>File uploads</li>
+<li>Any action where you&rsquo;re adding something new</li>
+</ul>
 
-<h2>PUT: Replace the Whole Resource</h2>
-<p><code>PUT</code> replaces an entire resource with the representation you send. The key rule is completeness: the server expects the full updated version, not just one changed field.</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">PUT /users/10
-Content-Type: application/json
+<h4>Why POST Is Not Safe</h4>
+<p><code>POST</code> is <strong>not safe</strong> because it changes server data or triggers server-side actions.</p>
+<p>Example:</p>
+<pre><code class="language-http">POST /orders</code></pre>
+<p>This may:</p>
+<ul>
+<li>Create a new order</li>
+<li>Insert data into a database</li>
+<li>Trigger payment processing</li>
+<li>Send notifications</li>
+</ul>
+<p>Calling the same POST request repeatedly may create duplicate data or repeated actions.</p>
 
-{
+<hr />
+
+<h3>PUT &ndash; Replace the Whole Thing</h3>
+<p><code>PUT</code> <strong>replaces an entire resource</strong> with the data you send.<br />
+You must send the <strong>complete</strong> updated version.</p>
+<p>Example:</p>
+<pre><code class="language-http">PUT /users/10</code></pre>
+<p>Body:</p>
+<pre><code class="language-json">{
   "name": "John",
   "email": "john@example.com"
-}</pre>
-</blockquote>
-<p>If you send only the email field with <code>PUT</code>, the missing name may be erased because the server reads the request as a full replacement, not a partial edit.</p>
-<p><code>PUT</code> is <strong>not safe</strong> because it modifies data, but it is usually <strong>idempotent</strong> because sending the same full replacement multiple times should leave the resource in the same final state.</p>
+}</code></pre>
+<p>If you only send the email, the <code>name</code> may be erased because PUT expects the <strong>full resource</strong>.</p>
 
-<h2>PATCH: Update Only Certain Fields</h2>
-<p><code>PATCH</code> applies a partial update. You send only the fields that should change, and the rest of the resource stays as it already is.</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">PATCH /users/10
-Content-Type: application/json
+<h4>Why PUT Is Not Safe</h4>
+<p><code>PUT</code> is <strong>not safe</strong> because it modifies existing data on the server.</p>
+<p>Example:</p>
+<pre><code class="language-http">PUT /users/10</code></pre>
+<p>This changes the stored resource by replacing its content with the new version provided by the client.</p>
+<p>Even though repeated PUT requests may produce the same final state, the request still performs a modification operation.</p>
 
-{
+<hr />
+
+<h3>PATCH &ndash; Update Only Certain Fields</h3>
+<p><code>PATCH</code> makes a <strong>partial update</strong>. You only send the fields you want to change.</p>
+<p>Example:</p>
+<pre><code class="language-http">PATCH /users/10</code></pre>
+<p>Body:</p>
+<pre><code class="language-json">{
   "email": "new@example.com"
-}</pre>
-</blockquote>
-<p><code>PATCH</code> is <strong>not safe</strong> because it still changes server data. Its retry behavior <strong>depends</strong>: some patch operations are effectively idempotent, while others may stack changes or trigger repeat effects.</p>
+}</code></pre>
+<p>Only the email is changed; the rest of the user data stays as it was.</p>
 
-<h2>DELETE: Remove Something</h2>
-<p><code>DELETE</code> removes a resource.</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">DELETE /posts/15</pre>
-</blockquote>
-<p><code>DELETE</code> is <strong>not safe</strong> because it changes server state by removing data or relationships. It is usually safe to retry from a final-state perspective because deleting the same resource again should still leave it deleted, even if the second response is <code>404 Not Found</code>.</p>
+<h4>Why PATCH Is Not Safe</h4>
+<p><code>PATCH</code> is <strong>not safe</strong> because it changes part of an existing resource.</p>
+<p>Example:</p>
+<pre><code class="language-http">PATCH /users/10</code></pre>
+<p>This modifies selected fields in the stored data.</p>
+<p>Even small updates still change server state, which makes PATCH unsafe.</p>
 
-<h2>HEAD: Get Only the Headers</h2>
-<p><code>HEAD</code> works like <code>GET</code> but does not return the response body. It is useful when you need metadata, not the full content.</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">HEAD /video.mp4</pre>
-</blockquote>
-<p>Typical uses include checking <code>Content-Length</code>, verifying a resource exists, or reading <code>Last-Modified</code> before downloading a large file. Because it only inspects metadata, <code>HEAD</code> is safe.</p>
+<hr />
 
-<h2>OPTIONS: Ask What Is Allowed</h2>
-<p><code>OPTIONS</code> asks the server which methods or communication rules are available for a resource.</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">OPTIONS /users
+<h3>DELETE &ndash; Remove Something</h3>
+<p><code>DELETE</code> removes a resource permanently.</p>
+<p>Example:</p>
+<pre><code class="language-http">DELETE /posts/15</code></pre>
 
-Allow: GET, POST, PUT, DELETE</pre>
-</blockquote>
-<p>Browsers commonly use <code>OPTIONS</code> for CORS preflight checks. It is safe because it only asks about capabilities and does not change data.</p>
+<h4>Why DELETE Is Not Safe</h4>
+<p><code>DELETE</code> is <strong>not safe</strong> because it removes data from the server.</p>
+<p>Example:</p>
+<pre><code class="language-http">DELETE /posts/15</code></pre>
+<p>This may:</p>
+<ul>
+<li>Remove database records</li>
+<li>Delete files</li>
+<li>Remove relationships between resources</li>
+</ul>
+<p>Because server data changes after the request, DELETE is classified as unsafe.</p>
 
-<h2>PUT vs PATCH</h2>
+<hr />
+
+<h3>HEAD &ndash; Get Only the Headers</h3>
+<p><code>HEAD</code> works exactly like <code>GET</code> but <strong>does not return the body</strong> (the actual content).<br />
+It only sends back the headers (information <em>about</em> the resource).</p>
+<p>Useful for:</p>
+<ul>
+<li>Checking file size before downloading</li>
+<li>Verifying if a page has changed (cache validation)</li>
+<li>Seeing metadata</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-http">HEAD /video.mp4</code></pre>
+
+<h4>Why HEAD Is Safe</h4>
+<p><code>HEAD</code> is considered <strong>safe</strong> because it only retrieves metadata about a resource and does not modify server data.</p>
+<p>Example:</p>
+<pre><code class="language-http">HEAD /video.mp4</code></pre>
+<p>The server only returns headers such as:</p>
+<ul>
+<li>Content-Length</li>
+<li>Content-Type</li>
+<li>Last-Modified</li>
+</ul>
+<p>No resource is created, updated, or deleted.</p>
+
+<hr />
+
+<h3>OPTIONS &ndash; Ask What&rsquo;s Allowed</h3>
+<p><code>OPTIONS</code> asks the server: &ldquo;What methods can I use on this URL?&rdquo;</p>
+<p>Example:</p>
+<pre><code class="language-http">OPTIONS /users</code></pre>
+<p>Response header:</p>
+<pre><code class="language-http">Allow: GET, POST, PUT, DELETE</code></pre>
+<p>Commonly used for:</p>
+<ul>
+<li>Discovering what operations an API supports</li>
+<li>Browser <strong>preflight</strong> requests (CORS checks)</li>
+</ul>
+
+<h4>Why OPTIONS Is Safe</h4>
+<p><code>OPTIONS</code> is considered <strong>safe</strong> because it only asks the server about supported communication methods.</p>
+<p>Example:</p>
+<pre><code class="language-http">OPTIONS /users</code></pre>
+<p>The server responds with information such as:</p>
+<ul>
+<li>Allowed HTTP methods</li>
+<li>CORS permissions</li>
+<li>Communication capabilities</li>
+</ul>
+<p>It does not create, update, or remove data on the server.</p>
+
+<hr />
+
+<h3>How Browsers Behave with Each Method</h3>
 <table>
 <thead>
-<tr><th>Question</th><th><code>PUT</code></th><th><code>PATCH</code></th></tr>
+<tr><th>Method</th><th>Can I bookmark it?</th><th>Does the browser cache it?</th></tr>
 </thead>
 <tbody>
-<tr><td>What changes?</td><td>Replaces the whole resource</td><td>Updates only selected fields</td></tr>
-<tr><td>What should the body contain?</td><td>The complete new version</td><td>Only the fields that should change</td></tr>
-<tr><td>Main risk</td><td>Missing fields may be treated as removed</td><td>Patch behavior can vary by operation</td></tr>
-<tr><td>Best use case</td><td>Full replacement with a complete payload</td><td>Partial edits such as status, email, or display name</td></tr>
+<tr><td>GET</td><td>✅ Yes</td><td>Usually yes</td></tr>
+<tr><td>POST</td><td>❌ No</td><td>Usually no</td></tr>
+<tr><td>PUT</td><td>❌ No</td><td>Usually no</td></tr>
+<tr><td>PATCH</td><td>❌ No</td><td>Usually no</td></tr>
+<tr><td>DELETE</td><td>❌ No</td><td>Usually no</td></tr>
+<tr><td>HEAD</td><td>❌ No</td><td>Yes (headers)</td></tr>
+<tr><td>OPTIONS</td><td>❌ No</td><td>Usually no</td></tr>
 </tbody>
 </table>
-<p>Use <code>PUT</code> when the client is intentionally replacing the full stored representation. Use <code>PATCH</code> when the client wants to update only part of the resource without resending everything.</p>
 
-<h2>Do You Need a Request Body?</h2>
+<hr />
+
+<h3>HTML Forms &ndash; Which Methods Can They Use?</h3>
+<p>Standard HTML forms <strong>only support</strong> <code>GET</code> and <code>POST</code>.</p>
+<p>Example:</p>
+<pre><code class="language-html">&lt;form method="POST" action="/login"&gt;</code></pre>
+<p>To use <code>PUT</code>, <code>PATCH</code> or <code>DELETE</code>, you usually need JavaScript or a special API tool.</p>
+
+<hr />
+
+<h3>Do I Need to Send a Request Body?</h3>
 <table>
 <thead>
 <tr><th>Method</th><th>Body included?</th></tr>
 </thead>
 <tbody>
-<tr><td><code>GET</code></td><td>Usually no</td></tr>
-<tr><td><code>POST</code></td><td>Yes</td></tr>
-<tr><td><code>PUT</code></td><td>Yes</td></tr>
-<tr><td><code>PATCH</code></td><td>Yes</td></tr>
-<tr><td><code>DELETE</code></td><td>Sometimes</td></tr>
-<tr><td><code>HEAD</code></td><td>No</td></tr>
-<tr><td><code>OPTIONS</code></td><td>Usually no</td></tr>
+<tr><td>GET</td><td>Usually no</td></tr>
+<tr><td>POST</td><td>Yes</td></tr>
+<tr><td>PUT</td><td>Yes</td></tr>
+<tr><td>PATCH</td><td>Yes</td></tr>
+<tr><td>DELETE</td><td>Sometimes</td></tr>
+<tr><td>HEAD</td><td>No</td></tr>
+<tr><td>OPTIONS</td><td>Usually no</td></tr>
 </tbody>
 </table>
 
-<h2>Browser Behavior</h2>
+<hr />
+
+<h3>Retry Behaviour &ndash; Is It Safe to Try Again?</h3>
 <table>
 <thead>
-<tr><th>Method</th><th>Can I bookmark it?</th><th>Does the browser usually cache it?</th></tr>
+<tr><th>Method</th><th>Safe to retry?</th><th>Explanation</th></tr>
 </thead>
 <tbody>
-<tr><td><code>GET</code></td><td>Yes</td><td>Usually yes</td></tr>
-<tr><td><code>POST</code></td><td>No</td><td>Usually no</td></tr>
-<tr><td><code>PUT</code></td><td>No</td><td>Usually no</td></tr>
-<tr><td><code>PATCH</code></td><td>No</td><td>Usually no</td></tr>
-<tr><td><code>DELETE</code></td><td>No</td><td>Usually no</td></tr>
-<tr><td><code>HEAD</code></td><td>No</td><td>Yes, for headers and metadata</td></tr>
-<tr><td><code>OPTIONS</code></td><td>No</td><td>Usually no</td></tr>
+<tr><td>GET</td><td>Usually safe</td><td>No changes happen</td></tr>
+<tr><td>POST</td><td>Risky</td><td>Might create duplicates (e.g., two orders)</td></tr>
+<tr><td>PUT</td><td>Usually safe</td><td>Same data &rarr; same final state</td></tr>
+<tr><td>PATCH</td><td>Depends</td><td>Some updates are safe, some are not</td></tr>
+<tr><td>DELETE</td><td>Usually safe</td><td>Deleting again does nothing extra</td></tr>
+<tr><td>HEAD</td><td>Safe</td><td>No body or changes</td></tr>
+<tr><td>OPTIONS</td><td>Safe</td><td>Just a question, no changes</td></tr>
 </tbody>
 </table>
 
-<h2>HTML Forms and Tooling</h2>
-<p>Standard HTML forms support only <code>GET</code> and <code>POST</code>.</p>
-<blockquote>
-<pre style="background:rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:0.88rem;line-height:1.6;overflow-x:auto;border:1px solid rgba(255,255,255,0.08);">&lt;form method="POST" action="/login"&gt;</pre>
-</blockquote>
-<p>To use <code>PUT</code>, <code>PATCH</code>, or <code>DELETE</code>, you usually need JavaScript, a fetch client, or framework-level method override support.</p>
+<hr />
 
-<h2>Common Beginner Mistakes</h2>
-<table>
-<thead>
-<tr><th>Mistake</th><th>Why it is wrong</th><th>Better approach</th></tr>
-</thead>
-<tbody>
-<tr>
-<td><code>GET /delete-user/10</code></td>
-<td><code>GET</code> should never change server state. Browsers, crawlers, or refresh actions may trigger it again.</td>
-<td><code>DELETE /users/10</code></td>
-</tr>
-<tr>
-<td><code>POST /get-products</code></td>
-<td><code>POST</code> is for creation or submission, not normal reading. It breaks expectations around caching and semantics.</td>
-<td><code>GET /products</code></td>
-</tr>
-<tr>
-<td>Using <code>PUT</code> for a one-field update</td>
-<td><code>PUT</code> expects a full replacement, so omitted fields may be lost.</td>
-<td>Use <code>PATCH</code> when changing only part of a resource.</td>
-</tr>
-</tbody>
-</table>
+<h3>Common Mistakes (and How to Fix Them)</h3>
+<p>❌ <strong>Using GET to delete something</strong><br />
+<code>GET /delete-user/10</code><br />
+<strong>Why it&rsquo;s wrong:</strong> GET should never change server state. A browser might accidentally trigger it again.</p>
+<p>✅ <strong>Correct:</strong><br />
+<code>DELETE /users/10</code></p>
 
-<h2>Real Browser and App Examples</h2>
+<p>❌ <strong>Using POST just to fetch data</strong><br />
+<code>POST /get-products</code><br />
+<strong>Why it&rsquo;s wrong:</strong> POST is for creating/submitting, not for reading. It&rsquo;s not cacheable and breaks expectations.</p>
+<p>✅ <strong>Correct:</strong><br />
+<code>GET /products</code></p>
+
+<hr />
+
+<h3>Real-Life Browser Examples</h3>
 <ul>
 <li>Opening a webpage: <code>GET /home</code></li>
 <li>Submitting a login form: <code>POST /login</code></li>
-<li>Updating your profile with JavaScript: <code>PATCH /profile</code></li>
+<li>Updating your profile (with JavaScript): <code>PATCH /profile</code></li>
 <li>Deleting a comment: <code>DELETE /comments/10</code></li>
 </ul>
 
-<h2>Summary</h2>
+<hr />
+
+<h2>Final Summary</h2>
+<p>HTTP methods are the <strong>basic language</strong> that browsers, apps, and servers use to talk to each other.<br />
+Each method has a specific job and expected behaviour.</p>
+<p>Learning them properly helps you:</p>
 <ul>
-<li>HTTP methods are the basic language clients and servers use to express intent.</li>
-<li><code>GET</code>, <code>HEAD</code>, and <code>OPTIONS</code> are safe because they should not change server state.</li>
-<li><code>POST</code>, <code>PUT</code>, <code>PATCH</code>, and <code>DELETE</code> are unsafe because they may modify data.</li>
-<li><code>PUT</code> replaces the full resource, while <code>PATCH</code> updates only part of it.</li>
-<li>Idempotency matters for retries: <code>POST</code> is risky to repeat, <code>PUT</code> is usually safe to repeat, and <code>PATCH</code> depends on the operation.</li>
-<li>Using the right method makes APIs more predictable, easier to debug, and less likely to surprise both humans and systems.</li>
+<li>Build predictable and easy-to-use APIs</li>
+<li>Use the right action for the right task</li>
+<li>Avoid confusing or broken web applications</li>
 </ul>
+<p>Think of them as the verbs of the web &ndash; once you know what each one does, writing and understanding web requests becomes much simpler.</p>
   </div>
 
   <div class="format-content" data-format="video" data-content="video" style="display:none;">
     <h3>🎬 Video Version</h3>
     <div class="video-embed">
-      <div style="padding:24px;border:1px solid rgba(255,255,255,0.1);border-radius:12px;background:rgba(255,255,255,0.03);">
-        <p><strong>Video outline:</strong> This lesson's technical source of truth is the reading version. The video tab provides a teaching outline for the same concepts until a dedicated media embed is attached.</p>
-        <ul>
-          <li>Methods are the verbs of HTTP: read, create, replace, partially update, delete, inspect, or ask what is allowed.</li>
-          <li>Safe methods do not change state; unsafe methods may change state.</li>
-          <li><code>PUT</code> replaces a full resource, while <code>PATCH</code> changes only selected fields.</li>
-          <li>Retry behavior depends on idempotency: <code>POST</code> is risky, <code>PUT</code> is usually safe, <code>PATCH</code> depends.</li>
-        </ul>
-      </div>
+      <iframe title="Introduction to REST API lesson video" src="https://www.youtube-nocookie.com/embed/0nhVnFwm-Qk" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
   </div>
 
   <div class="format-content" data-format="audio" data-content="audio" style="display:none;">
     <h3>🎧 Audio Version</h3>
     <div class="audio-embed">
-      <div style="padding:24px;border:1px solid rgba(255,255,255,0.1);border-radius:12px;background:rgba(255,255,255,0.03);">
-        <p><strong>Audio outline:</strong> Explain that HTTP methods are action words with behavioral rules, not just labels. Emphasize the difference between safe and unsafe methods, then walk through <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, <code>DELETE</code>, <code>HEAD</code>, and <code>OPTIONS</code>.</p>
-        <p>Close by reinforcing the main beginner traps: do not use <code>GET</code> to delete, do not use <code>POST</code> just to fetch, and do not use <code>PUT</code> when you only mean a partial update.</p>
-      </div>
+      <iframe title="Introduction to REST API lesson audio" style="border-radius:12px" src="https://open.spotify.com/embed/episode/0TCVno2cIBbbDXC4MtlWiZ?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
     </div>
   </div>
 
   <div class="format-content" data-format="slides" data-content="slides" style="display:none;">
     <h3>📊 Slide Version</h3>
     <div class="slides-embed">
-      <div style="padding:24px;border:1px solid rgba(255,255,255,0.1);border-radius:12px;background:rgba(255,255,255,0.03);">
-        <h4>Slide Outline</h4>
-        <ol>
-          <li>Why HTTP methods exist</li>
-          <li>Quick map of GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS</li>
-          <li>Safe vs unsafe methods</li>
-          <li>PUT vs PATCH</li>
-          <li>Idempotency and retry behavior</li>
-          <li>Common beginner mistakes and corrections</li>
-        </ol>
-      </div>
+      <iframe src="https://cdn.jsdelivr.net/gh/reltronersk/media@main/http-methods.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
     </div>
   </div>
 
