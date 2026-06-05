@@ -33,7 +33,7 @@ const lesson = createLesson({
 
   <div class="format-content active" data-format="reading" data-content="reading" style="display:block;">
 <h3>📖 Reading Version</h3>
-<img src="https://cdn.jsdelivr.net/gh/reltronersk/media@main/http-methods.png" alt="HTTP Methods (GET, POST, PUT, DELETE)" />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/http-methods.png" alt="HTTP Methods (GET, POST, PUT, DELETE)" />
 
 <h2>HTTP Methods</h2>
 <p>HTTP methods are like <strong>actions</strong> you ask a server to do.<br />
@@ -430,7 +430,7 @@ Each method has a specific job and expected behaviour.</p>
   <div class="format-content" data-format="slides" data-content="slides" style="display:none;">
     <h3>📊 Slide Version</h3>
     <div class="slides-embed">
-      <iframe src="https://cdn.jsdelivr.net/gh/reltronersk/media@main/http-methods.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
+      <iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/http-methods.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
     </div>
   </div>
 
