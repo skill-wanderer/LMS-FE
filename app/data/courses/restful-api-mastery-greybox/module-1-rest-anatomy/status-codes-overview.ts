@@ -272,6 +272,7 @@ const lesson = createLesson({
 <h2>Common Status Codes (Know These First)</h2>
 <p>These are the status codes developers encounter most often.</p>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/200statuscode.png" alt="200 Status Codes" />
 <h3>200 OK</h3>
 <p>Everything worked successfully.</p>
 <p>Common situations:</p>
@@ -282,6 +283,7 @@ const lesson = createLesson({
 <li>Running a search</li>
 </ul>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/201statuscode.png" alt="201 Status Codes" />
 <h3>201 Created</h3>
 <p>A new resource was successfully created.</p>
 <p>Common situations:</p>
@@ -291,6 +293,7 @@ const lesson = createLesson({
 <li>Creating an order</li>
 </ul>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/204status-code.png" alt="204 Status Codes" />
 <h3>204 No Content</h3>
 <p>The request succeeded, but there is nothing to return.</p>
 <p>Common situations:</p>
@@ -299,6 +302,7 @@ const lesson = createLesson({
 <li>Completing an action without returning data</li>
 </ul>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/400statuscode.png" alt="400 Status Codes" />
 <h3>400 Bad Request</h3>
 <p>The request is invalid.</p>
 <p>Common situations:</p>
@@ -308,6 +312,7 @@ const lesson = createLesson({
 <li>Invalid JSON data</li>
 </ul>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/401statuscode.png" alt="401 Status Codes" />
 <h3>401 Unauthorized</h3>
 <p>Authentication is required.</p>
 <p>Common situations:</p>
@@ -321,6 +326,7 @@ const lesson = createLesson({
 <p>&quot;Who are you?&quot;</p>
 </blockquote>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/403statuscode.png" alt="403 Status Codes" />
 <h3>403 Forbidden</h3>
 <p>The user is authenticated but does not have permission.</p>
 <p>Common situations:</p>
@@ -334,6 +340,7 @@ const lesson = createLesson({
 <p>&quot;I know who you are, but you can&#39;t do this.&quot;</p>
 </blockquote>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/404statuscode.png" alt="404 Status Codes" />
 <h3>404 Not Found</h3>
 <p>The requested resource does not exist.</p>
 <p>Common situations:</p>
@@ -344,6 +351,7 @@ const lesson = createLesson({
 </ul>
 <p>This is one of the most common status codes on the web.</p>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/409statuscode.png" alt="409 Status Codes" />
 <h3>409 Conflict</h3>
 <p>The request conflicts with existing data.</p>
 <p>Common situations:</p>
@@ -353,6 +361,7 @@ const lesson = createLesson({
 <li>Duplicate unique value</li>
 </ul>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/422statuscode.png" alt="422 Status Codes" />
 <h3>422 Unprocessable Entity</h3>
 <p>The request format is valid, but the data fails validation.</p>
 <p>Common situations:</p>
@@ -362,6 +371,7 @@ const lesson = createLesson({
 <li>Business rule validation failures</li>
 </ul>
 <hr />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/429statuscode.png" alt="429 Status Codes" />
 <h3>429 Too Many Requests</h3>
 <p>The client is sending too many requests.</p>
 <p>Common situations:</p>
