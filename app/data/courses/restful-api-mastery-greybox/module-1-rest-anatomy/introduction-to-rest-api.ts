@@ -35,7 +35,7 @@ const lesson = createLesson({
 
   <div class="format-content active" data-format="reading" data-content="reading" style="display:block;">
 <h3>📖 Reading Version</h3>
-<img src="https://cdn.jsdelivr.net/gh/reltronersk/media@main/introduction-to-rest-api.ts.png" alt="Introduction to REST API" />
+<img src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/introduction-to-rest-api.png" alt="Introduction to REST API" />
 <h2>What is an API?</h2>
 <p>An <strong>API (Application Programming Interface)</strong> is a set of rules that allows two software applications to communicate with each other. Think of it as a waiter in a restaurant: you (the client) place an order, the waiter (the API) carries your request to the kitchen (the server), and brings back your food (the response).</p>
 <p>APIs are everywhere in modern software:</p>
@@ -461,7 +461,7 @@ const lesson = createLesson({
   <div class="format-content" data-format="slides" data-content="slides" style="display:none;">
     <h3>📊 Slide Version</h3>
     <div class="slides-embed">
-      <iframe src="https://cdn.jsdelivr.net/gh/reltronersk/media@main/introduction-to-rest-api.ts.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
+      <iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/restfulapi-resources@main/introduction-to-rest-api.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
     </div>
   </div>
 
