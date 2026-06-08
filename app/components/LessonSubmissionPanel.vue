@@ -197,7 +197,6 @@ async function loadSubmissionState() {
     latestSubmission.value = currentState.value.latestSubmission
   }
   catch {
-    // State endpoint unavailable — fall back to default active state.
     currentState.value = {
       status: 'ACTIVE',
       canSubmit: true,
@@ -226,7 +225,6 @@ async function loadSubmissionConstraints() {
     }
   }
   catch {
-    // Keep safe fallback limits when constraints endpoint is unavailable.
     constraints.value = {
       maxFiles: 10,
       maxFileSizeMb: 10,
@@ -338,16 +336,27 @@ async function submit() {
     const fetchError = error as {
       data?: { message?: string | string[] }
       status?: number
+      statusCode?: number
     }
 
     const message = fetchError?.data?.message
     const parsedMessage = Array.isArray(message) ? message.join(', ') : message
+    const statusCode = fetchError?.statusCode ?? fetchError?.status
 
-    if (fetchError?.status === 429) {
+    if (statusCode === 429) {
       errorMessage.value = parsedMessage || 'Submission is temporarily rate-limited. Please wait and try again.'
     }
-    else if (fetchError?.status === 403) {
+    else if (statusCode === 413) {
+      errorMessage.value = parsedMessage || `Each uploaded file must be ${constraints.value.maxFileSizeMb}MB or smaller.`
+    }
+    else if (statusCode === 415) {
+      errorMessage.value = parsedMessage || 'One or more selected files are not allowed.'
+    }
+    else if (statusCode === 403) {
       errorMessage.value = parsedMessage || 'Resubmission is not allowed after passing this assignment.'
+    }
+    else if (statusCode === 400) {
+      errorMessage.value = parsedMessage || 'Submission data is invalid. Please review your text and files.'
     }
     else {
       errorMessage.value = parsedMessage || 'Submission failed. Please try again.'
