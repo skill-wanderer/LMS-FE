@@ -6,7 +6,14 @@ import module3 from './module-3-generating-ui-from-data'
 import module4 from './module-4-smart-interfaces'
 import module5 from './module-5-final-project'
 
-const modules = [module1, module2, module3, module4, module5]
+const rawModules = [module1, module2, module3, module4, module5]
+const modules = rawModules.map((moduleItem, index) => ({
+  ...moduleItem,
+  lessons: moduleItem.lessons.map(lesson => ({
+    ...lesson,
+    status: (moduleItem.order === 1 || index === 0) ? ('published' as const) : ('draft' as const),
+  })),
+}))
 const lessonCount = modules.reduce((sum, moduleItem) => sum + moduleItem.lessons.length, 0)
 
 const course: Course = {
