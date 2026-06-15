@@ -3,6 +3,7 @@ import type { Lesson } from '~/types/course'
 import { getAllLessons, isPublishedLesson } from '~/types/course'
 
 definePageMeta({
+  middleware: ['submission-auth'],
   key: (r) => r.fullPath
 })
 
@@ -53,6 +54,7 @@ const nextLesson = currentPublishedIndex < publishedLessons.length - 1 ? publish
 const { isAuthEnabled, isAuthenticated, accessToken } = useKeycloak()
 const config = useRuntimeConfig()
 const apiBaseUrl = (config.public.apiBaseUrl as string).replace(/\/+$/, '')
+const submissionPath = computed(() => `courses/${courseSlug}/lessons/${lessonSlug}/submissions`)
 
 // Process YouTube iframes: use privacy-enhanced nocookie domain and add lazy loading
 const processedContent = computed(() => {
@@ -146,6 +148,7 @@ onMounted(async () => {
 })
 
 async function toggleComplete() {
+  if (!course || !lesson) return
   if (isCompleted.value) return // Prevent multiple clicks
 
   // If auth is enabled but user is not logged in, show login modal
@@ -334,7 +337,7 @@ async function toggleComplete() {
               :questions="lesson.quiz.questions"
               :title="lesson.quiz.title"
               :pass-percentage="lesson.quiz.passPercentage"
-              :return-to="route.fullPath"
+              :return-to="route.path"
               :course-slug="courseSlug"
               :lesson-slug="lessonSlug"
             />
@@ -350,7 +353,7 @@ async function toggleComplete() {
           :questions="lesson.quiz.questions"
           :title="lesson.quiz.title"
           :pass-percentage="lesson.quiz.passPercentage"
-          :return-to="route.fullPath"
+          :return-to="route.path"
           :course-slug="courseSlug"
           :lesson-slug="lessonSlug"
           class="mb-8"
@@ -364,6 +367,14 @@ async function toggleComplete() {
             images, and interactive elements.
           </p>
         </div>
+
+        <!-- Assignment Submission -->
+        <LessonSubmissionPanel
+          v-if="lesson.type === 'assignment'"
+          :submission-path="submissionPath"
+          :api-base-url="apiBaseUrl"
+          @open-login="showLoginModal = true"
+        />
 
         <!-- Prev / Next Navigation -->
         <nav class="grid grid-cols-[1fr_auto] gap-4 max-md:grid-cols-1">
