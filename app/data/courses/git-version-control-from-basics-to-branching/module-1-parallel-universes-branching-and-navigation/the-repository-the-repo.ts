@@ -41,13 +41,13 @@ const lesson: Lesson = {
 <div class="audio-embed">
   <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/2NywhDrlYpSrgG8OC8Bgu3?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
 </div>
-<p><em>Note: Replace Spotify episode link when your audio cut is ready.</em></p>
+<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/2NywhDrlYpSrgG8OC8Bgu3?si=rO3V3AwbQ6C54jhV_nHDBw" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
 </div>
 
 <div class="format-content" data-content="reading" style="display:block;">
 
 <div style="text-align:center;margin-bottom:1.5rem;">
-  <img src="https://cdn.jsdelivr.net/gh/Thanh-Nguyen-Valerie/git-version-control-material-learning@main/module-1/the-repo/The_Repository.png" alt="The Repository Slide Preview" style="max-width:100%;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.15);" loading="lazy" />
+  <img src="https://cdn.jsdelivr.net/gh/skill-wanderer/git-version-control-material-learning@main/module-1/the-repo/The_Repository.png" alt="The Repository Slide Preview" style="max-width:100%;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.15);" loading="lazy" />
   <p style="margin-top:0.5rem;font-size:0.8rem;color:#6b7280;">📊 Prefer slides? Switch to the <strong>Slides</strong> tab above.</p>
 </div>
 
@@ -125,9 +125,9 @@ const lesson: Lesson = {
 <div class="format-content" data-content="slides" style="display:none;">
 <h2>📊 Slides Version</h2>
 <div class="slides-embed" style="width:100%;border-radius:8px;overflow:hidden;">
-  <iframe src="https://cdn.jsdelivr.net/gh/Thanh-Nguyen-Valerie/git-version-control-material-learning@main/module-1/the-repo/The_Repository_Slide.pdf" width="100%" height="600" style="border:none;" title="The Repository Slide"></iframe>
+  <iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/git-version-control-material-learning@main/module-1/the-repo/The_Repository_Slide.pdf" width="100%" height="600" style="border:none;" title="The Repository Slide"></iframe>
 </div>
-<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Can't see the slides? <a href="https://cdn.jsdelivr.net/gh/Thanh-Nguyen-Valerie/git-version-control-material-learning@main/module-1/the-repo/The_Repository_Slide.pdf" target="_blank" rel="noopener noreferrer">Download PDF</a></p>
+<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Can't see the slides? <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/git-version-control-material-learning@main/module-1/the-repo/The_Repository_Slide.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
 </div>`,
 }
 
