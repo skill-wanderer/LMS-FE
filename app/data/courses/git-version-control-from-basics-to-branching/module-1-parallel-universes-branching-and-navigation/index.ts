@@ -1,5 +1,6 @@
 import type { Module } from '~/types/course'
 import theRepositoryTheRepo from './the-repository-the-repo'
+import theForgeEnvironmentSetup from './the-forge-environment-setup'
 import whatIsABranch from './what-is-a-branch'
 import headAndNavigation from './head-and-navigation'
 import gitSwitchVsGitCheckout from './git-switch-vs-git-checkout'
@@ -11,6 +12,7 @@ const module1: Module = {
   order: 1,
   lessons: [
     theRepositoryTheRepo,
+    theForgeEnvironmentSetup,
     whatIsABranch,
     headAndNavigation,
     gitSwitchVsGitCheckout,
