@@ -75,6 +75,7 @@ export default defineNuxtConfig({
       keycloakUrl: process.env.NUXT_PUBLIC_KEYCLOAK_URL || '',
       keycloakRealm: process.env.NUXT_PUBLIC_KEYCLOAK_REALM || '',
       keycloakClientId: process.env.NUXT_PUBLIC_KEYCLOAK_CLIENT_ID || '',
+      keycloakRefreshThresholdPercent: Number(process.env.NUXT_PUBLIC_KEYCLOAK_REFRESH_THRESHOLD_PERCENT) || 80,
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || '',
       pathfinder: {
         apiUrl: process.env.NUXT_PUBLIC_PATHFINDER_API_URL || 'http://localhost:8000',
