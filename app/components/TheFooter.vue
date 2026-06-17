@@ -6,7 +6,7 @@ const footerLinks = {
     { label: 'Search', to: '/search' },
   ],
   about: [
-    { label: 'About the Dojo', href: 'https://skill-wanderer.com/about' },
+    { label: 'About the Dojo', to: '/about' },
     { label: 'Open Source', href: 'https://github.com/skill-wanderer' },
   ],
   community: [
