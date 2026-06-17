@@ -25,7 +25,7 @@ const navLinks = [
   { label: 'Courses', to: '/courses' },
   { label: 'Learning Paths', to: '/paths' },
   { label: 'Lyra', to: '/lyra' },
-  { label: 'About', href: 'https://skill-wanderer.com/about' },
+  { label: 'About', to: '/about' },
   { label: 'Why Custom Dojo?', href: 'https://wanderings.skill-wanderer.com/blog/wanderers-log-4-goodbye-moodle-hello-custom-lms/' },
 ]
 
