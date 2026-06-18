@@ -13,25 +13,25 @@ defineProps<Props>()
 </script>
 
 <template>
-  <section class="hero relative pt-[150px] pb-[60px] px-4 text-center overflow-hidden md:pt-[180px] md:pb-20 md:px-5 w-full max-w-full">
+  <section class="hero relative w-full max-w-full overflow-x-clip overflow-y-hidden px-4 pb-[56px] pt-[136px] text-center md:px-5 md:pb-20 md:pt-[180px]">
     <div class="max-w-narrow mx-auto relative z-[1]">
       <h1 class="gradient-text text-[clamp(2.5rem,7vw,4.5rem)] font-black leading-[1.1] mb-5">{{ title }}</h1>
-      <p v-if="subtitle" class="text-[clamp(1.2rem,2.5vw,1.5rem)] text-[#e0e0e0] mb-3 font-medium">{{ subtitle }}</p>
-      <p v-if="description" class="text-[1.1rem] text-[rgba(224,224,224,0.7)] leading-[1.8] max-w-[600px] mx-auto mb-8">{{ description }}</p>
+      <p v-if="subtitle" class="mb-3 text-[clamp(1.05rem,2.5vw,1.5rem)] font-medium text-[#e0e0e0]">{{ subtitle }}</p>
+      <p v-if="description" class="mx-auto mb-8 max-w-[600px] text-base leading-[1.75] text-[rgba(224,224,224,0.7)] md:text-[1.1rem]">{{ description }}</p>
 
-      <div v-if="ctaPrimary || ctaSecondary || ctaTertiary" class="flex gap-5 justify-center flex-wrap mb-12 max-md:flex-col max-md:items-center">
-        <NuxtLink v-if="ctaPrimary" :to="ctaPrimary.to" class="btn btn-primary">
+      <div v-if="ctaPrimary || ctaSecondary || ctaTertiary" class="mb-12 flex flex-wrap justify-center gap-5 max-md:flex-col max-md:items-stretch max-md:gap-3">
+        <NuxtLink v-if="ctaPrimary" :to="ctaPrimary.to" class="btn btn-primary max-md:w-full max-md:justify-center">
           {{ ctaPrimary.label }}
           <Icon name="mdi:arrow-right" />
         </NuxtLink>
-        <NuxtLink v-if="ctaTertiary?.to" :to="ctaTertiary.to" class="btn btn-primary">
+        <NuxtLink v-if="ctaTertiary?.to" :to="ctaTertiary.to" class="btn btn-primary max-md:w-full max-md:justify-center">
           {{ ctaTertiary.label }}
           <Icon name="mdi:arrow-right" />
         </NuxtLink>
-        <a v-if="ctaSecondary?.href" :href="ctaSecondary.href" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+        <a v-if="ctaSecondary?.href" :href="ctaSecondary.href" class="btn btn-secondary max-md:w-full max-md:justify-center" target="_blank" rel="noopener noreferrer">
           {{ ctaSecondary.label }}
         </a>
-        <NuxtLink v-else-if="ctaSecondary?.to" :to="ctaSecondary.to" class="btn btn-secondary">
+        <NuxtLink v-else-if="ctaSecondary?.to" :to="ctaSecondary.to" class="btn btn-secondary max-md:w-full max-md:justify-center">
           {{ ctaSecondary.label }}
         </NuxtLink>
       </div>
@@ -51,5 +51,13 @@ defineProps<Props>()
   content: '';
   @apply absolute -top-[100px] left-1/2 -translate-x-1/2 w-[800px] h-[800px] pointer-events-none;
   background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 60%);
+}
+
+@media (max-width: 767px) {
+  .hero::before {
+    width: 560px;
+    height: 560px;
+    top: -80px;
+  }
 }
 </style>
