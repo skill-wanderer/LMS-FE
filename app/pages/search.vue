@@ -10,7 +10,7 @@ useSeo({
   description: 'Search free courses and learning paths on Skill-Wanderer Dojo. Find courses on web development, programming, DevOps, and more.',
 })
 
-const { searchCourses, formatDuration, getCourseDuration, getCourseBySlug } = useCourses()
+const { courses, searchCourses, formatDuration, getCourseDuration, getCourseBySlug } = useCourses()
 
 const query = ref((route.query.q as string) || '')
 const activeTab = ref<'all' | 'courses' | 'paths'>('all')
@@ -31,10 +31,27 @@ const pathResults = computed(() => {
 
 const totalResults = computed(() => courseResults.value.length + pathResults.value.length)
 
+const popularCourses = computed(() => courses.value.slice(0, 3))
+
+const featuredPaths = computed(() =>
+  allPaths
+    .filter(path => ['web-developer', 'qa-tester', 'ai-machine-learning'].includes(path.slug))
+    .slice(0, 3),
+)
+
+const exploreTopics = [
+  { label: 'JavaScript', icon: 'mdi:language-javascript', query: 'javascript' },
+  { label: 'React', icon: 'mdi:react', query: 'react' },
+  { label: 'HTML', icon: 'mdi:language-html5', query: 'html' },
+  { label: 'Git', icon: 'mdi:source-branch', query: 'git' },
+  { label: 'QA', icon: 'mdi:bug-check-outline', query: 'qa' },
+  { label: 'DevOps', icon: 'mdi:server-network', query: 'devops' },
+]
+
 function handleSearch(q: string) {
   query.value = q
   activeTab.value = 'all'
-  router.replace({ query: { q } })
+  router.replace({ query: q ? { q } : {} })
 }
 
 function getPathDuration(path: PathData): number {
@@ -63,15 +80,35 @@ watch(() => route.query.q, (newQ) => {
   if (typeof newQ === 'string') {
     query.value = newQ
   }
+  else {
+    query.value = ''
+  }
 })
 </script>
 
 <template>
   <div>
-    <section class="pt-[170px] px-5 pb-10 text-center max-md:pt-[150px] max-md:px-4 max-md:pb-8 max-sm:pt-[140px] max-sm:px-3 max-sm:pb-6">
+    <section class="pt-[170px] px-5 pb-6 text-center max-md:pt-[150px] max-md:px-4 max-md:pb-5 max-sm:pt-[140px] max-sm:px-3 max-sm:pb-4">
       <div class="max-w-[600px] mx-auto">
         <h1 class="gradient-text text-3xl md:text-4xl font-bold mb-6">Search</h1>
-        <SearchBar @search="handleSearch" />
+        <SearchBar v-model="query" @search="handleSearch" />
+        <div class="mt-5 rounded-2xl border border-brand-orange/20 bg-brand-orange/[0.06] px-4 py-4 shadow-[0_20px_60px_rgba(255,122,0,0.08)]">
+          <div class="flex flex-wrap items-center justify-center gap-2.5">
+            <span class="text-sm font-medium text-brand-orange">Popular topics:</span>
+            <button
+              v-for="topic in exploreTopics.slice(0, 4)"
+              :key="`hero-${topic.query}`"
+              class="inline-flex items-center gap-2 rounded-full border border-brand-orange/20 bg-black/20 px-3.5 py-1.5 text-sm font-medium text-[#f3ede7] transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-orange/50 hover:bg-brand-orange/10 hover:text-brand-orange"
+              @click="handleSearch(topic.query)"
+            >
+              <Icon :name="topic.icon" />
+              {{ topic.label }}
+            </button>
+          </div>
+          <p class="mt-3 text-sm text-[rgba(224,224,224,0.68)]">
+            Jump into a topic instantly, or scroll a little further for featured courses and learning paths.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -180,10 +217,69 @@ watch(() => route.query.q, (newQ) => {
       </template>
 
       <template v-else>
-        <div class="text-center py-[60px] px-5 max-sm:py-10 max-sm:px-3">
-          <Icon name="mdi:magnify" class="text-gray-600 text-5xl mb-4" />
-          <h3 class="text-xl font-semibold mb-2">What do you want to learn?</h3>
-          <p class="text-gray-500">Search for courses and learning paths by name, topic, or skill.</p>
+        <div class="space-y-12">
+          <div class="text-center pt-2 pb-6 px-5 max-sm:px-3">
+            <Icon name="mdi:compass-outline" class="text-brand-orange/70 text-5xl mb-4" />
+            <h3 class="text-2xl font-semibold mb-2">What do you want to learn?</h3>
+            <p class="text-gray-400 max-w-2xl mx-auto">
+              Start with a popular course, explore a featured learning path, or jump into a topic below.
+            </p>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-5 flex-wrap">
+              <h2 class="flex items-center gap-2 text-xl font-bold text-[#e0e0e0]">
+                <Icon name="mdi:fire" class="text-brand-orange" /> Popular Courses
+              </h2>
+              <NuxtLink to="/courses" class="btn btn-outline btn-sm">
+                Browse All Courses
+              </NuxtLink>
+            </div>
+            <div class="card-grid">
+              <CourseCard v-for="course in popularCourses" :key="course.id" :course="course" />
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-5 flex-wrap">
+              <h2 class="flex items-center gap-2 text-xl font-bold text-[#e0e0e0]">
+                <Icon name="mdi:map-marker-path" class="text-brand-orange" /> Featured Learning Paths
+              </h2>
+              <NuxtLink to="/paths" class="btn btn-outline btn-sm">
+                View Learning Paths
+              </NuxtLink>
+            </div>
+            <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              <NuxtLink
+                v-for="path in featuredPaths"
+                :key="path.slug"
+                :to="`/paths/${path.slug}`"
+                class="glass-card p-6 no-underline text-[#e0e0e0] transition-all duration-200 hover:border-brand-orange/30 hover:-translate-y-0.5"
+              >
+                <div class="flex items-start gap-4">
+                  <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-brand-orange/10 text-brand-orange shrink-0">
+                    <Icon :name="path.icon" class="text-2xl" />
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2 mb-2 flex-wrap">
+                      <h3 class="text-lg font-bold leading-tight">{{ path.title }}</h3>
+                      <span :class="['badge', difficultyClass(path.difficulty)]">{{ path.difficulty }}</span>
+                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-3">{{ path.description }}</p>
+                    <div class="flex items-center gap-4 text-xs text-gray-500 flex-wrap">
+                      <span>
+                        <Icon name="mdi:book-open-outline" class="inline" /> {{ path.courseCount }} courses
+                      </span>
+                      <span v-if="getPathDuration(path)">
+                        <Icon name="mdi:clock-outline" class="inline" /> {{ formatDuration(getPathDuration(path)) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </NuxtLink>
+            </div>
+          </div>
+
         </div>
       </template>
     </section>
