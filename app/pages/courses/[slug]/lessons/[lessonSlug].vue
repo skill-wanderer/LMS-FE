@@ -196,7 +196,7 @@ async function toggleComplete() {
     </Transition>
 
     <!-- Breadcrumb -->
-    <div class="section" style="padding-bottom: 0;">
+    <div class="max-w-[1600px] mx-auto px-5 pt-6" style="padding-bottom: 0;">
       <BreadcrumbNav :items="[
         { label: 'Home', to: '/' },
         { label: 'Courses', to: '/courses' },
@@ -206,7 +206,7 @@ async function toggleComplete() {
     </div>
 
     <!-- Lesson Content -->
-    <section class="grid grid-cols-[auto_1fr] max-w-content mx-auto p-5 gap-8 max-md:grid-cols-1 max-md:p-4 max-sm:p-3 max-sm:gap-4">
+    <section class="grid grid-cols-[auto_1fr] max-w-[1600px] mx-auto p-5 gap-8 max-md:grid-cols-1 max-md:p-4 max-sm:p-3 max-sm:gap-4">
       <!-- Sidebar: Lesson list -->
       <aside :class="['self-start sticky top-[70px] max-h-[calc(100vh-70px)] overflow-y-auto transition-all duration-300 max-md:static max-md:top-auto max-md:max-h-none max-md:overflow-y-visible max-md:border-b max-md:border-white/5 max-md:pb-5 max-md:mb-5', sidebarOpen ? 'w-[280px]' : 'w-[42px]']">
         <!-- Desktop toggle button -->
@@ -343,6 +343,9 @@ async function toggleComplete() {
 
         <!-- Article Content (normal when no quiz) -->
         <div v-else-if="lesson.content" class="lesson-content glass-card p-4 sm:p-6 md:p-8 mb-8 prose-content" v-html="processedContent" />
+
+        <!-- React Playground for Lesson 1 -->
+        <ReactPlayground v-if="lesson.slug === 'lesson-1-components-and-props'" class="mb-8" />
 
         <!-- Quiz only (no content) -->
         <QuizSection
