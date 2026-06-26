@@ -359,8 +359,8 @@ onBeforeUnmount(() => stopReveal())
   right: 1.5rem;
   width: 390px;
   height: 540px;
-  max-width: calc(100vw - 2rem);
-  max-height: calc(100vh - 3rem);
+  max-width: calc(100dvw - 2rem);
+  max-height: calc(100dvh - 3rem);
   background: #0d1117;
   border: 1px solid rgba(255, 217, 61, 0.12);
   border-radius: 18px;
@@ -847,13 +847,14 @@ onBeforeUnmount(() => stopReveal())
 /* ===== Responsive ===== */
 @media (max-width: 480px) {
   .lyra-panel {
-    width: 100vw;
-    height: 100vh;
+    left: 0;
+    width: auto;
+    height: 100dvh;
     bottom: 0;
     right: 0;
     border-radius: 0;
-    max-width: 100vw;
-    max-height: 100vh;
+    max-width: 100dvw;
+    max-height: 100dvh;
   }
 
   .lyra-header {

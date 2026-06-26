@@ -15,11 +15,11 @@ function dismiss() {
   <Transition name="cookie-banner">
     <div
       v-if="!dismissed"
-      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-2xl"
+      class="fixed bottom-4 left-4 right-4 z-50 max-w-2xl sm:bottom-6 sm:left-1/2 sm:right-auto sm:w-[calc(100%-2rem)] sm:-translate-x-1/2"
       role="region"
       aria-label="Cookie notice"
     >
-      <div class="bg-surface-darker border border-brand-orange/20 rounded-card shadow-2xl px-6 py-5 flex items-center gap-5 max-sm:flex-col max-sm:items-start max-sm:gap-4">
+      <div class="flex items-center gap-5 rounded-card border border-brand-orange/20 bg-surface-darker px-4 py-4 shadow-2xl max-sm:flex-col max-sm:items-start max-sm:gap-4 sm:px-6 sm:py-5">
         <span class="flex items-center justify-center w-10 h-10 rounded-full bg-brand-orange/15 shrink-0">
           <Icon name="mdi:shield-check-outline" class="text-brand-orange text-xl" />
         </span>
@@ -27,16 +27,14 @@ function dismiss() {
           <h3 class="text-sm font-bold text-brand-orange uppercase tracking-wide mb-1">Essential cookies only</h3>
           <p class="text-sm text-[rgba(224,224,224,0.6)] leading-relaxed">
             Only the minimum cookies required for this site to function. No tracking, no advertising, no profiling.
-            <a
-              href="https://skill-wanderer.com/cookie-policy"
-              target="_blank"
-              rel="noopener noreferrer"
+            <NuxtLink
+              to="/cookie-policy"
               class="text-[rgba(224,224,224,0.85)] hover:text-white ml-1 underline"
-            >Cookie policy &rarr;</a>
+            >Cookie policy &rarr;</NuxtLink>
           </p>
         </div>
         <button
-          class="shrink-0 text-sm font-semibold py-2.5 px-6 rounded-pill border border-brand-orange/30 text-[#e0e0e0] bg-transparent cursor-pointer transition-all duration-300 hover:bg-brand-orange/10 hover:border-brand-orange hover:text-brand-orange"
+          class="shrink-0 rounded-pill border border-brand-orange/30 bg-transparent px-6 py-2.5 text-sm font-semibold text-[#e0e0e0] transition-all duration-300 hover:border-brand-orange hover:bg-brand-orange/10 hover:text-brand-orange max-sm:w-full"
           @click="dismiss"
         >
           Got it
