@@ -13,8 +13,7 @@ const lesson: Lesson = {
   <span style="font-size:1.5rem;">📝</span>
   <div>
     <strong style="color:#eab308;font-size:1.1rem;">Assignment Submission</strong>
-    <p style="margin-top:0.5rem;">The grading feature for this assignment is currently <strong>in development</strong>. To submit your work and receive grading, please visit the legacy dojo:</p>
-    <p style="margin-top:0.75rem;"><a href="https://dojo.skill-wanderer.com/mod/assign/view.php?id=557" target="_blank" rel="noopener" style="color:#eab308;font-weight:bold;text-decoration:underline;">➡️ Submit at Legacy Dojo</a></p>
+    <p style="margin-top:0.5rem;">Submit your work using the assignment submission panel on this page. Upload your files and notes there when you are ready.</p>
   </div>
 </div>
 

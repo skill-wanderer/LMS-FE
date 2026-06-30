@@ -13,9 +13,9 @@ const footerLinks = {
     { label: 'GitHub', href: 'https://github.com/skill-wanderer' },
   ],
   legal: [
-    { label: 'Privacy Policy', href: 'https://skill-wanderer.com/privacy-policy' },
-    { label: 'Terms of Service', href: 'https://skill-wanderer.com/terms-of-service' },
-    { label: 'Cookie Policy', href: 'https://skill-wanderer.com/cookie-policy' },
+    { label: 'Privacy Policy', to: '/privacy-policy' },
+    { label: 'Terms of Service', to: '/terms-of-service' },
+    { label: 'Cookie Policy', to: '/cookie-policy' },
   ],
 }
 </script>
@@ -71,7 +71,7 @@ const footerLinks = {
           <h4 class="text-[#e0e0e0] text-sm font-bold uppercase tracking-widest mb-4">Legal</h4>
           <ul class="list-none flex flex-col gap-2.5">
             <li v-for="link in footerLinks.legal" :key="link.label">
-              <a :href="link.href" target="_blank" rel="noopener noreferrer" class="text-[rgba(224,224,224,0.6)] text-sm transition-colors duration-300 hover:text-brand-orange">{{ link.label }}</a>
+              <NuxtLink :to="link.to" class="text-[rgba(224,224,224,0.6)] text-sm transition-colors duration-300 hover:text-brand-orange">{{ link.label }}</NuxtLink>
             </li>
           </ul>
         </div>
