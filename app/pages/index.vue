@@ -67,7 +67,7 @@ const publishedCourseCount = allCourses.filter(isPublishedCourse).length
       description="A free, open-access learning platform replacing traditional LMS. Browse courses, track your progress, and level up — without paying a cent."
       :cta-primary="{ label: 'Browse Courses', to: '/courses' }"
       :cta-tertiary="{ label: 'Browse Learning Paths', to: '/paths' }"
-      :cta-secondary="{ label: 'Why Custom LMS?', href: 'https://wanderings.skill-wanderer.com/blog/wanderers-log-4-goodbye-moodle-hello-custom-lms/' }"
+      :cta-secondary="{ label: 'Why Custom LMS?', to: '/why-custom-dojo' }"
       :stats="[
         { value: String(allPaths.length), label: 'Paths' },
         { value: String(publishedCourseCount), label: 'Courses' },
