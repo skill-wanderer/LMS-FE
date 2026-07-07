@@ -12,6 +12,7 @@ const config = useRuntimeConfig()
 const { keycloakRealm, keycloakClientId } = config.public
 const keycloakUrl = (config.public.keycloakUrl as string || '').replace(/\/+$/, '')
 const { user, accessToken, refreshToken, tokenExpiresAt, consumeStoredReturnToPath } = useKeycloak()
+const { syncBackendProfile } = useBackendProfileSync()
 
 const error = ref<string | null>(null)
 const loading = ref(true)
@@ -66,6 +67,8 @@ onMounted(async () => {
       email: userInfo.email,
       preferred_username: userInfo.preferred_username,
     }
+
+    await syncBackendProfile(tokenRes.access_token)
 
     // Prefer OAuth state, then local fallback, then homepage.
     const returnFromState = typeof route.query.state === 'string' ? route.query.state : undefined

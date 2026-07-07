@@ -1,3 +1,5 @@
+import { useBackendProfileSync } from "./useBackendProfileSync"
+
 /**
  * Composable for optional Keycloak authentication.
  *
@@ -48,6 +50,7 @@ export function useKeycloak() {
   )
 
   const isAuthenticated = computed(() => Boolean(accessToken.value && user.value))
+  const { syncBackendProfile } = useBackendProfileSync()
 
   // ---- URL builders ----------------------------------------------------------
 
@@ -180,6 +183,7 @@ export function useKeycloak() {
       accessToken.value = tokenRes.access_token
       refreshToken.value = tokenRes.refresh_token
       tokenExpiresAt.value = Date.now() + tokenRes.expires_in * 1000
+      await syncBackendProfile(tokenRes.access_token)
 
       return true
     }
