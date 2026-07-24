@@ -33,8 +33,11 @@ const lesson: Lesson = {
 
 <div class="format-content" data-content="audio" style="display:none;">
 <h2>🎧 Audio Version</h2>
-<div class="audio-embed">
-  <iframe style="border-radius:12px;" src="https://open.spotify.com/embed/episode/0QoL26nOUG9BHCmyuSun0I?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+<div class="audio-embed" style="padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
+  <audio controls style="width: 100%;">
+    <source src="/audio/Anatomy_of_a_Professional_Test_Case.mp4" type="video/mp4" />
+    Your browser does not support the audio element.
+  </audio>
 </div>
 </div>
 
