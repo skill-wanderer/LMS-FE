@@ -17,3 +17,9 @@
 # nkiku branch
 i am currently working nkiru_coauthor_branch and i need to make the pr
 follow the same code structure dont break it just follow dont try to create any new unique code that is different from exisiting code base for slide decks 
+# new 1
+1. i want to show my slide deck pdf in  the lms fe
+2. do i need to keep the pdf inside the lms-fe or course_pdf while also maintaining the same strcture of the code 
+3. i have clone the course_pdf inside the skill wanderer where lms fe folder is also there
+4.should i make a separeta branch of course_pdf and make a pr to main but then how will it be represented in the lms-fe 
+5.provide me solution so the structure of nre code is same as the old one  

@@ -44,7 +44,7 @@ const lesson: Lesson = {
 <div class="format-content" data-content="slides" style="display:none;">
 <h2>📊 Slide Version</h2>
 <div class="slides-embed">
-  <iframe src="/slides/Anatomy_of_a_Test_Case.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
+  <iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/Manual-Software-Testing-with-Black-Box-Techniques@main/Anatomy%20of%20a%20Test%20Case/Anatomy_of_a_Test_Case.pdf" width="100%" height="600" style="border:1px solid rgba(255,255,255,0.1);border-radius:8px;" allowfullscreen></iframe>
 </div>
 </div>
 
