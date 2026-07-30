@@ -1,12 +1,12 @@
 import type { Lesson } from '~/types/course'
 
 const lesson: Lesson = {
-  id: 'lesson-4-1',
+  id: 'lesson-5-1',
   slug: 'test-case-writing-and-professional-bug-reporting',
   title: 'Assignment: Test Case Writing & Professional Bug Reporting',
   type: 'assignment',
   durationMinutes: 600,
-  order: 13,
+  order: 17,
   hideCompletion: true,
   content: `
 <div class="assignment-notice" style="background:linear-gradient(135deg,rgba(234,179,8,0.15),rgba(234,179,8,0.05));border:1px solid rgba(234,179,8,0.3);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
