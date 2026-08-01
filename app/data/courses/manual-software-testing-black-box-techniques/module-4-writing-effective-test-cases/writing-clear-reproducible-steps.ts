@@ -12,7 +12,7 @@ const lesson: Lesson = {
   <span class="format-notice-icon">💡</span>
   <div>
     <strong>Choose Your Learning Material</strong>
-    <p>This lesson is available in <strong>multiple formats</strong>. The content is the same — feel free to <strong>choose the one</strong> that fits your current learning environment. You do <u>not</u> need to complete all.</p>
+    <p>This lesson is available in <strong>multiple formats</strong>. The content is the same - feel free to <strong>choose the one</strong> that fits your current learning environment. You do <u>not</u> need to complete all.</p>
   </div>
 </div>
 
@@ -48,13 +48,14 @@ const lesson: Lesson = {
 <div class="format-content" data-content="reading" style="display:block;">
 
 <h2>1. Why This Topic Matters</h2>
-<p>A test case that only you can execute is a professional liability. In software quality assurance, reproducibility is the cornerstone of trust between QA testers and developers. When reproduction steps are ambiguous, developers waste valuable engineering time guessing what action triggered a failure—or worse, close valid bug reports as <em>"Cannot Reproduce."</em> This lesson explores how to transform loose personal testing notes into clear, rigorous, step-by-step instructions that any teammate, developer, or future auditor can execute independently and arrive at the exact same outcome.</p>
+<p>A test case that only you can execute is a professional liability. In software quality assurance, reproducibility is the cornerstone of trust between QA testers and developers. When reproduction steps are ambiguous, developers waste valuable engineering time guessing what action triggered a failure - or worse, close valid bug reports as <em>"Cannot Reproduce."</em> This lesson explores how to transform loose personal testing notes into clear, rigorous, step-by-step instructions that any teammate, developer, or future auditor can execute independently and arrive at the exact same outcome.</p>
 
 <hr />
 
 <h2>2. The Core Concept: What is Reproducible?</h2>
 <p><strong>Definition:</strong> A test step is reproducible when its instructions are specific enough that two different people, acting independently, perform the identical action and arrive at the identical system state.</p>
-<p>A step-by-step method allows anyone—whether a local teammate or a remote developer across time zones—to reproduce the behavior reliably. Remember a fundamental QA maxim: <em>A bug that cannot be reproduced is a bug that cannot be fixed (most of the time).</em></p>
+<p>A step-by-step method allows anyone - whether a local teammate or a remote developer across time zones - to reproduce the behavior reliably.</p>
+<blockquote><p><strong>💡 Remember:</strong> A fundamental QA maxim: <em>A bug that cannot be reproduced is a bug that cannot be fixed (most of the time).</em></p></blockquote>
 
 <table>
 <thead>
@@ -125,7 +126,7 @@ const lesson: Lesson = {
 </tbody>
 </table>
 
-<p><strong>Remember:</strong> Writing vague instructions such as <em>"click on one of these buttons"</em> or <em>"try submitting the form"</em> is never a well-written step.</p>
+<blockquote><p><strong>💡 Remember:</strong> Writing vague instructions such as <em>"click on one of these buttons"</em> or <em>"try submitting the form"</em> is never a well-written step.</p></blockquote>
 
 <hr />
 
@@ -184,7 +185,7 @@ const lesson: Lesson = {
 </tbody>
 </table>
 
-<p><strong>Pro Tip:</strong> Replace subjective judgment words like <em>"try," "check,"</em> or <em>"see what happens"</em> with concrete, verifiable actions.</p>
+<blockquote><p><strong>💡 Pro Tip:</strong> Replace subjective judgment words like <em>"try," "check,"</em> or <em>"see what happens"</em> with concrete, verifiable actions.</p></blockquote>
 
 <hr />
 
@@ -201,7 +202,7 @@ const lesson: Lesson = {
   <li><strong>Re-test Verification:</strong> The QA tester re-executes the identical steps to confirm the fix and close the ticket.</li>
 </ol>
 
-<p><em>Always write test steps with the reader in mind—not just for yourself on the day you wrote them.</em></p>
+<blockquote><p><strong>💡 Key Principle:</strong> <em>Always write test steps with the reader in mind - not just for yourself on the day you wrote them.</em></p></blockquote>
 
 <hr />
 
@@ -231,7 +232,7 @@ const lesson: Lesson = {
   <li><strong>Reproducibility is Trust:</strong> Clear steps allow any teammate or developer to replicate your results independently.</li>
   <li><strong>Five Core Rules:</strong> Make every step Atomic, Imperative, Specific, Ordered, and Self-Contained.</li>
   <li><strong>Strict Grammar:</strong> Use second-person present-tense imperative verbs (<em>"Click," "Enter," "Select"</em>).</li>
-  <li><strong>Separate Concerns:</strong> Never describe expected system reactions inside action steps—reserve observations for the Expected Result field.</li>
+  <li><strong>Separate Concerns:</strong> Never describe expected system reactions inside action steps - reserve observations for the Expected Result field.</li>
   <li><strong>Lifecycle Impact:</strong> High-quality reproduction steps accelerate bug triage, debugging, and regression sign-off.</li>
 </ol>
 
