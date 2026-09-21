@@ -1,5 +1,5 @@
 import type { Course } from '~/types/course'
-import { quanNguyen } from '~/data/authors'
+import { quanNguyen, nkiruOnyebinime } from '~/data/authors'
 import module1 from './module-1-introduction-to-software-testing'
 import module2 from './module-2-qa-role-and-testing-fundamentals'
 import module3 from './module-3-assignment-exploratory-testing-in-real-conditions'
@@ -26,8 +26,9 @@ const course: Course = {
   tags: ['testing', 'qa', 'black-box', 'manual-testing', 'beginner'],
   instructor: 'Skill-Wanderer',
   author: quanNguyen,
+  coAuthor: nkiruOnyebinime,
   createdAt: '2026-01-07',
-  updatedAt: '2026-07-08',
+  updatedAt: '2026-07-22',
 }
 
 export default course

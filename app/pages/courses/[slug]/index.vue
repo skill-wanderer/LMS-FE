@@ -170,6 +170,33 @@ onMounted(() => {
       </div>
     </section>
 
+    <!-- Co-Author Bio -->
+    <section v-if="course.coAuthor" class="section" style="padding-top: 12px; padding-bottom: 0;">
+      <div class="glass-card flex gap-5 p-6 items-start max-sm:flex-col max-sm:items-center max-sm:text-center">
+        <img
+          :src="course.coAuthor.avatarUrl"
+          :alt="`${course.coAuthor.name} — Course Co-Author`"
+          class="w-20 h-20 rounded-full object-cover border-2 border-brand-orange/30 shrink-0"
+          width="80"
+          height="80"
+          loading="lazy"
+        />
+        <div class="flex-1">
+          <h2 class="text-[1.1rem] font-bold text-[#e0e0e0] mb-1">About the Co-Author</h2>
+          <p class="text-sm text-brand-orange mb-2 font-semibold">{{ course.coAuthor.name }} · {{ course.coAuthor.title }}</p>
+          <p class="text-sm text-[rgba(224,224,224,0.65)] leading-relaxed mb-3">{{ course.coAuthor.bio }}</p>
+          <div class="flex gap-4 max-sm:justify-center">
+            <a v-if="course.coAuthor.linkedinUrl" :href="course.coAuthor.linkedinUrl" target="_blank" rel="noopener" class="flex items-center gap-1 text-[0.85rem] text-[rgba(224,224,224,0.5)] transition-colors duration-300 hover:text-brand-orange">
+              <Icon name="mdi:linkedin" /> LinkedIn
+            </a>
+            <a v-if="course.coAuthor.websiteUrl" :href="course.coAuthor.websiteUrl" target="_blank" rel="noopener" class="flex items-center gap-1 text-[0.85rem] text-[rgba(224,224,224,0.5)] transition-colors duration-300 hover:text-brand-orange">
+              <Icon name="mdi:web" /> Website
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Last Updated -->
     <section class="section" style="padding-top: 12px; padding-bottom: 0;">
       <div class="flex gap-5 flex-wrap">

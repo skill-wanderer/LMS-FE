@@ -14,6 +14,7 @@ export interface Course {
   tags: string[]
   instructor?: string
   author?: AuthorInfo
+  coAuthor?: AuthorInfo
   progress?: number
   createdAt: string
   updatedAt: string

@@ -34,3 +34,12 @@ export const aryanSingh: AuthorInfo = {
   linkedinUrl: '',
   websiteUrl: '',
 }
+
+export const nkiruOnyebinime: AuthorInfo = {
+  name: 'Nkiru "Justina" Onyebinime',
+  title: 'Manual QA Tester | API Testing | Web & Mobile Testing | Customer Experience Specialist',
+  bio: 'A Manual Quality Assurance Tester dedicated to delivering reliable, user-friendly software through structured testing, attention to detail, and continuous learning. Specializes in manual testing for web and mobile applications, API testing with Postman, exploratory testing, functional testing, regression testing, and usability testing. Combines structured QA training with real-world project experience from Skill-Wanderer, Udemy, and Coursera, identifying defects in authentication flows, form validation, and checkout. Built on a strong customer support background, bringing a user-first lens that surfaces usability issues automated testing may miss.',
+  avatarUrl: '/images/authors/nkiru-onyebinime.jpg',
+  linkedinUrl: 'https://www.linkedin.com/in/nkiru-onyebinime-118141152/',
+  websiteUrl: '',
+}
