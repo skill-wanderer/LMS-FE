@@ -11,7 +11,15 @@ const lesson: Lesson = {
   hideCompletion: false,
   createdAt: '2026-09-22',
   updatedAt: '2026-09-22',
-  content: `<p><strong>Formal education is the cornerstone of the modern world, and it is not going anywhere.</strong> This lesson is not an argument against it. It is an argument about its limits, and about what those limits leave for you to do yourself.</p>
+  content: `<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A tall broadcast tower emitting concentric arcs over many identical small seated figures arranged in perfectly even rows. One figure near the edge is turned away, slightly out of step with the rest. Wide, calm composition. -->
+<!-- When generated: save as public/images/lessons/own-teacher/formal-education-hero.png and change the src below to /images/lessons/own-teacher/formal-education-hero.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/formal-education-hero.png" alt="A broadcast tower transmitting to many identical seated figures in neat rows" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Formal education broadcasts. Everyone receives the same signal at the same time.</figcaption>
+</figure>
+<p><strong>Formal education is the cornerstone of the modern world, and it is not going anywhere.</strong> This lesson is not an argument against it. It is an argument about its limits, and about what those limits leave for you to do yourself.</p>
 <p>That distinction matters, so let me be clear about it before anything else. A course that opens by telling you school is broken is usually trying to sell you something. This one is not. Formal education does several things that nothing else does as well, and you should understand those before you hear about where it stops.</p>
 
 <h2>1. What Formal Education Actually Does Well</h2>
@@ -30,6 +38,14 @@ const lesson: Lesson = {
 <p>That second case is worth sitting with, because it is where the real damage happens. Most serious subjects are cumulative. If you did not understand fractions in week three, then percentages in week seven will not make sense, and neither will ratios, and neither will most of what comes after. The channel does not wait. It keeps broadcasting, and you keep falling further behind something that never stopped moving.</p>
 <p>A lot of people conclude from this experience that they are "not a maths person", or "bad at languages". Very often what actually happened is narrower and far less permanent: they missed one episode, and the schedule was not built to let them go back.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A vertical split panel. Left: a single linear timeline of four numbered blocks with a clock locked above it, one arrow moving strictly left to right. Right: a loose grid of the same four blocks with arrows moving freely between them in any order, including backwards. Balanced, diagrammatic. -->
+<!-- When generated: save as public/images/lessons/own-teacher/formal-education-broadcast-vs-stream.png and change the src below to /images/lessons/own-teacher/formal-education-broadcast-vs-stream.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/formal-education-broadcast-vs-stream.png" alt="Split illustration comparing a fixed broadcast schedule with an on-demand grid of choices" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Broadcast versus on demand: the same content, a different relationship to it.</figcaption>
+</figure>
 <h2>3. The Streaming Alternative</h2>
 <p>Self-directed learning is streaming. The difference is not just comfort. It changes what is possible:</p>
 <ul>
@@ -41,6 +57,14 @@ const lesson: Lesson = {
 </ul>
 <p>The path serves you, instead of you serving the path. That single reversal is most of what this course is about.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A large circular clock face sliced into thirty very thin equal wedges like a pie chart. A single wedge is picked out in the orange accent and separated slightly from the rest. Thirty tiny figures form a ring around the outside. Stark and quantitative. -->
+<!-- When generated: save as public/images/lessons/own-teacher/formal-education-ninety-seconds.png and change the src below to /images/lessons/own-teacher/formal-education-ninety-seconds.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/formal-education-ninety-seconds.png" alt="A clock face divided into thirty thin slivers, one sliver highlighted" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Forty-five minutes divided thirty ways: ninety seconds each.</figcaption>
+</figure>
 <h2>4. Why It Has to Work That Way</h2>
 <p>So why does formal education not simply do this? Because of arithmetic.</p>
 <p>Take one teacher with thirty students and a forty-five minute lesson. If that teacher gave every student individual attention, evenly divided, each one would get ninety seconds. Ninety seconds is not enough to diagnose why someone is stuck, let alone unstick them. So the teacher does the only sensible thing available: teaches to the middle of the room and hopes the edges keep up.</p>

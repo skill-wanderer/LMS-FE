@@ -11,7 +11,15 @@ const lesson: Lesson = {
   hideCompletion: false,
   createdAt: '2026-09-22',
   updatedAt: '2026-09-22',
-  content: `<p><strong>Six lessons, one argument:</strong> the ability to teach yourself is not a supplement to your education. It is the part that keeps working after the education stops.</p>
+  content: `<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: An aged nautical chart showing a dotted route that passes six distinct marked waypoints before reaching a marked destination. Small icons sit at each waypoint: a desk, a broadcast tower, eroding strata, a lone figure, a toolbox, a ship. Warm and inviting rather than cluttered. -->
+<!-- When generated: save as public/images/lessons/own-teacher/summary-hero.png and change the src below to /images/lessons/own-teacher/summary-hero.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/courses/placeholder.svg" alt="A treasure map showing a charted route past six marked waypoints" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Six lessons, one argument, and a heading of your own.</figcaption>
+</figure>
+<p><strong>Six lessons, one argument:</strong> the ability to teach yourself is not a supplement to your education. It is the part that keeps working after the education stops.</p>
 
 <h2>1. The Module in Short</h2>
 <ol>
@@ -23,6 +31,14 @@ const lesson: Lesson = {
 <li><strong>There is no deadline you did not set yourself.</strong> School is a liner on a timetable; you are a small ship sailing under your own flag. What replaces the calendar is navigation: learn, use, take a bearing, adjust. There will be storms, wrong turns, fog, and people on the shore with opinions about your route, and not one of those means the voyage has gone wrong.</li>
 </ol>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A two-panel comparison. Left: one teacher figure facing thirty small identical seated figures, attention visibly spread thin with many faint lines. Right: one teacher figure facing a single student, joined by one thick unbroken line, and the two figures are subtly the same person. -->
+<!-- When generated: save as public/images/lessons/own-teacher/summary-one-to-one.png and change the src below to /images/lessons/own-teacher/summary-one-to-one.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/courses/placeholder.svg" alt="One teacher facing thirty students beside one teacher facing a single student who is the same person" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">One teacher for thirty, or one teacher for one, and you are both of them.</figcaption>
+</figure>
 <h2>2. The Thread Running Through All of It</h2>
 <p>If you strip these six lessons down, they are the same observation seen from six angles.</p>
 <p><strong>Every limitation of formal education traces back to the cost of serving everyone. Every advantage of teaching yourself traces back to serving exactly one person.</strong></p>

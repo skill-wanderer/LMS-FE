@@ -11,7 +11,15 @@ const lesson: Lesson = {
   hideCompletion: false,
   createdAt: '2026-09-22',
   updatedAt: '2026-09-22',
-  content: `<p><strong>The fastest way to learn something is usually to have an expert sitting next to you.</strong> A tutor who answers your exact question. A mentor who tells you which mistake you are one step away from making. That works, and it is not a myth. Any course that pretends otherwise is being dishonest to make itself sound more necessary.</p>
+  content: `<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A small figure stands at the boundary where a neatly charted, gridded area ends and blank uncharted space begins. Behind them the charted ground is busy with paths and markers; ahead it is empty. They are stepping forward into the blank. -->
+<!-- When generated: save as public/images/lessons/own-teacher/nobody-coming-hero.png and change the src below to /images/lessons/own-teacher/nobody-coming-hero.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/nobody-coming-hero.png" alt="A figure at the edge of an unmarked map, setting out with no guide" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Past a certain point, there is nobody left to ask.</figcaption>
+</figure>
+<p><strong>The fastest way to learn something is usually to have an expert sitting next to you.</strong> A tutor who answers your exact question. A mentor who tells you which mistake you are one step away from making. That works, and it is not a myth. Any course that pretends otherwise is being dishonest to make itself sound more necessary.</p>
 <p>So this lesson starts by taking the expert seriously, then explains why you cannot rely on having one, and then, most importantly, what you can build instead.</p>
 
 <h2>1. A Quick Recall of the Line</h2>
@@ -19,6 +27,14 @@ const lesson: Lesson = {
 <p><strong>Hiring an expert means paying for someone's time so that they take part of the teacher's job back off you.</strong> A tutor by the hour, a paid coach, a mentor on a retainer, a schoolteacher, a university professor. You buy their hours, through fees or tuition or taxes, and a share of the responsibility for your progress goes with them. Everywhere else you are still your own teacher, including on the courses you pay for and including when generous people help you for free, because in those cases the job never left your hands.</p>
 <p>One consequence of that is worth pausing on, because it ties this lesson to the two before it. <strong>Formal education is the hired-expert model,</strong> delivered to millions of people at once. That is precisely why it carries the limits described in the lesson on formal education: the teacher is accountable for the class, not for you, and no single person can hold thirty individual accountabilities at the same time. The expert is real. Their attention is simply divided by the number of students in the room.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: Three equal panels side by side. First: a tall stack of twenty books funnelling down into three. Second: a line veering off course being nudged back by a small hand while the deviation is still tiny. Third: an overgrown branching shrub with most branches cleanly cut away, leaving one clear path upward. -->
+<!-- When generated: save as public/images/lessons/own-teacher/nobody-coming-what-expert-sells.png and change the src below to /images/lessons/own-teacher/nobody-coming-what-expert-sells.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/nobody-coming-what-expert-sells.png" alt="Three panels showing compression, correction, and pruning as visual operations" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">What you actually buy from an expert: compression, correction, pruning.</figcaption>
+</figure>
 <h2>2. What an Expert Actually Gives You</h2>
 <p>It is worth being precise about this, because once you know what an expert provides, you can start sourcing those things another way. There are three:</p>
 <ul>
@@ -41,6 +57,14 @@ const lesson: Lesson = {
 <p>So the paid expert is not a permanent solution for anyone. It is an accelerator at the start, and it runs out.</p>
 <p>All of which sounds bleak, and it would be, except that the most valuable thing an expert offers turns out not to be for sale in the first place. Plenty of people give it away.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: Two speech bubbles rising toward a distant figure. The left bubble is large, empty and vague, drifting away unanswered. The right bubble is smaller and densely structured with neat diagram marks inside, and it connects to the figure with a clear returning reply arrow. -->
+<!-- When generated: save as public/images/lessons/own-teacher/nobody-coming-asking-well.png and change the src below to /images/lessons/own-teacher/nobody-coming-asking-well.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/nobody-coming-asking-well.png" alt="Two message shapes, one vague and ignored, one detailed and answered" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Asking well is a skill, and it is the difference between silence and an answer.</figcaption>
+</figure>
 <h2>4. You Can Often Get It for Free, If You Know How to Ask</h2>
 <p>Here is what the title of this lesson can make you miss, and it is one of the best things about learning in the open.</p>
 <p>There are a lot of generous people out there. Experienced practitioners answer questions in communities and forums for nothing. People reply to a well-written message from a stranger. Someone senior will look at your work and tell you what is wrong with it, not because they are being paid, but because somebody once did the same for them, or simply because they like the subject and enjoy talking about it with anyone who is genuinely interested.</p>

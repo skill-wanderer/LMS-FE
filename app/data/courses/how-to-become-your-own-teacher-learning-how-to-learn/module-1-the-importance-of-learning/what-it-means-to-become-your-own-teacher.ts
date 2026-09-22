@@ -11,7 +11,15 @@ const lesson: Lesson = {
   hideCompletion: false,
   createdAt: '2026-09-22',
   updatedAt: '2026-09-22',
-  content: `<p><strong>This course is called How to Become Your Own Teacher. That phrase is the definition, not a slogan.</strong></p>
+  content: `<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A single figure duplicated on either side of a simple desk: on one side holding a pointer and a book as the teacher, on the other seated as the student. The two halves mirror each other, connected by one continuous line, suggesting one person holding both roles. -->
+<!-- When generated: save as public/images/lessons/own-teacher/own-teacher-hero.png and change the src below to /images/lessons/own-teacher/own-teacher-hero.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/own-teacher-hero.png" alt="One person standing on both sides of a teaching desk, holding the roles of teacher and student at once" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The same person on both sides of the desk.</figcaption>
+</figure>
+<p><strong>This course is called How to Become Your Own Teacher. That phrase is the definition, not a slogan.</strong></p>
 <p>Before any argument about why this matters, we need to be precise about what it means, because the idea gets misunderstood constantly, and the misunderstanding is not harmless. Most people picture a lone figure in a room with a stack of books, no teacher, no help, and no money spent. That picture is wrong, and if you carry it into the rest of this course you will draw the wrong conclusions from everything that follows.</p>
 
 <h2>1. Two Names for the Same Thing</h2>
@@ -19,6 +27,14 @@ const lesson: Lesson = {
 <p>But <strong>"becoming your own teacher" is the more accurate one</strong>, and it is worth preferring, because it says what actually changes.</p>
 <p>"Self-learning" sounds like a statement about who is in the room: you, by yourself, nobody else. That is not what it means. Becoming your own teacher is a statement about <strong>who is holding the job</strong>, and the job does not stop existing just because no one was hired to do it.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: Seven simple icons evenly spaced around a circle: a signpost, a stack of books, a metronome, a magnifying glass over a page, a warning triangle, a small flame, and a finish flag. A single figure stands at the centre of the ring. Suggests one person absorbing seven separate duties. -->
+<!-- When generated: save as public/images/lessons/own-teacher/own-teacher-seven-jobs.png and change the src below to /images/lessons/own-teacher/own-teacher-seven-jobs.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/own-teacher-seven-jobs.png" alt="Seven small icons arranged in a ring representing the seven jobs a teacher does" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The seven jobs. Becoming your own teacher means taking all of them.</figcaption>
+</figure>
 <h2>2. What a Teacher Actually Does</h2>
 <p>To take a job over, you have to know what the job is. Strip away the classroom and a teacher does seven things:</p>
 <ol>
@@ -50,6 +66,14 @@ const lesson: Lesson = {
 <p><strong>"It means rejecting school."</strong> No. You can be enrolled full time and be your own teacher in the same week, and most of the strongest learners are both. School gives you a foundation and a credential. Teaching yourself gives you everything the syllabus had no room for.</p>
 <p><strong>"It means having no teachers."</strong> No. You will have many teachers: the author of a book, the person who made the video, the stranger who answers your question in a forum at midnight. What you do not have is a teacher who is accountable <em>for you specifically</em>. You are that one. Everyone else is a resource you are using to do the job.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A three-armed signpost on an open plain. Each arm curves back to point at the lone figure standing beneath it, rather than off into the distance. Quietly humorous, clean and uncluttered. -->
+<!-- When generated: save as public/images/lessons/own-teacher/own-teacher-the-test.png and change the src below to /images/lessons/own-teacher/own-teacher-the-test.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/own-teacher-the-test.png" alt="A signpost with three arms, each pointing back toward the same figure" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Three questions. If the answer to all three is you, the job is yours.</figcaption>
+</figure>
 <h2>6. The Test</h2>
 <p>When you are unsure which side of the line something falls on, ask who is doing the three hardest parts of the job:</p>
 <ol>

@@ -11,7 +11,15 @@ const lesson: Lesson = {
   hideCompletion: false,
   createdAt: '2026-09-22',
   updatedAt: '2026-09-22',
-  content: `<p><strong>The only thing that will not change is that the world will change.</strong> You do not get a vote on this, and neither does anyone teaching you.</p>
+  content: `<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A lone figure standing upright and calm while the terrain beneath and behind them visibly shifts: layers sliding past one another, shapes mid-transformation, older forms dissolving into new ones at the edges. Motion in the ground, stillness in the person. -->
+<!-- When generated: save as public/images/lessons/own-teacher/changing-world-hero.png and change the src below to /images/lessons/own-teacher/changing-world-hero.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/changing-world-hero.png" alt="A figure standing steady while the landscape beneath shifts into new shapes" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The ground does not hold still.</figcaption>
+</figure>
+<p><strong>The only thing that will not change is that the world will change.</strong> You do not get a vote on this, and neither does anyone teaching you.</p>
 <p>The previous lesson was about a system that cannot move fast enough. This one is about why that matters so much: because the ground it is describing will not hold still.</p>
 
 <h2>1. Everything You Learn Has a Shelf Life</h2>
@@ -22,6 +30,16 @@ const lesson: Lesson = {
 <li><strong>Practices last years.</strong> How work is organised, what a professional workflow looks like, which trade-offs the industry currently accepts. These shift on the scale of a career, slowly enough to feel permanent and fast enough to catch you out.</li>
 <li><strong>Tools last months.</strong> The specific product, the specific version, the specific button. This layer is the most visible, the easiest to learn, and the fastest to die.</li>
 </ul>
+
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A cross-section of three stacked horizontal strata. The deep bottom layer is thick, solid and intact. The middle layer is thinner with some cracking. The top layer is thinnest and visibly eroding into fragments that drift away. Clean geological diagram feel. -->
+<!-- When generated: save as public/images/lessons/own-teacher/changing-world-three-tiers.png and change the src below to /images/lessons/own-teacher/changing-world-three-tiers.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/changing-world-three-tiers.png" alt="Three horizontal geological strata of decreasing thickness and increasing erosion" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Principles last decades, practices last years, tools last months.</figcaption>
+</figure>
+
 <p>Most people invest their learning time in exact reverse order to that list. Tools feel urgent and concrete, so they get the attention. Principles feel abstract and unprofitable, so they get skipped. Then the tool is replaced and the effort goes with it.</p>
 <p>This is not an argument to ignore tools. You get paid for tools. It is an argument about proportion: learn the tool to do today's work, and learn the principle underneath it so that the next tool costs you a week instead of a year.</p>
 
@@ -38,6 +56,14 @@ const lesson: Lesson = {
 <p><strong>It runs into sunk cost.</strong> The more time you spent mastering something, the more it costs to admit it is now the slow way. Your brain will offer you a hundred reasons why the old approach is still fine. Some of them will even be good reasons, which is what makes this hard rather than obvious.</p>
 <p><strong>It touches identity.</strong> After enough years, what you know stops feeling like something you have and starts feeling like something you are. "I am the person who is good at X" is a comfortable thing to be, right up until X stops mattering. Then the change is not just professional, it is personal, and people resist it accordingly.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A hand holds up a framed photograph of a landscape. Behind and around the frame, the real landscape has clearly changed shape, so the photo no longer lines up with the view it was taken of. The mismatch is the whole subject. -->
+<!-- When generated: save as public/images/lessons/own-teacher/changing-world-diploma-snapshot.png and change the src below to /images/lessons/own-teacher/changing-world-diploma-snapshot.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/changing-world-diploma-snapshot.png" alt="A framed photograph of a landscape held up against that same landscape, now changed" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">A diploma is a snapshot. The view has moved on.</figcaption>
+</figure>
 <h2>4. When Expertise Becomes a Liability</h2>
 <p>There is a pattern worth watching for, because it catches good people rather than lazy ones.</p>
 <p>Deep expertise in an old way of doing things can actively slow you down when the way changes. The expert has strong instincts, and those instincts were trained on rules that no longer apply. They will be confident, and confidently wrong, in situations where a beginner would simply ask a question.</p>

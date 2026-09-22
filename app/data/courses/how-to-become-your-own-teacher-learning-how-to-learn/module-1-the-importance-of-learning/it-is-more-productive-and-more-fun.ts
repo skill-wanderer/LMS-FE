@@ -11,7 +11,15 @@ const lesson: Lesson = {
   hideCompletion: false,
   createdAt: '2026-09-22',
   updatedAt: '2026-09-22',
-  content: `<p><strong>Everything up to here has been about necessity.</strong> Formal education has limits. The world keeps changing. Nobody is coming to teach you. All true, and all slightly grim.</p>
+  content: `<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: An open toolbox viewed from above containing clearly distinct instruments: an open book, a small screen, a wrench, a pair of speech bubbles, a magnifying glass. All rendered at equal visual weight, none dominant, arranged with care. -->
+<!-- When generated: save as public/images/lessons/own-teacher/more-fun-hero.png and change the src below to /images/lessons/own-teacher/more-fun-hero.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/lessons/own-teacher/more-fun-hero.png" alt="An open toolkit holding several different learning instruments" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">No method wins. The gain is in combining them.</figcaption>
+</figure>
+<p><strong>Everything up to here has been about necessity.</strong> Formal education has limits. The world keeps changing. Nobody is coming to teach you. All true, and all slightly grim.</p>
 <p>This lesson is about something better. Teaching yourself is not only the path that survives, it is the one you are more likely to enjoy, and enjoyment turns out to be a practical advantage rather than a soft one.</p>
 
 <h2>1. You Pick the Method, and That Decides Whether You Continue</h2>
@@ -20,6 +28,14 @@ const lesson: Lesson = {
 <p>Almost nothing you want to learn can be learned in one sitting. It takes months, sometimes years, and the single largest cause of failure is not difficulty. It is stopping. A method that suits you is a method you will come back to tomorrow, and coming back tomorrow, repeatedly, for a long time, is most of the game.</p>
 <p>Put bluntly: a mediocre method you will actually use beats an optimal method you will abandon in three weeks. Consistency compounds. Intensity does not.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A row of five small balance scales along a horizontal line. Each scale is tipped at a different angle, and each holds visibly different objects in its two pans. No two are balanced the same way. Orderly and rhythmic. -->
+<!-- When generated: save as public/images/lessons/own-teacher/more-fun-method-tradeoffs.png and change the src below to /images/lessons/own-teacher/more-fun-method-tradeoffs.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/courses/placeholder.svg" alt="A row of balance scales, each tipping a different way" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Every method buys you something at a price.</figcaption>
+</figure>
 <h2>2. Every Method Has a Trade-off</h2>
 <p>There is no single way to learn. There are many, and every one of them buys you something at a price:</p>
 <ul>
@@ -51,6 +67,14 @@ const lesson: Lesson = {
 <p>Each step tests a different kind of knowing. Reading tests recognition. Building tests application. Explaining tests understanding. You can pass the first and fail the other two, which is exactly the trap most self-teachers fall into.</p>
 <p>And notice: that sequence is not an accident that happens to you. You planned it, the way you would plan anything else you cared about getting right.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: Four numbered tiles in a horizontal row. The fourth is brightly highlighted and clearly chosen first. A curved arrow loops from the fourth tile back to the second, then forward again, drawing the real path taken. Playful and clear. -->
+<!-- When generated: save as public/images/lessons/own-teacher/more-fun-episode-four.png and change the src below to /images/lessons/own-teacher/more-fun-episode-four.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/courses/placeholder.svg" alt="Four episode tiles with the fourth selected first and an arrow curving back to the second" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Start at episode four. Go back for episode two when you need it.</figcaption>
+</figure>
 <h2>5. Fun Is Not a Luxury</h2>
 <p>Which brings us back to enjoyment, and why it matters far more than it sounds.</p>
 <p>When you enjoy the method, you do it more often without needing discipline. You think about the problem in the shower. You read one more page because you want to know what happens. You come back after a bad week instead of quietly letting it go.</p>

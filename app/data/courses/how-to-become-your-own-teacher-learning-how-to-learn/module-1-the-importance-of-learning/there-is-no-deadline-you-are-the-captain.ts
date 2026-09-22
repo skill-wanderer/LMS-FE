@@ -11,7 +11,15 @@ const lesson: Lesson = {
   hideCompletion: false,
   createdAt: '2026-09-22',
   updatedAt: '2026-09-22',
-  content: `<p><strong>Learning has no exam date unless you set one.</strong></p>
+  content: `<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A vast ocean liner sits on a ruled horizontal line with a clock mounted above it, surrounded by tiny identical passengers. A small single-masted ship flying its own plain flag is cutting away from that line on its own diagonal heading toward open water. The contrast in scale and direction is the subject. -->
+<!-- When generated: save as public/images/lessons/own-teacher/captain-hero.png and change the src below to /images/lessons/own-teacher/captain-hero.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/courses/placeholder.svg" alt="A small ship under its own flag sailing away from a large scheduled liner" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The liner sails to a timetable. Your ship sails when you are ready.</figcaption>
+</figure>
+<p><strong>Learning has no exam date unless you set one.</strong></p>
 <p>That is a hard sentence to believe if you spent years inside a school, because in school there was always a date. Learn this by Tuesday. Master that by June. Be finished with this subject by the time you are nineteen, because after that the door closes and a different set of doors opens instead.</p>
 <p>It helps to picture the difference as two ways of crossing an ocean.</p>
 <p><strong>School is a scheduled liner.</strong> It sails on a fixed date, follows a route somebody else charted, calls at its ports in a set order, and arrives when the timetable says it arrives. Thousands of passengers, one schedule, and nothing about it bends for any single person aboard.</p>
@@ -40,6 +48,14 @@ const lesson: Lesson = {
 </ul>
 <p>Set deadlines if they help you. Just remember who is holding the wheel.</p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A compass rose at the centre with four curved arrows chasing each other in a closed loop around its rim, each arrow accompanied by a tiny simple glyph: a book, a hand, a sextant, a turning wheel. Suggests a cycle rather than a straight line. -->
+<!-- When generated: save as public/images/lessons/own-teacher/captain-navigation-loop.png and change the src below to /images/lessons/own-teacher/captain-navigation-loop.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/courses/placeholder.svg" alt="A compass rose with four arrows forming a continuous loop around it" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Learn, use, take a bearing, adjust. Then again.</figcaption>
+</figure>
 <h2>4. What Replaces the Timetable Is Navigation</h2>
 <p>If the calendar is not driving your learning, something has to. That something is navigation, and navigation is not a single decision made in port. It is a loop you run continuously:</p>
 <ol>
@@ -60,6 +76,14 @@ const lesson: Lesson = {
 <p>Aboard the liner that is called failing a year, or wasting your degree, and it carries real cost and real stigma. On your own ship it is called steering, and it is one of the main advantages you have. A captain who changes heading because the wind changed is not lost. That is simply what sailing is.</p>
 <p>It also helps to know the effort is rarely wasted as completely as it feels. What you learned about handling a hard subject, where you tend to get stuck, and which methods work for you comes with you to any destination. The cargo may go over the side. <strong>The seamanship does not.</strong></p>
 
+<!-- AI IMAGE PLACEHOLDER -->
+<!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
+<!-- SCENE: A small ship holding a steady heading through rough swell and drifting fog banks, sails full. Far away on a thin strip of shore, several small figures stand watching with their arms raised. The ship is clearly unbothered and moving away from them. -->
+<!-- When generated: save as public/images/lessons/own-teacher/captain-storms.png and change the src below to /images/lessons/own-teacher/captain-storms.png -->
+<figure style="margin:0 0 2rem;text-align:center;">
+  <img src="/images/courses/placeholder.svg" alt="A small ship holding its heading through heavy weather while figures watch from a distant shore" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Storms, fog, and opinions from the shore. None of it means the voyage has gone wrong.</figcaption>
+</figure>
 <h2>7. Storms, Setbacks, and Voices from the Shore</h2>
 <p>An honest chart marks the hazards, so here they are. Every one of these will happen to you, and not one of them means the voyage has gone wrong.</p>
 <p><strong>Storms.</strong> There will be weeks where nothing works. Life gets in the way, the thing you were building collapses, you lose a month and have nothing to show for it. You do not get through a storm by being clever. You get through it by still being afloat afterwards.</p>
