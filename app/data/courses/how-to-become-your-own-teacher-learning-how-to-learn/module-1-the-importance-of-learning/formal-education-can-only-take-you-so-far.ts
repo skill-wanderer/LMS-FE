@@ -11,7 +11,26 @@ const lesson: Lesson = {
   hideCompletion: false,
   createdAt: '2026-09-22',
   updatedAt: '2026-09-22',
-  content: `<!-- AI IMAGE PLACEHOLDER -->
+  content: `<div class="format-selector">
+<div class="format-notice">
+  <span class="format-notice-icon">&#128161;</span>
+  <div>
+    <strong>Choose Your Learning Material</strong>
+    <p>This lesson is being produced in <strong>multiple formats</strong>. The lesson itself is the same in each one, so pick whichever suits your context right now. Formats still in production are marked below.</p>
+  </div>
+</div>
+
+<div class="format-tabs">
+  <button class="format-tab active" data-format="reading" onclick="document.querySelectorAll('.format-tab').forEach(t=&gt;t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=&gt;c.style.display='none');document.querySelector('[data-content=reading]').style.display='block';">&#128214; Reading</button>
+  <button class="format-tab" data-format="video" onclick="document.querySelectorAll('.format-tab').forEach(t=&gt;t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=&gt;c.style.display='none');document.querySelector('[data-content=video]').style.display='block';">&#127916; Video</button>
+  <button class="format-tab" data-format="audio" onclick="document.querySelectorAll('.format-tab').forEach(t=&gt;t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=&gt;c.style.display='none');document.querySelector('[data-content=audio]').style.display='block';">&#127911; Audio</button>
+  <button class="format-tab" data-format="slides" onclick="document.querySelectorAll('.format-tab').forEach(t=&gt;t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=&gt;c.style.display='none');document.querySelector('[data-content=slides]').style.display='block';">&#128202; Slides</button>
+  <button class="format-tab" data-format="infographic" onclick="document.querySelectorAll('.format-tab').forEach(t=&gt;t.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.format-content').forEach(c=&gt;c.style.display='none');document.querySelector('[data-content=infographic]').style.display='block';">&#128444;&#65039; Infographic</button>
+</div>
+</div>
+
+<div class="format-content" data-content="reading" style="display:block;">
+<!-- AI IMAGE PLACEHOLDER -->
 <!-- STYLE: flat vector editorial illustration, 16:9. Palette: deep navy #1a1a2e background, warm orange #ff6b35 accent, off-white linework. Clean geometric shapes, generous negative space, NO text or lettering anywhere in the image. -->
 <!-- SCENE: A tall broadcast tower emitting concentric arcs over many identical small seated figures arranged in perfectly even rows. One figure near the edge is turned away, slightly out of step with the rest. Wide, calm composition. -->
 <!-- When generated: save as public/images/lessons/own-teacher/formal-education-hero.png and change the src below to /images/lessons/own-teacher/formal-education-hero.png -->
@@ -91,7 +110,52 @@ const lesson: Lesson = {
 
 <blockquote>
 <p><strong>Takeaway:</strong> Formal education gives you a floor. It was never designed to give you a ceiling. The ceiling is yours to build, and the rest of this course is about how.</p>
-</blockquote>`,
+</blockquote>
+</div>
+
+<div class="format-content" data-content="video" style="display:none;">
+<h2>&#127916; Video Version</h2>
+<p><em>The video version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
+<!-- TODO: replace the paragraph above with the embed below once the asset exists.
+<div class="video-embed">
+  <iframe title="LESSON TITLE lesson video" src="https://www.youtube-nocookie.com/embed/VIDEO_ID" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+-->
+</div>
+
+<div class="format-content" data-content="audio" style="display:none;">
+<h2>&#127911; Audio Version</h2>
+<p><em>The audio version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
+<!-- TODO: replace the paragraph above with the embed below once the asset exists.
+<div class="audio-embed">
+  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/EPISODE_ID?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+</div>
+<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/EPISODE_ID" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
+-->
+</div>
+
+<div class="format-content" data-content="slides" style="display:none;">
+<h2>&#128202; Slides Version</h2>
+<p><em>The slide deck for this lesson is still in production. The Reading tab has the full lesson.</em></p>
+<!-- TODO: replace the paragraph above with the embed below once the asset exists.
+<div class="slides-embed" style="width:100%;border-radius:8px;overflow:hidden;">
+  <iframe src="SLIDE_PDF_URL" width="100%" height="600" style="border:none;" title="LESSON TITLE slides"></iframe>
+</div>
+<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Cannot see the slides? <a href="SLIDE_PDF_URL" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
+-->
+</div>
+
+<div class="format-content" data-content="infographic" style="display:none;">
+<h2>&#128444;&#65039; Infographic</h2>
+<p><em>The one-page infographic for this lesson is still in production. The Reading tab has the full lesson, including its diagrams.</em></p>
+<!-- TODO: replace the paragraph above with the embed below once the asset exists.
+<figure style="margin:0;text-align:center;">
+  <img src="/images/lessons/own-teacher/INFOGRAPHIC_FILE.png" alt="Single-page infographic summarising this lesson" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The whole lesson on one page.</figcaption>
+</figure>
+-->
+</div>
+`,
   quiz: {
     title: 'Lesson Check: The Limits of Formal Education',
     passPercentage: 70,
