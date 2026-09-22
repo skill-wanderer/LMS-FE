@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Lesson, Module } from '~/types/course'
+import type { Course, Lesson, Module } from '~/types/course'
 import { getAllLessons, isPublishedLesson } from '~/types/course'
 
 const route = useRoute()
@@ -41,6 +41,19 @@ function isUnlocked(lesson: Lesson) {
 function isModuleUnlocked(mod: Module) {
   return mod.lessons.some(isPublishedLesson)
 }
+
+function moduleIcon(mod: Module) {
+  if (!mod.lessons.length) return 'mdi:progress-pencil'
+  return isModuleUnlocked(mod) ? 'mdi:book-open-variant' : 'mdi:lock'
+}
+
+/** Prerequisite courses that exist in the catalogue, resolved to title + slug. */
+const prerequisiteCourses = computed(() =>
+  (course.prerequisites ?? [])
+    .filter(prereqSlug => prereqSlug !== course.slug)
+    .map(prereqSlug => getCourseBySlug(prereqSlug))
+    .filter((c): c is Course => !!c)
+)
 
 const difficultyClass = computed(() => {
   switch (course.difficulty) {
@@ -102,6 +115,32 @@ onMounted(() => {
             <span v-for="tag in course.tags" :key="tag" class="py-1 px-3 rounded-full text-[0.78rem] bg-brand-orange/10 text-brand-orange border border-brand-orange/15">
               {{ tag }}
             </span>
+          </div>
+
+          <!-- Prerequisites -->
+          <div
+            v-if="prerequisiteCourses.length"
+            class="mt-6 rounded-xl border border-brand-orange/20 bg-brand-orange/[0.06] p-4"
+          >
+            <div class="flex items-center gap-2 mb-2">
+              <Icon name="mdi:stairs-up" class="text-brand-orange" />
+              <h2 class="text-[0.95rem] font-bold text-[#e0e0e0]">Start here first</h2>
+            </div>
+            <p class="text-sm text-[rgba(224,224,224,0.65)] leading-relaxed mb-3">
+              This course assumes you can already steer your own learning. Take
+              {{ prerequisiteCourses.length === 1 ? 'this short course' : 'these short courses' }} before you begin.
+            </p>
+            <div class="flex flex-col gap-2">
+              <NuxtLink
+                v-for="prereq in prerequisiteCourses"
+                :key="prereq.slug"
+                :to="`/courses/${prereq.slug}`"
+                class="flex items-center gap-2 text-[0.92rem] font-medium text-brand-orange no-underline transition-opacity duration-200 hover:opacity-80"
+              >
+                <Icon name="mdi:arrow-right-circle-outline" class="shrink-0" />
+                {{ prereq.title }}
+              </NuxtLink>
+            </div>
           </div>
 
           <NuxtLink
@@ -215,21 +254,29 @@ onMounted(() => {
 
       <div v-for="mod in course.modules" :key="mod.id" class="mb-8 last:mb-0">
         <div :class="[
-          'flex items-center gap-3 mb-4 p-3 px-4 rounded-xl border transition-all duration-300',
+          'flex items-start gap-3 mb-4 p-3 px-4 rounded-xl border transition-all duration-300',
           isModuleUnlocked(mod) ? 'bg-brand-orange/[0.06] border-brand-orange/[0.12]' : 'bg-white/[0.02] border-white/[0.05] opacity-60'
         ]">
-          <Icon :name="isModuleUnlocked(mod) ? 'mdi:book-open-variant' : 'mdi:lock'" :class="['text-[1.4rem]', isModuleUnlocked(mod) ? 'text-brand-orange' : 'text-gray-500']" />
+          <Icon :name="moduleIcon(mod)" :class="['text-[1.4rem] shrink-0 mt-0.5', isModuleUnlocked(mod) ? 'text-brand-orange' : 'text-gray-500']" />
           <div>
-            <h3 class="text-[1.1rem] font-bold text-[#e0e0e0]">{{ mod.title }} <span v-if="!isModuleUnlocked(mod)" class="text-[0.7rem] uppercase tracking-wider text-gray-500 ml-2 font-normal">Locked</span></h3>
-            <span class="text-[0.8rem] text-[rgba(224,224,224,0.5)]">
+            <h3 class="text-[1.1rem] font-bold text-[#e0e0e0]">
+              {{ mod.title }}
+              <span v-if="!mod.lessons.length" class="text-[0.7rem] uppercase tracking-wider text-brand-orange/80 ml-2 font-normal">Coming soon</span>
+              <span v-else-if="!isModuleUnlocked(mod)" class="text-[0.7rem] uppercase tracking-wider text-gray-500 ml-2 font-normal">Locked</span>
+            </h3>
+            <p v-if="mod.description" class="text-[0.88rem] text-[rgba(224,224,224,0.62)] leading-relaxed mt-1.5">{{ mod.description }}</p>
+            <span v-if="mod.lessons.length" class="block text-[0.8rem] text-[rgba(224,224,224,0.5)] mt-1.5">
               {{ mod.lessons.length }} lesson{{ mod.lessons.length !== 1 ? 's' : '' }}
               <template v-if="mod.lessons.some(l => l.durationMinutes)">
                 · {{ formatDuration(mod.lessons.reduce((s, l) => s + (l.durationMinutes || 0), 0)) }}
               </template>
             </span>
+            <span v-else class="block text-[0.8rem] text-[rgba(224,224,224,0.5)] mt-1.5">
+              Lessons are being written and will appear here one by one.
+            </span>
           </div>
         </div>
-        <div class="flex flex-col gap-2">
+        <div v-if="mod.lessons.length" class="flex flex-col gap-2">
           <LessonItem
             v-for="lesson in mod.lessons"
             :key="lesson.id"

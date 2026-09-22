@@ -28,6 +28,7 @@ const course: Course = {
   lessonCount,
   modules,
   tags: ['react', 'frontend', 'web-development', 'beginner', 'ui'],
+  prerequisites: ['how-to-become-your-own-teacher-learning-how-to-learn'],
   instructor: 'Skill-Wanderer',
   author: aryanSingh,
   createdAt: '2026-04-28',

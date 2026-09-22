@@ -12,6 +12,11 @@ export interface Course {
   lessonCount: number
   modules: Module[]
   tags: string[]
+  /**
+   * Slugs of courses a learner is expected to finish first.
+   * Rendered as a notice on the course page; does not hard-lock content.
+   */
+  prerequisites?: string[]
   instructor?: string
   author?: AuthorInfo
   coAuthor?: AuthorInfo
@@ -24,6 +29,8 @@ export interface Module {
   id: string
   slug: string
   title: string
+  /** Short explanation of what this module is for. Shown above its lesson list. */
+  description?: string
   order: number
   status?: PublishStatus
   lessons: Lesson[]

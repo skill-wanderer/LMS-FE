@@ -30,6 +30,7 @@ const course: Course = {
   lessonCount,
   modules,
   tags: ['html', 'frontend', 'web-development', 'beginner', 'forms'],
+  prerequisites: ['how-to-become-your-own-teacher-learning-how-to-learn'],
   instructor: 'Skill-Wanderer',
   author: thanhNguyen,
   createdAt: '2026-03-17',

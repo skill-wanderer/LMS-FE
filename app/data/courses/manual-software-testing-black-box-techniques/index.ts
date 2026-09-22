@@ -24,6 +24,7 @@ const course: Course = {
   lessonCount,
   modules,
   tags: ['testing', 'qa', 'black-box', 'manual-testing', 'beginner'],
+  prerequisites: ['how-to-become-your-own-teacher-learning-how-to-learn'],
   instructor: 'Skill-Wanderer',
   author: quanNguyen,
   coAuthor: nkiruOnyebinime,

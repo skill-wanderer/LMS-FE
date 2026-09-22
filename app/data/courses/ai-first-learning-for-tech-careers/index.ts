@@ -22,6 +22,7 @@ const course: Course = {
   lessonCount,
   modules,
   tags: ['ai-first', 'learning-system', 'career-growth', 'problem-solving', 'assignments'],
+  prerequisites: ['how-to-become-your-own-teacher-learning-how-to-learn'],
   instructor: 'Skill-Wanderer',
   author: quanNguyen,
   createdAt: '2026-03-17',

@@ -66,6 +66,8 @@ By the end of this course, you will not just "use APIs" — you will understand 
     'curl',
   ],
 
+  prerequisites: ['how-to-become-your-own-teacher-learning-how-to-learn'],
+
   instructor: 'Skill-Wanderer',
   author: reiReltroner,
 

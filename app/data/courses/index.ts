@@ -15,6 +15,7 @@ import type { Course } from '~/types/course'
  *       index.ts        — module metadata + lesson imports
  *       <lesson-slug>.ts — individual lesson data
  */
+import howToBecomeYourOwnTeacher from './how-to-become-your-own-teacher-learning-how-to-learn'
 import manualSoftwareTesting from './manual-software-testing-black-box-techniques'
 import aiFirstLearningForTechCareers from './ai-first-learning-for-tech-careers'
 import gitVersionControlFromBasicsToBranching from './git-version-control-from-basics-to-branching'
@@ -23,6 +24,8 @@ import restfulApiMastery from './restful-api-mastery-greybox'
 import reactFoundationsBuildingRealUis from './react-foundations-building-real-uis'
 
 const allCourses: Course[] = [
+  // Prerequisite for every other course and the first step of every learning path.
+  howToBecomeYourOwnTeacher,
   manualSoftwareTesting,
   aiFirstLearningForTechCareers,
   gitVersionControlFromBasicsToBranching,

@@ -21,6 +21,7 @@ const course: Course = {
   lessonCount,
   modules,
   tags: ['git', 'github', 'version-control', 'branching', 'collaboration'],
+  prerequisites: ['how-to-become-your-own-teacher-learning-how-to-learn'],
   instructor: 'Skill-Wanderer',
   author: thanhNguyen,
   createdAt: '2026-03-25',
