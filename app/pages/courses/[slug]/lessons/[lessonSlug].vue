@@ -72,8 +72,8 @@ const processedContent = computed(() => {
 })
 
 const router = useRouter()
-const activeTab = computed<'summary' | 'quiz'>({
-  get: () => route.query.tab === 'quiz' ? 'quiz' : 'summary',
+const activeTab = computed<'content' | 'quiz'>({
+  get: () => route.query.tab === 'quiz' ? 'quiz' : 'content',
   set: (val) => {
     router.replace({ query: { ...route.query, tab: val === 'quiz' ? 'quiz' : undefined } })
   },
@@ -311,12 +311,12 @@ async function toggleComplete() {
             <button
               :class="[
                 'inline-flex items-center gap-2 py-3 px-6 text-[0.95rem] font-semibold bg-transparent border-none border-b-[3px] border-transparent cursor-pointer transition-all duration-200 -mb-[2px]',
-                activeTab === 'summary' ? 'text-brand-orange !border-brand-orange' : 'text-[rgba(224,224,224,0.5)] hover:text-[rgba(224,224,224,0.8)] hover:bg-brand-orange/[0.04]'
+                activeTab === 'content' ? 'text-brand-orange !border-brand-orange' : 'text-[rgba(224,224,224,0.5)] hover:text-[rgba(224,224,224,0.8)] hover:bg-brand-orange/[0.04]'
               ]"
-              @click="activeTab = 'summary'"
+              @click="activeTab = 'content'"
             >
               <Icon name="mdi:book-open-variant" />
-              Summary & Takeaway
+              Lesson Content
             </button>
             <button
               :class="[
@@ -329,7 +329,7 @@ async function toggleComplete() {
               Quiz
             </button>
           </div>
-          <div v-show="activeTab === 'summary'" class="rounded-b-2xl glass-card">
+          <div v-show="activeTab === 'content'" class="rounded-b-2xl glass-card">
             <div class="lesson-content p-4 sm:p-6 md:p-8 prose-content" v-html="processedContent" />
           </div>
           <div v-show="activeTab === 'quiz'" class="rounded-b-2xl">
