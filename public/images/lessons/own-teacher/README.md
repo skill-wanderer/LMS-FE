@@ -55,3 +55,31 @@ Each lesson file contains the full scene prompt in an HTML comment directly abov
   what the image actually shows.
 - **Consistency beats individual quality.** These are read in sequence, so generate them
   in one session with the same model and settings if you can.
+
+## Infographic tab (separate, later)
+
+Each lesson now has an **Infographic** tab alongside Reading, Video, Audio and Slides.
+That tab is a different job from the 20 images above: one page that carries the whole
+lesson on its own, for someone who wants the argument without the prose. The 20 images
+above stay where they are, inline in the Reading tab.
+
+Seven files, one per lesson. The `<figure>` is already written inside each lesson under
+`data-content="infographic"` — it is commented out, so uncomment it and set the file name.
+
+| Lesson | Suggested file name |
+| --- | --- |
+| What It Means to Become Your Own Teacher | `infographic-own-teacher.png` |
+| Formal Education Can Only Take You So Far | `infographic-formal-education.png` |
+| The World Will Not Stop Changing | `infographic-changing-world.png` |
+| Nobody Is Coming to Teach You | `infographic-nobody-coming.png` |
+| It Is More Productive, and It Is More Fun | `infographic-more-fun.png` |
+| There Is No Deadline: You Are the Captain | `infographic-captain.png` |
+| Summary and Takeaway | `infographic-summary.png` |
+
+These are the one exception to the no-text rule, since an infographic without labels is
+just a picture. That makes them a poor fit for image generation — a text-to-image model
+will produce convincing-looking gibberish lettering. Build them in a design tool, or
+generate the artwork and set the text over it afterwards.
+
+Portrait or tall formats work better here than 16:9, and the lesson CSS will scale them
+to fit.
