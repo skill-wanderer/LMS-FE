@@ -52,7 +52,7 @@ const lesson: Lesson = {
 <!-- SCENE: A row of five small balance scales along a horizontal line. Each scale is tipped at a different angle, and each holds visibly different objects in its two pans. No two are balanced the same way. Orderly and rhythmic. -->
 <!-- When generated: save as public/images/lessons/own-teacher/more-fun-method-tradeoffs.png and change the src below to /images/lessons/own-teacher/more-fun-method-tradeoffs.png -->
 <figure style="margin:0 0 2rem;text-align:center;">
-  <img src="/images/courses/placeholder.svg" alt="A row of balance scales, each tipping a different way" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <img src="/images/lessons/own-teacher/more-fun-method-tradeoffs.png" alt="A row of balance scales, each tipping a different way" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
   <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Every method buys you something at a price.</figcaption>
 </figure>
 <h2>2. Every Method Has a Trade-off</h2>
@@ -91,7 +91,7 @@ const lesson: Lesson = {
 <!-- SCENE: Four numbered tiles in a horizontal row. The fourth is brightly highlighted and clearly chosen first. A curved arrow loops from the fourth tile back to the second, then forward again, drawing the real path taken. Playful and clear. -->
 <!-- When generated: save as public/images/lessons/own-teacher/more-fun-episode-four.png and change the src below to /images/lessons/own-teacher/more-fun-episode-four.png -->
 <figure style="margin:0 0 2rem;text-align:center;">
-  <img src="/images/courses/placeholder.svg" alt="Four episode tiles with the fourth selected first and an arrow curving back to the second" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <img src="/images/lessons/own-teacher/more-fun-episode-four.png" alt="Four episode tiles with the fourth selected first and an arrow curving back to the second" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
   <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Start at episode four. Go back for episode two when you need it.</figcaption>
 </figure>
 <h2>5. Fun Is Not a Luxury</h2>

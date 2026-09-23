@@ -36,13 +36,13 @@ Each lesson file contains the full scene prompt in an HTML comment directly abov
 | 11 | `nobody-coming-what-expert-sells.png` | " | Compression, correction, pruning | ✅ Generated |
 | 12 | `nobody-coming-asking-well.png` | " | A vague question ignored, a specific one answered | ✅ Generated |
 | 13 | `more-fun-hero.png` | It Is More Productive, and It Is More Fun | Toolkit of learning methods | ✅ Generated |
-| 14 | `more-fun-method-tradeoffs.png` | " | Row of scales, each tipping differently | ⏳ Pending quota reset |
-| 15 | `more-fun-episode-four.png` | " | Episode four first, then back for two | ⏳ Pending quota reset |
-| 16 | `captain-hero.png` | There Is No Deadline: You Are the Captain | Small ship breaking away from the liner | ⏳ Pending quota reset |
-| 17 | `captain-navigation-loop.png` | " | Compass rose with a four-step cycle | ⏳ Pending quota reset |
-| 18 | `captain-storms.png` | " | Ship holding course through weather | ⏳ Pending quota reset |
-| 19 | `summary-hero.png` | Summary and Takeaway | Chart of the route past six waypoints | ⏳ Pending quota reset |
-| 20 | `summary-one-to-one.png` | " | One teacher for thirty, one teacher for one | ⏳ Pending quota reset |
+| 14 | `more-fun-method-tradeoffs.png` | " | Row of scales, each tipping differently | ✅ Generated |
+| 15 | `more-fun-episode-four.png` | " | Episode four first, then back for two | ✅ Generated |
+| 16 | `captain-hero.png` | There Is No Deadline: You Are the Captain | Small ship breaking away from the liner | ✅ Generated |
+| 17 | `captain-navigation-loop.png` | " | Compass rose with a four-step cycle | ✅ Generated |
+| 18 | `captain-storms.png` | " | Ship holding course through weather | ✅ Generated |
+| 19 | `summary-hero.png` | Summary and Takeaway | Chart of the route past six waypoints | ✅ Generated |
+| 20 | `summary-one-to-one.png` | " | One teacher for thirty, one teacher for one | ✅ Generated |
 
 ## Notes
 

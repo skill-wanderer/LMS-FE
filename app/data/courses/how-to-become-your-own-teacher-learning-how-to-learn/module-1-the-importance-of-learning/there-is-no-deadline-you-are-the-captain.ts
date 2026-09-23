@@ -35,7 +35,7 @@ const lesson: Lesson = {
 <!-- SCENE: A vast ocean liner sits on a ruled horizontal line with a clock mounted above it, surrounded by tiny identical passengers. A small single-masted ship flying its own plain flag is cutting away from that line on its own diagonal heading toward open water. The contrast in scale and direction is the subject. -->
 <!-- When generated: save as public/images/lessons/own-teacher/captain-hero.png and change the src below to /images/lessons/own-teacher/captain-hero.png -->
 <figure style="margin:0 0 2rem;text-align:center;">
-  <img src="/images/courses/placeholder.svg" alt="A small ship under its own flag sailing away from a large scheduled liner" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <img src="/images/lessons/own-teacher/captain-hero.png" alt="A small ship under its own flag sailing away from a large scheduled liner" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
   <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The liner sails to a timetable. Your ship sails when you are ready.</figcaption>
 </figure>
 <p><strong>Learning has no exam date unless you set one.</strong></p>
@@ -72,7 +72,7 @@ const lesson: Lesson = {
 <!-- SCENE: A compass rose at the centre with four curved arrows chasing each other in a closed loop around its rim, each arrow accompanied by a tiny simple glyph: a book, a hand, a sextant, a turning wheel. Suggests a cycle rather than a straight line. -->
 <!-- When generated: save as public/images/lessons/own-teacher/captain-navigation-loop.png and change the src below to /images/lessons/own-teacher/captain-navigation-loop.png -->
 <figure style="margin:0 0 2rem;text-align:center;">
-  <img src="/images/courses/placeholder.svg" alt="A compass rose with four arrows forming a continuous loop around it" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <img src="/images/lessons/own-teacher/captain-navigation-loop.png" alt="A compass rose with four arrows forming a continuous loop around it" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
   <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Learn, use, take a bearing, adjust. Then again.</figcaption>
 </figure>
 <h2>4. What Replaces the Timetable Is Navigation</h2>
@@ -100,7 +100,7 @@ const lesson: Lesson = {
 <!-- SCENE: A small ship holding a steady heading through rough swell and drifting fog banks, sails full. Far away on a thin strip of shore, several small figures stand watching with their arms raised. The ship is clearly unbothered and moving away from them. -->
 <!-- When generated: save as public/images/lessons/own-teacher/captain-storms.png and change the src below to /images/lessons/own-teacher/captain-storms.png -->
 <figure style="margin:0 0 2rem;text-align:center;">
-  <img src="/images/courses/placeholder.svg" alt="A small ship holding its heading through heavy weather while figures watch from a distant shore" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <img src="/images/lessons/own-teacher/captain-storms.png" alt="A small ship holding its heading through heavy weather while figures watch from a distant shore" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
   <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Storms, fog, and opinions from the shore. None of it means the voyage has gone wrong.</figcaption>
 </figure>
 <h2>7. Storms, Setbacks, and Voices from the Shore</h2>

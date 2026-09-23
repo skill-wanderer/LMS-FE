@@ -35,7 +35,7 @@ const lesson: Lesson = {
 <!-- SCENE: An aged nautical chart showing a dotted route that passes six distinct marked waypoints before reaching a marked destination. Small icons sit at each waypoint: a desk, a broadcast tower, eroding strata, a lone figure, a toolbox, a ship. Warm and inviting rather than cluttered. -->
 <!-- When generated: save as public/images/lessons/own-teacher/summary-hero.png and change the src below to /images/lessons/own-teacher/summary-hero.png -->
 <figure style="margin:0 0 2rem;text-align:center;">
-  <img src="/images/courses/placeholder.svg" alt="A treasure map showing a charted route past six marked waypoints" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <img src="/images/lessons/own-teacher/summary-hero.png" alt="A treasure map showing a charted route past six marked waypoints" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
   <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">Six lessons, one argument, and a heading of your own.</figcaption>
 </figure>
 <p><strong>Six lessons, one argument:</strong> the ability to teach yourself is not a supplement to your education. It is the part that keeps working after the education stops.</p>
@@ -55,7 +55,7 @@ const lesson: Lesson = {
 <!-- SCENE: A two-panel comparison. Left: one teacher figure facing thirty small identical seated figures, attention visibly spread thin with many faint lines. Right: one teacher figure facing a single student, joined by one thick unbroken line, and the two figures are subtly the same person. -->
 <!-- When generated: save as public/images/lessons/own-teacher/summary-one-to-one.png and change the src below to /images/lessons/own-teacher/summary-one-to-one.png -->
 <figure style="margin:0 0 2rem;text-align:center;">
-  <img src="/images/courses/placeholder.svg" alt="One teacher facing thirty students beside one teacher facing a single student who is the same person" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <img src="/images/lessons/own-teacher/summary-one-to-one.png" alt="One teacher facing thirty students beside one teacher facing a single student who is the same person" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
   <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">One teacher for thirty, or one teacher for one, and you are both of them.</figcaption>
 </figure>
 <h2>2. The Thread Running Through All of It</h2>

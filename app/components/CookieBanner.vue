@@ -1,20 +1,22 @@
 <script setup lang="ts">
-const dismissed = ref(false)
+// Start hidden and only reveal once the stored dismissal has been checked;
+// starting visible flashes the banner for visitors who already dismissed it.
+const visible = ref(false)
 
 onMounted(() => {
-  dismissed.value = localStorage.getItem('cookie-banner-dismissed') === 'true'
+  visible.value = localStorage.getItem('cookie-banner-dismissed') !== 'true'
 })
 
 function dismiss() {
   localStorage.setItem('cookie-banner-dismissed', 'true')
-  dismissed.value = true
+  visible.value = false
 }
 </script>
 
 <template>
   <Transition name="cookie-banner">
     <div
-      v-if="!dismissed"
+      v-if="visible"
       class="fixed bottom-4 left-4 right-4 z-50 max-w-2xl sm:bottom-6 sm:left-1/2 sm:right-auto sm:w-[calc(100%-2rem)] sm:-translate-x-1/2"
       role="region"
       aria-label="Cookie notice"
