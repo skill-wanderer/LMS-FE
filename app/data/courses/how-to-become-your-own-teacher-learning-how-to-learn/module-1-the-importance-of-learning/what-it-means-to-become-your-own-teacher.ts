@@ -10,13 +10,13 @@ const lesson: Lesson = {
   order: 1,
   hideCompletion: false,
   createdAt: '2026-09-22',
-  updatedAt: '2026-09-22',
+  updatedAt: '2026-09-23',
   content: `<div class="format-selector">
 <div class="format-notice">
   <span class="format-notice-icon">&#128161;</span>
   <div>
     <strong>Choose Your Learning Material</strong>
-    <p>This lesson is being produced in <strong>multiple formats</strong>. The lesson itself is the same in each one, so pick whichever suits your context right now. Formats still in production are marked below.</p>
+    <p>This lesson is available in <strong>multiple formats</strong>. The lesson itself is the same in each one, so pick whichever suits your context right now.</p>
   </div>
 </div>
 
@@ -122,45 +122,33 @@ const lesson: Lesson = {
 
 <div class="format-content" data-content="video" style="display:none;">
 <h2>&#127916; Video Version</h2>
-<p><em>The video version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <div class="video-embed">
-  <iframe title="LESSON TITLE lesson video" src="https://www.youtube-nocookie.com/embed/VIDEO_ID" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <iframe title="What It Means to Become Your Own Teacher lesson video" src="https://www.youtube-nocookie.com/embed/-1Z0gy9xEWU" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
--->
 </div>
 
 <div class="format-content" data-content="audio" style="display:none;">
 <h2>&#127911; Audio Version</h2>
-<p><em>The audio version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <div class="audio-embed">
-  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/EPISODE_ID?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  <iframe title="What It Means to Become Your Own Teacher audio episode" style="border-radius:12px" src="https://open.spotify.com/embed/episode/1WS9F3TFGHEO5rTRiwSiCa?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
 </div>
-<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/EPISODE_ID" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
--->
+<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/1WS9F3TFGHEO5rTRiwSiCa" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
 </div>
 
 <div class="format-content" data-content="slides" style="display:none;">
 <h2>&#128202; Slides Version</h2>
-<p><em>The slide deck for this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <div class="slides-embed" style="width:100%;border-radius:8px;overflow:hidden;">
-  <iframe src="SLIDE_PDF_URL" width="100%" height="600" style="border:none;" title="LESSON TITLE slides"></iframe>
+  <iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/What%20It%20Means%20to%20Become%20Your%20Own%20Teacher/The_Self-Teacher_Protocol.pdf" width="100%" height="600" style="border:none;" title="The Self-Teacher Protocol slides"></iframe>
 </div>
-<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Cannot see the slides? <a href="SLIDE_PDF_URL" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
--->
+<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Cannot see the slides? <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/What%20It%20Means%20to%20Become%20Your%20Own%20Teacher/The_Self-Teacher_Protocol.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
 </div>
 
 <div class="format-content" data-content="infographic" style="display:none;">
 <h2>&#128444;&#65039; Infographic</h2>
-<p><em>The one-page infographic for this lesson is still in production. The Reading tab has the full lesson, including its diagrams.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <figure style="margin:0;text-align:center;">
-  <img src="/images/lessons/own-teacher/INFOGRAPHIC_FILE.png" alt="Single-page infographic summarising this lesson" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
-  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The whole lesson on one page.</figcaption>
+  <img src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/What%20It%20Means%20to%20Become%20Your%20Own%20Teacher/Shift_to_Accountable_Learning_Guide.png" alt="Infographic titled Becoming Your Own Teacher: The Shift to Accountable Learning. It covers the jobs you take over (curating the path, managing the pace, and assessment), compares who is accountable in self-teaching, traditional teaching, and the middle ground, and ends with the accountability test." style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The whole lesson on one page. <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/What%20It%20Means%20to%20Become%20Your%20Own%20Teacher/Shift_to_Accountable_Learning_Guide.png" target="_blank" rel="noopener noreferrer">Open full size</a></figcaption>
 </figure>
--->
 </div>
 `,
   quiz: {
