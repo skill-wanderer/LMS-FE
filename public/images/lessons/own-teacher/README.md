@@ -44,6 +44,20 @@ Each lesson file contains the full scene prompt in an HTML comment directly abov
 | 19 | `summary-hero.png` | Summary and Takeaway | Chart of the route past six waypoints | ✅ Generated |
 | 20 | `summary-one-to-one.png` | " | One teacher for thirty, one teacher for one | ✅ Generated |
 
+## Square Hero Images (1:1)
+
+1:1 square versions of each lesson's hero image for cards, social sharing, and square thumbnail displays.
+
+| # | File name | Lesson | Status |
+| --- | --- | --- | --- |
+| 1 | `own-teacher-hero-square.png` | What It Means to Become Your Own Teacher | ✅ Generated (1024×1024) |
+| 2 | `formal-education-hero-square.png` | Formal Education Can Only Take You So Far | ✅ Generated (1024×1024) |
+| 3 | `changing-world-hero-square.png` | The World Will Not Stop Changing | ✅ Generated (1024×1024) |
+| 4 | `nobody-coming-hero-square.png` | Nobody Is Coming to Teach You | ✅ Generated (1024×1024) |
+| 5 | `more-fun-hero-square.png` | It Is More Productive, and It Is More Fun | ✅ Generated (1024×1024) |
+| 6 | `captain-hero-square.png` | There Is No Deadline: You Are the Captain | ✅ Generated (1024×1024) |
+| 7 | `summary-hero-square.png` | Summary and Takeaway | ✅ Generated (1024×1024) |
+
 ## Notes
 
 - **Format.** PNG is assumed in the placeholders. WebP is smaller and well supported —
