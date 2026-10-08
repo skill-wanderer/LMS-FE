@@ -22,6 +22,7 @@ import type {
 } from '~/types/subscribe'
 import { createSubscriptionWelcomeEmail } from '../services/email/subscription'
 
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MAX_EMAIL_LENGTH = 254
 const THROTTLE_WINDOW_MS = 60_000
