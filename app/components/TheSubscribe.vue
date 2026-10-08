@@ -78,6 +78,13 @@ async function handleSubscribe() {
       <p v-if="errorMessage" class="mt-4 text-sm text-semantic-failure" role="alert">
         {{ errorMessage }}
       </p>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+        <span class="text-[rgba(224,224,224,0.6)] text-[0.95rem]">Want to help keep the Dojo free?</span>
+        <a href="https://skill-wanderer.com/help-the-mission" target="_blank" rel="noopener" class="btn btn-outline btn-sm border-solid">
+          Help the Mission <Icon name="mdi:open-in-new" />
+        </a>
+      </div>
     </div>
   </section>
 </template>
