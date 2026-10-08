@@ -76,6 +76,7 @@ export default defineNuxtConfig({
     // contacts, then sent a welcome email — see server/api/subscribe.post.ts.
     resendApiKey: process.env.NUXT_RESEND_API_KEY || process.env.RESEND_API_KEY || '',
     resendFromEmail: process.env.NUXT_RESEND_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || '',
+    resendReplyTo: process.env.NUXT_RESEND_REPLY_TO || process.env.RESEND_REPLY_TO || '',
     resendSegmentId: process.env.NUXT_RESEND_SEGMENT_ID || process.env.RESEND_SEGMENT_ID || '',
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://dojo.skill-wanderer.com',

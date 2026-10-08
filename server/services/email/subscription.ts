@@ -139,9 +139,12 @@ const welcomeText = [
   `You are receiving this because you subscribed at ${DOJO_URL}. If you did not subscribe, or you change your mind later, reply to this email and we will remove you from the list.`,
 ].join('\n')
 
-export const createSubscriptionWelcomeEmail = (email: string, fromEmail: string) => ({
+export const createSubscriptionWelcomeEmail = (email: string, fromEmail: string, replyTo?: string) => ({
   from: `Skill-Wanderer Dojo <${fromEmail}>`,
   to: [email],
+  // The footer asks readers to reply to unsubscribe, which a no-reply sender
+  // cannot receive, so replies are routed to a monitored inbox when set.
+  ...(replyTo ? { replyTo } : {}),
   subject: 'Welcome to Skill-Wanderer Dojo',
   html: welcomeHtml,
   text: welcomeText,

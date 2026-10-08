@@ -8,7 +8,8 @@
  * than failing the subscription.
  *
  * Requires NUXT_RESEND_API_KEY (needs contacts write access, not just email
- * sending) and NUXT_RESEND_FROM_EMAIL. NUXT_RESEND_SEGMENT_ID is optional.
+ * sending) and NUXT_RESEND_FROM_EMAIL. NUXT_RESEND_REPLY_TO and
+ * NUXT_RESEND_SEGMENT_ID are optional.
  */
 import { Resend } from 'resend'
 import { getHeader, setResponseHeader, setResponseStatus } from 'h3'
@@ -207,6 +208,7 @@ export default defineEventHandler(async (event): Promise<SubscribeResponse> => {
   const runtimeConfig = useRuntimeConfig(event)
   const apiKey = runtimeConfig.resendApiKey?.trim()
   const fromEmail = runtimeConfig.resendFromEmail?.trim()
+  const replyTo = runtimeConfig.resendReplyTo?.trim()
   const segmentId = runtimeConfig.resendSegmentId?.trim()
 
   if (!apiKey || apiKey === RESEND_API_KEY_PLACEHOLDER || !fromEmail) {
@@ -242,7 +244,7 @@ export default defineEventHandler(async (event): Promise<SubscribeResponse> => {
 
     try {
       const { data, error } = await resend.emails.send(
-        createSubscriptionWelcomeEmail(email, fromEmail),
+        createSubscriptionWelcomeEmail(email, fromEmail, replyTo),
         { idempotencyKey: await createIdempotencyKey(email) },
       )
 
