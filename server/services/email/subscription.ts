@@ -12,10 +12,9 @@
 const DOJO_URL = 'https://dojo.skill-wanderer.com'
 const COURSES_URL = `${DOJO_URL}/courses`
 const HELP_THE_MISSION_URL = 'https://skill-wanderer.com/help-the-mission'
-const LINKEDIN_URL = 'https://linkedin.com/company/skill-wanderer'
 
 const SANS = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif"
-const PREVIEW_TEXT = 'Thank you for subscribing. Here is what to expect, where to start, and three ways to help keep the Dojo free.'
+const PREVIEW_TEXT = 'Thank you for subscribing. Here is what to expect from us, and where to start.'
 
 const welcomeHtml = `<!DOCTYPE html>
 <html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -75,8 +74,8 @@ const welcomeHtml = `<!DOCTYPE html>
 <!-- Intro -->
 <tr>
 <td class="px" style="padding:40px 40px 0;font-family:${SANS};">
-<p style="margin:0 0 12px;font-size:12px;line-height:16px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#c2410c;">Subscription confirmed</p>
-<h1 class="h1" style="margin:0 0 16px;font-size:36px;line-height:42px;font-weight:800;color:#1c1917;">Welcome to the Dojo</h1>
+<p style="margin:0 0 12px;font-size:12px;line-height:16px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#c2410c;">You are subscribed</p>
+<h1 class="h1" style="margin:0 0 16px;font-size:36px;line-height:42px;font-weight:800;color:#1c1917;">Welcome to <span style="color:#c2410c;">the Dojo</span></h1>
 <p style="margin:0;font-size:17px;line-height:27px;color:#57534e;">Thank you for subscribing. We will let you know when new courses and lessons drop, plus the occasional note on what we are building.</p>
 </td>
 </tr>
@@ -95,50 +94,11 @@ const welcomeHtml = `<!DOCTYPE html>
 </td>
 </tr>
 
-<!-- Help the mission: the three ways listed on skill-wanderer.com/help-the-mission -->
+<!-- Help the mission: optional, so it stays one quiet line, worded like the skill-wanderer.com welcome email -->
 <tr>
-<td class="px" style="padding:32px 40px 0;font-family:${SANS};">
-<h2 style="margin:0 0 6px;font-size:22px;line-height:28px;font-weight:800;color:#1c1917;">Help keep it free</h2>
-<p style="margin:0 0 20px;font-size:16px;line-height:26px;color:#57534e;">There is no paywall here, and no donation button either. If you would like to help, there are three ways.</p>
-</td>
-</tr>
-<tr>
-<td class="px" style="padding:0 40px;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #e7e5e4;border-radius:10px;border-collapse:separate;">
-<tr>
-<td width="6" style="width:6px;background-color:#37424b;border-top-left-radius:9px;font-size:0;line-height:0;">&nbsp;</td>
-<td style="padding:16px 20px;border-bottom:1px solid #e7e5e4;font-family:${SANS};">
-<p style="margin:0;font-size:13px;line-height:18px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#1c1917;">Share what you know</p>
-<p style="margin:6px 0 0;font-size:15px;line-height:23px;color:#57534e;">Experts from any field, not only tech. You bring the knowledge, and our members turn it into free lessons, credited to you by name.</p>
-</td>
-</tr>
-<tr>
-<td width="6" style="width:6px;background-color:#4f7fb3;font-size:0;line-height:0;">&nbsp;</td>
-<td style="padding:16px 20px;border-bottom:1px solid #e7e5e4;font-family:${SANS};">
-<p style="margin:0;font-size:13px;line-height:18px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#1c1917;">Bring us a project</p>
-<p style="margin:6px 0 0;font-size:15px;line-height:23px;color:#57534e;">Need a website, an app, an AI tool or some automation on a small budget? Client work is what pays for the Dojo.</p>
-</td>
-</tr>
-<tr>
-<td width="6" style="width:6px;background-color:#FF6B35;border-bottom-left-radius:9px;font-size:0;line-height:0;">&nbsp;</td>
-<td style="padding:16px 20px;font-family:${SANS};">
-<p style="margin:0;font-size:13px;line-height:18px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#1c1917;">Spread the word</p>
-<p style="margin:6px 0 0;font-size:15px;line-height:23px;color:#57534e;">Share the Dojo, <a href="${LINKEDIN_URL}" target="_blank" style="color:#c2410c;text-decoration:underline;">follow us on LinkedIn</a>, or introduce us to someone who could help.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td class="px" style="padding:20px 40px 0;font-family:${SANS};font-size:16px;line-height:24px;">
-<a href="${HELP_THE_MISSION_URL}" target="_blank" style="color:#c2410c;font-weight:700;text-decoration:none;">See how to help the mission &rarr;</a>
-</td>
-</tr>
-
-<!-- Sign-off -->
-<tr>
-<td class="px" style="padding:32px 40px 40px;font-family:${SANS};font-size:16px;line-height:26px;color:#1c1917;">
-<p style="margin:0;">Happy learning,<br>Skill-Wanderer Dojo</p>
+<td class="px" style="padding:28px 40px 40px;font-family:${SANS};">
+<p style="margin:0 0 12px;font-size:16px;line-height:26px;color:#78716c;">And if you ever feel like lending a hand to keep education free, there are a few ways to do it. No pressure at all.</p>
+<a href="${HELP_THE_MISSION_URL}" target="_blank" style="font-size:16px;line-height:24px;font-weight:700;color:#c2410c;text-decoration:none;">See how you can help &rarr;</a>
 </td>
 </tr>
 
@@ -171,18 +131,8 @@ const welcomeText = [
   '',
   `Explore the courses: ${COURSES_URL}`,
   '',
-  'HELP KEEP IT FREE',
-  '',
-  'There is no paywall here, and no donation button either. If you would like to help, there are three ways:',
-  '',
-  '1. Share what you know. Experts from any field, not only tech. You bring the knowledge, and our members turn it into free lessons, credited to you by name.',
-  '2. Bring us a project. Need a website, an app, an AI tool or some automation on a small budget? Client work is what pays for the Dojo.',
-  `3. Spread the word. Share the Dojo, follow us on LinkedIn (${LINKEDIN_URL}), or introduce us to someone who could help.`,
-  '',
-  `See how to help the mission: ${HELP_THE_MISSION_URL}`,
-  '',
-  'Happy learning,',
-  'Skill-Wanderer Dojo',
+  'And if you ever feel like lending a hand to keep education free, there are a few ways to do it. No pressure at all.',
+  `See how you can help: ${HELP_THE_MISSION_URL}`,
   '',
   '--',
   'Skill-Wanderer Dojo. Free forever. No paywall, no barriers.',
