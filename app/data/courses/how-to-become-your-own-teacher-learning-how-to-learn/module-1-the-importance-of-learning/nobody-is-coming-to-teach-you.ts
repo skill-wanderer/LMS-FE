@@ -10,13 +10,13 @@ const lesson: Lesson = {
   order: 4,
   hideCompletion: false,
   createdAt: '2026-09-22',
-  updatedAt: '2026-09-22',
+  updatedAt: '2026-10-08',
   content: `<div class="format-selector">
 <div class="format-notice">
   <span class="format-notice-icon">&#128161;</span>
   <div>
     <strong>Choose Your Learning Material</strong>
-    <p>This lesson is being produced in <strong>multiple formats</strong>. The lesson itself is the same in each one, so pick whichever suits your context right now. Formats still in production are marked below.</p>
+    <p>This lesson is available in <strong>multiple formats</strong>. The lesson itself is the same in each one, so pick whichever suits your context right now.</p>
   </div>
 </div>
 
@@ -151,45 +151,33 @@ const lesson: Lesson = {
 
 <div class="format-content" data-content="video" style="display:none;">
 <h2>&#127916; Video Version</h2>
-<p><em>The video version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <div class="video-embed">
-  <iframe title="LESSON TITLE lesson video" src="https://www.youtube-nocookie.com/embed/VIDEO_ID" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <iframe title="Nobody Is Coming to Teach You (And That Is Fine) lesson video" src="https://www.youtube-nocookie.com/embed/1zTX4Cbp9R8" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
--->
 </div>
 
 <div class="format-content" data-content="audio" style="display:none;">
 <h2>&#127911; Audio Version</h2>
-<p><em>The audio version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <div class="audio-embed">
-  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/EPISODE_ID?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  <iframe title="Nobody Is Coming to Teach You (And That Is Fine) audio episode" style="border-radius:12px" src="https://open.spotify.com/embed/episode/6vyu27AtF4gjwqYjmGcmvg?utm_source=generator&amp;si=f0adca0c84074897" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
 </div>
-<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/EPISODE_ID" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
--->
+<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/6vyu27AtF4gjwqYjmGcmvg" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
 </div>
 
 <div class="format-content" data-content="slides" style="display:none;">
 <h2>&#128202; Slides Version</h2>
-<p><em>The slide deck for this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <div class="slides-embed" style="width:100%;border-radius:8px;overflow:hidden;">
-  <iframe src="SLIDE_PDF_URL" width="100%" height="600" style="border:none;" title="LESSON TITLE slides"></iframe>
+  <iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/nobody-is-coming-to-teach-you/The_Self-Taught_Engine.pdf" width="100%" height="600" style="border:none;" title="The Self-Taught Engine slides"></iframe>
 </div>
-<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Cannot see the slides? <a href="SLIDE_PDF_URL" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
--->
+<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Cannot see the slides? <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/nobody-is-coming-to-teach-you/The_Self-Taught_Engine.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
 </div>
 
 <div class="format-content" data-content="infographic" style="display:none;">
 <h2>&#128444;&#65039; Infographic</h2>
-<p><em>The one-page infographic for this lesson is still in production. The Reading tab has the full lesson, including its diagrams.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <figure style="margin:0;text-align:center;">
-  <img src="/images/lessons/own-teacher/INFOGRAPHIC_FILE.png" alt="Single-page infographic summarising this lesson" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
-  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The whole lesson on one page.</figcaption>
+  <img src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/nobody-is-coming-to-teach-you/Mastering_Self-Directed_Learning.png" alt="Infographic titled Become Your Own Teacher: Mastering Self-Directed Learning. It shows the three things an expert provides (compression, correction and pruning) with a do-it-yourself substitute for each, a reminder to budget for wrong turns, missing feedback and blind spots, and two rules for asking for free mentorship: do the work first and be specific, then respect their time and follow up." style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The whole lesson on one page. <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/nobody-is-coming-to-teach-you/Mastering_Self-Directed_Learning.png" target="_blank" rel="noopener noreferrer">Open full size</a></figcaption>
 </figure>
--->
 </div>
 `,
   quiz: {
