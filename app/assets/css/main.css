@@ -53,7 +53,7 @@
   }
 
   .btn-secondary {
-    @apply bg-transparent text-brand-orange border-2 border-brand-orange;
+    @apply bg-transparent text-brand-orange border-2 border-solid border-brand-orange;
   }
 
   .btn-secondary:hover {
@@ -100,6 +100,15 @@
 
   .badge-free {
     @apply text-brand-orange bg-brand-orange/15;
+  }
+
+  /* Learning path status: open now vs. offered later */
+  .badge-in-development {
+    @apply text-[#81c784] bg-semantic-success/[0.12] ring-1 ring-inset ring-semantic-success/40;
+  }
+
+  .badge-planned {
+    @apply text-brand-yellow bg-brand-yellow/10 ring-1 ring-inset ring-brand-yellow/35;
   }
 
   /* ---- Progress Bar ---- */

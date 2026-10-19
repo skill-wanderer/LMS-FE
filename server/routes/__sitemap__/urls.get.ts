@@ -1,5 +1,6 @@
 import { defineSitemapEventHandler, asSitemapUrl } from '#imports'
 import allCourses from '~/data/courses'
+import { FEATURED_PATH_SLUG } from '~/data/paths'
 import { getAllLessons, isPublishedLesson, isPublishedCourse } from '~/types/course'
 
 /**
@@ -18,6 +19,8 @@ export default defineSitemapEventHandler(() => {
     { loc: '/', priority: 1.0 },
     { loc: '/courses', priority: 0.9 },
     { loc: '/paths', priority: 0.7 },
+    // The one path open now; the planned paths stay out until they open.
+    { loc: `/paths/${FEATURED_PATH_SLUG}`, priority: 0.8 },
     { loc: '/about', priority: 0.6 },
   ] as const
 

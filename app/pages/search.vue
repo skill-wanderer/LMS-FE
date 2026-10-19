@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { PathData } from '~/data/paths'
-import allPaths from '~/data/paths'
+import allPaths, { featuredPath } from '~/data/paths'
 
 const router = useRouter()
 const route = useRoute()
@@ -10,7 +9,7 @@ useSeo({
   description: 'Search free courses and learning paths on Skill-Wanderer Dojo. Find courses on web development, programming, DevOps, and more.',
 })
 
-const { courses, searchCourses, formatDuration, getCourseDuration, getCourseBySlug } = useCourses()
+const { courses, searchCourses } = useCourses()
 
 const query = ref((route.query.q as string) || '')
 const activeTab = ref<'all' | 'courses' | 'paths'>('all')
@@ -33,12 +32,6 @@ const totalResults = computed(() => courseResults.value.length + pathResults.val
 
 const popularCourses = computed(() => courses.value.slice(0, 3))
 
-const featuredPaths = computed(() =>
-  allPaths
-    .filter(path => ['web-developer', 'qa-tester', 'ai-machine-learning'].includes(path.slug))
-    .slice(0, 3),
-)
-
 const exploreTopics = [
   { label: 'JavaScript', icon: 'mdi:language-javascript', query: 'javascript' },
   { label: 'React', icon: 'mdi:react', query: 'react' },
@@ -52,27 +45,6 @@ function handleSearch(q: string) {
   query.value = q
   activeTab.value = 'all'
   router.replace({ query: q ? { q } : {} })
-}
-
-function getPathDuration(path: PathData): number {
-  if (!path.courses?.length) return 0
-  return path.courses.reduce((total, c) => {
-    const course = getCourseBySlug(c.slug)
-    return total + (course ? getCourseDuration(course) : 0)
-  }, 0)
-}
-
-function isCourseAvailable(slug: string): boolean {
-  return !!getCourseBySlug(slug)
-}
-
-const difficultyClass = (d: string) => {
-  switch (d) {
-    case 'beginner': return 'badge-beginner'
-    case 'intermediate': return 'badge-intermediate'
-    case 'advanced': return 'badge-advanced'
-    default: return 'badge-beginner'
-  }
 }
 
 // Sync with URL on mount
@@ -155,55 +127,8 @@ watch(() => route.query.q, (newQ) => {
           <h2 v-if="activeTab === 'all'" class="flex items-center gap-2 text-xl font-bold mb-5 text-[#e0e0e0]">
             <Icon name="mdi:map-marker-path" class="text-brand-orange" /> Learning Paths
           </h2>
-          <div class="flex flex-col gap-6">
-            <div v-for="path in pathResults" :key="path.slug" class="glass-card p-7 max-md:p-5 max-sm:p-4">
-              <div class="flex gap-4 items-start mb-5 max-md:flex-col">
-                <Icon :name="path.icon" class="text-[2rem] text-brand-orange shrink-0 mt-1" />
-                <div>
-                  <div class="flex items-center gap-2 mb-1">
-                    <h3 class="text-xl font-bold">{{ path.title }}</h3>
-                    <span :class="['badge', difficultyClass(path.difficulty)]">{{ path.difficulty }}</span>
-                  </div>
-                  <p class="text-gray-400 text-sm">{{ path.description }}</p>
-                  <div class="flex items-center gap-4 mt-2">
-                    <span class="text-xs text-gray-500">
-                      <Icon name="mdi:book-open-outline" class="inline" /> {{ path.courseCount }} courses
-                    </span>
-                    <span v-if="getPathDuration(path)" class="text-xs text-gray-500">
-                      <Icon name="mdi:clock-outline" class="inline" /> {{ formatDuration(getPathDuration(path)) }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Course list when available -->
-              <div v-if="path.courses && path.courses.length" class="flex flex-col gap-2">
-                <div
-                  v-for="(course, index) in path.courses"
-                  :key="course.slug"
-                  class="flex items-center gap-3 py-2.5 px-4 rounded-lg bg-white/[0.03] border border-white/[0.06] transition-all duration-200 hover:bg-brand-orange/[0.06] hover:border-brand-orange/20"
-                >
-                  <span class="flex items-center justify-center w-7 h-7 rounded-full bg-brand-orange/[0.12] text-brand-orange text-[0.8rem] font-bold shrink-0">{{ index + 1 }}</span>
-                  <NuxtLink
-                    v-if="isCourseAvailable(course.slug)"
-                    :to="`/courses/${course.slug}`"
-                    class="text-[#e0e0e0] no-underline text-[0.95rem] font-medium transition-colors duration-200 hover:text-brand-orange"
-                  >
-                    {{ course.title }}
-                  </NuxtLink>
-                  <span v-else class="text-[rgba(224,224,224,0.72)] text-[0.95rem] font-medium">
-                    {{ course.title }}
-                  </span>
-                  <span v-if="!isCourseAvailable(course.slug)" class="ml-auto text-[0.72rem] uppercase tracking-wider text-brand-orange/80">Planned</span>
-                </div>
-              </div>
-
-              <!-- Coming soon -->
-              <div v-else class="flex items-center gap-2.5 py-3 px-4 rounded-lg bg-brand-orange/5 border border-dashed border-brand-orange/20">
-                <Icon name="mdi:hammer-wrench" class="text-brand-orange text-lg" />
-                <span class="text-sm text-gray-400">Courses for this path are being developed. Stay tuned!</span>
-              </div>
-            </div>
+          <div class="card-grid">
+            <PathCard v-for="path in pathResults" :key="path.slug" :path="path" />
           </div>
         </div>
 
@@ -243,41 +168,13 @@ watch(() => route.query.q, (newQ) => {
           <div>
             <div class="flex items-center justify-between gap-3 mb-5 flex-wrap">
               <h2 class="flex items-center gap-2 text-xl font-bold text-[#e0e0e0]">
-                <Icon name="mdi:map-marker-path" class="text-brand-orange" /> Featured Learning Paths
+                <Icon name="mdi:map-marker-path" class="text-brand-orange" /> Featured Learning Path
               </h2>
               <NuxtLink to="/paths" class="btn btn-outline btn-sm">
                 View Learning Paths
               </NuxtLink>
             </div>
-            <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              <NuxtLink
-                v-for="path in featuredPaths"
-                :key="path.slug"
-                :to="`/paths/${path.slug}`"
-                class="glass-card p-6 no-underline text-[#e0e0e0] transition-all duration-200 hover:border-brand-orange/30 hover:-translate-y-0.5"
-              >
-                <div class="flex items-start gap-4">
-                  <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-brand-orange/10 text-brand-orange shrink-0">
-                    <Icon :name="path.icon" class="text-2xl" />
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-2 mb-2 flex-wrap">
-                      <h3 class="text-lg font-bold leading-tight">{{ path.title }}</h3>
-                      <span :class="['badge', difficultyClass(path.difficulty)]">{{ path.difficulty }}</span>
-                    </div>
-                    <p class="text-sm text-gray-400 leading-relaxed mb-3">{{ path.description }}</p>
-                    <div class="flex items-center gap-4 text-xs text-gray-500 flex-wrap">
-                      <span>
-                        <Icon name="mdi:book-open-outline" class="inline" /> {{ path.courseCount }} courses
-                      </span>
-                      <span v-if="getPathDuration(path)">
-                        <Icon name="mdi:clock-outline" class="inline" /> {{ formatDuration(getPathDuration(path)) }}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </NuxtLink>
-            </div>
+            <FeaturedPathCard :path="featuredPath" />
           </div>
 
         </div>

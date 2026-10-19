@@ -72,7 +72,9 @@ LMS-FE/
 │   │   ├── index.vue              # Home page
 │   │   ├── about.vue              # About the Dojo
 │   │   ├── search.vue             # Course search
-│   │   ├── paths.vue              # Learning paths
+│   │   ├── paths/
+│   │   │   ├── index.vue          # Learning paths: the featured path, then planned ones
+│   │   │   └── [slug].vue         # One learning path
 │   │   └── courses/
 │   │       ├── index.vue          # Course catalog
 │   │       ├── [slug].vue         # Course detail

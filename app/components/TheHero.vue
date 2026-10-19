@@ -1,5 +1,7 @@
 <script setup lang="ts">
 interface Props {
+  /** Small uppercase line above the title. */
+  eyebrow?: string
   title: string
   subtitle?: string
   description?: string
@@ -15,6 +17,7 @@ defineProps<Props>()
 <template>
   <section class="hero relative w-full max-w-full overflow-x-clip overflow-y-hidden px-4 pb-[56px] pt-[136px] text-center md:px-5 md:pb-20 md:pt-[180px]">
     <div class="max-w-narrow mx-auto relative z-[1]">
+      <p v-if="eyebrow" class="mb-4 text-[0.78rem] font-semibold uppercase tracking-[0.22em] text-brand-orange">{{ eyebrow }}</p>
       <h1 class="gradient-text text-[clamp(2.5rem,7vw,4.5rem)] font-black leading-[1.1] mb-5">{{ title }}</h1>
       <p v-if="subtitle" class="mb-3 text-[clamp(1.05rem,2.5vw,1.5rem)] font-medium text-[#e0e0e0]">{{ subtitle }}</p>
       <p v-if="description" class="mx-auto mb-8 max-w-[600px] text-base leading-[1.75] text-[rgba(224,224,224,0.7)] md:text-[1.1rem]">{{ description }}</p>
@@ -42,6 +45,9 @@ defineProps<Props>()
           <span class="text-[0.85rem] text-[rgba(224,224,224,0.5)] uppercase tracking-widest mt-1">{{ stat.label }}</span>
         </div>
       </div>
+
+      <!-- Optional media below the text, such as a hero image -->
+      <slot />
     </div>
   </section>
 </template>
