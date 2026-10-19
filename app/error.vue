@@ -16,12 +16,19 @@ useSeo({
   description: message.value,
   noIndex: true,
 })
+
+// With the illustration on top, a smaller status code keeps the buttons on screen.
+const { shown: hasIllustration } = useImageSlot('error/hero')
 </script>
 
 <template>
   <div class="min-h-screen flex items-center justify-center p-10 max-sm:p-6 bg-surface-dark text-[#e0e0e0]">
     <div class="text-center max-w-[500px]">
-      <span class="text-[clamp(5rem,15vw,10rem)] font-black leading-none block mb-4 gradient-text">{{ statusCode }}</span>
+      <ImageSlot name="error/hero" class="mb-6 rounded-card ring-1 ring-brand-orange/20" priority />
+      <span
+        class="font-black leading-none block mb-4 gradient-text"
+        :class="hasIllustration ? 'text-[clamp(3.5rem,10vw,6rem)]' : 'text-[clamp(5rem,15vw,10rem)]'"
+      >{{ statusCode }}</span>
       <h1 class="text-[clamp(1.3rem,4vw,1.8rem)] font-bold mb-3">{{ message }}</h1>
       <p class="text-[rgba(224,224,224,0.6)] text-base mb-8">
         The page you're looking for doesn't exist or has been moved.

@@ -12,7 +12,9 @@ useSeo({
       title="Why We Built the Dojo"
       subtitle="About Skill-Wanderer Dojo"
       description="A custom LMS built by developers, for learners — powered by AI, driven by code."
-    />
+    >
+      <ImageSlot name="about/hero" class="rounded-card ring-1 ring-brand-orange/20" priority />
+    </TheHero>
 
     <!-- Why a Custom LMS -->
     <section class="section section-narrow">

@@ -8,8 +8,10 @@
 // its prompt and a copy button. Production builds skip empty slots, so the live
 // site never shows a placeholder.
 //
-// Slot names, prompts and the house style match skill-wanderer.com (its
-// data/image-slots.ts), so an image made for a slot there fits the same slot here.
+// The house style and the learning path slots match skill-wanderer.com (its
+// data/image-slots.ts), so an image made for one of those slots there fits the
+// same slot here. The other slots are the Dojo's own. Their names don't repeat
+// any slot on the main site, so a shared name always means a shared image.
 
 export type ImageSlotRatio = '16/9' | '4/3'
 
@@ -45,6 +47,15 @@ export const fullImagePrompt = (spec: ImageSlotSpec) =>
   `${spec.prompt} ${IMAGE_HOUSE_STYLE} ${FORMAT_HINTS[spec.ratio]}`
 
 export const imageSlots: Record<string, ImageSlotSpec> = {
+  // ── Home: the hero. Not home/hero, which is a different image on the main site ──
+  'home/welcome': {
+    ratio: '16/9',
+    alt: 'Travelers walking a lantern-lit path up a hill toward an open timber dojo where learners study inside',
+    prompt:
+      'A wide timber dojo on a gentle hillside at dawn, its sliding doors pulled all the way open with no gate or fence in front. Warm lamplight spills across the wooden floor, ' +
+      'where a few learners sit at low desks with notebooks and laptops. A path lined with small lanterns winds up the hill to the doors, and travelers of different ages with backpacks walk up it toward the light.',
+  },
+
   // ── Learning paths: hub hero, then one cover per path (path card and path page) ──
   'learning-paths/hub': {
     ratio: '16/9',
@@ -144,6 +155,49 @@ export const imageSlots: Record<string, ImageSlotSpec> = {
     prompt:
       'An architect\'s drafting table with a detailed blueprint of a building made from repeating modular blocks, a scale model of interlocking modules beside it, ' +
       'and a compass and ruler under a warm desk lamp.',
+  },
+
+  // ── About and Why Custom Dojo: why we built our own platform ──
+  'about/hero': {
+    ratio: '16/9',
+    alt: 'Two builders at a workbench at night fitting the last beam onto a wooden model of a learning hall, beside an open laptop',
+    prompt:
+      'A cozy workshop at night. Two builders, seen from behind, stand at a large workbench fitting the last roof beam onto a detailed wooden model of a small learning hall, ' +
+      'its tiny doors open and a warm light already glowing inside. An open laptop beside the model shows abstract colored lines that suggest code, and hand tools hang neatly on the wall.',
+  },
+  'why-custom-dojo/hero': {
+    ratio: '16/9',
+    alt: 'A small team carrying boxes of books from a gated, cluttered fortress across a bridge to a bright, open timber hall',
+    prompt:
+      'Moving day at dawn. On the left, a heavy stone fortress with its iron gate shut, its courtyard cluttered with stacked crates, tangled ropes and mismatched machinery. ' +
+      'On the right, across a short wooden bridge, a light, open-sided timber hall with its doors wide open and lamplight spilling out. ' +
+      'A small team, seen from behind, carries boxes of books and scrolls across the bridge toward the new hall.',
+  },
+
+  // ── Lyra, the Dojo's AI archivist. Ribbon bookmarks stand for her source links ──
+  'lyra/hero': {
+    ratio: '16/9',
+    alt: 'An archivist in a vast lamplit archive handing a young traveler a book with ribbon bookmarks marking its pages',
+    prompt:
+      'A vast, quiet archive at night, with tall wooden shelves of books and scroll cases rising into the darkness and rolling ladders leaning against them. ' +
+      'At a long reading desk under a warm lamp, a cloaked archivist in soft silhouette hands a young traveler a book with ribbon bookmarks marking the exact pages, ' +
+      'a neat stack of marked books beside them.',
+  },
+
+  // ── Old Dojo links and the error page ──
+  'old-material/hero': {
+    ratio: '16/9',
+    alt: 'An old stone archive with its door ajar, and a lantern-lit path leading from it to a new, brightly lit hall',
+    prompt:
+      'An old stone archive at dusk, its heavy wooden door left ajar with dusty shelves of scrolls just visible inside and a single lantern on the step. ' +
+      'From the doorway, a short path lined with small lanterns crosses the grass to a new timber hall nearby, its doors wide open and warm light pouring out.',
+  },
+  'error/hero': {
+    ratio: '16/9',
+    alt: 'A traveler with a lantern where a forest trail ends, beside a fork whose lit path leads back toward a glowing hall',
+    prompt:
+      'A forest trail at night that ends at a wall of overgrown brambles, where a traveler with a backpack stands holding up a lantern, seen from behind. ' +
+      'Just behind them, a blank wooden signpost marks a fork, and a second path lined with small warm lanterns curves back through the trees toward the glowing windows of a distant hall.',
   },
 }
 

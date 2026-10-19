@@ -87,7 +87,9 @@ const roadmap = [
       description="We moved away from a traditional LMS so the Dojo could be faster, more open, easier to evolve, and better aligned with how Skill-Wanderer actually teaches and builds."
       :cta-primary="{ label: 'Browse Courses', to: '/courses' }"
       :cta-secondary="{ label: 'Explore Learning Paths', to: '/paths' }"
-    />
+    >
+      <ImageSlot name="why-custom-dojo/hero" class="rounded-card ring-1 ring-brand-orange/20" priority />
+    </TheHero>
 
     <section class="section section-narrow">
       <div class="glass-card p-8 md:p-12 space-y-6">

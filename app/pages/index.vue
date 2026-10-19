@@ -66,7 +66,9 @@ const publishedCourseCount = allCourses.filter(isPublishedCourse).length
         { value: '100%', label: 'Free' },
         { value: 'Open', label: 'Source' },
       ]"
-    />
+    >
+      <ImageSlot name="home/welcome" class="mt-12 rounded-card ring-1 ring-brand-orange/20" priority />
+    </TheHero>
 
     <!-- Featured path -->
     <section class="section section-glow">

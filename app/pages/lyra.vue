@@ -14,7 +14,9 @@ useSeo({
       description="Your AI-powered guide to the Dojo's knowledge. Ask Lyra about courses, lessons, learning paths, and more."
       :cta-primary="{ label: 'Browse Courses', to: '/courses' }"
       :cta-secondary="{ label: 'Explore Learning Paths', to: '/paths' }"
-    />
+    >
+      <ImageSlot name="lyra/hero" class="rounded-card ring-1 ring-brand-orange/20" priority />
+    </TheHero>
 
     <!-- What is Lyra -->
     <section class="section section-narrow">

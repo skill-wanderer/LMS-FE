@@ -14,12 +14,17 @@ useSeo({
   description: 'The page you tried to access belongs to the old Dojo. Welcome to the new Skill-Wanderer Dojo!',
   noIndex: true,
 })
+
+// Once its illustration exists, it takes the archive icon's place (production skips empty slots).
+const { shown: hasIllustration } = useImageSlot('old-material/hero')
 </script>
 
 <template>
-  <div class="min-h-[80vh] flex items-center justify-center p-10 max-sm:p-6">
+  <!-- The top padding keeps the content clear of the fixed navigation -->
+  <div class="min-h-[80vh] flex items-center justify-center px-10 pb-10 pt-28 max-sm:px-6 max-sm:pb-6">
     <div class="text-center max-w-[600px]">
-      <Icon name="mdi:archive-clock-outline" class="text-brand-orange text-[5rem] mb-4" />
+      <ImageSlot name="old-material/hero" class="mb-8 rounded-card ring-1 ring-brand-orange/20" priority />
+      <Icon v-if="!hasIllustration" name="mdi:archive-clock-outline" class="text-brand-orange text-[5rem] mb-4" />
 
       <h1 class="text-[clamp(1.4rem,4vw,2rem)] font-bold mb-4">
         Old Dojo Material
