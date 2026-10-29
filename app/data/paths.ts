@@ -119,7 +119,7 @@ const paths: PathData[] = [
       },
     ],
     courses: [
-      { ...aiFirst, code: 'AE01', description: 'Learn how to use AI tools effectively to accelerate your learning and build stronger habits for real-world work.' },
+      { ...ownTeacher, code: 'AE01', description: 'The prerequisite for everything else on the Dojo. It covers why self-directed learning matters, how to combine learning methods, and how to keep it enjoyable for life.' },
       { code: 'AE02', title: 'The Learner\'s Mindset in the AI Era' },
       { code: 'AE03', title: 'Finding Your Direction: How to Break Down a New Field' },
       { code: 'AE04', title: 'Spotting Hype, Scams and Worthless Courses' },
