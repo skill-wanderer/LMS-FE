@@ -174,6 +174,8 @@ Run `npm test` for release-time, timezone, draft, and content-access checks.
 
 See [Publishing lesson media](docs/lesson-media-publishing.md) for the NotebookLM-to-YouTube/Spotify workflow, description and lesson-artwork conventions, public PDF/image hosting, embed validation, and the Summary and Takeaway release record.
 
+The full video, short video, and Spotify episode must all use the lesson's exact title, including its wording, punctuation, and capitalisation.
+
 ## SEO Configuration
 
 This project is built for public, crawlable access:

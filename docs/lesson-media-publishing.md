@@ -14,6 +14,8 @@ Use the lesson's exact `title` from its LMS source file as the public title of b
 
 For this release, all three public titles are exactly **Summary and Takeaway**. Verify the saved titles against the lesson after publishing or editing.
 
+Apply this rule when preparing a draft, before publication. If correcting an existing release, edit the existing video or episode and keep its URL. Update cross-link labels, lesson embed labels, and the release record to reflect the corrected title.
+
 ## Descriptions and artwork
 
 Read a recent release from the same course on both YouTube and Spotify before preparing descriptions. The established pattern is:
@@ -78,6 +80,7 @@ Both YouTube thumbnails use [summary-hero.png](../public/images/lessons/own-teac
 
 Verification completed:
 
+- After the title correction, public YouTube and Spotify metadata confirmed that the full video, short video, and podcast were each titled exactly `Summary and Takeaway`, matching the lesson's `title`.
 - Both YouTube videos were public, processed, and embeddable.
 - Spotify showed the episode as published, with its revised description and lesson cover saved after reload.
 - The Spotify embed, slide PDF, and infographic returned HTTP 200 with the expected content types.
