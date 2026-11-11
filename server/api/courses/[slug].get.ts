@@ -1,14 +1,14 @@
-/**
- * GET /api/courses/:slug
- *
- * Course content is served from the frontend bundle.
- * This endpoint is reserved for future student-specific data
- * (e.g. lesson completion status, bookmarks) when auth is added.
- */
-export default defineEventHandler(async (event) => {
-  const slug = getRouterParam(event, 'slug')
+import allCourses from '~/data/courses'
+import { getPublicCourses } from '../../utils/course-publication'
 
-  return {
-    message: `Course content for "${slug}" is served from the frontend. This endpoint is reserved for student-specific data.`,
+export default defineEventHandler((event) => {
+  setHeader(event, 'Cache-Control', 'no-store')
+  const slug = getRouterParam(event, 'slug')
+  const course = getPublicCourses(allCourses).find(course => course.slug === slug)
+
+  if (!course) {
+    throw createError({ statusCode: 404, statusMessage: 'Course not found' })
   }
+
+  return course
 })

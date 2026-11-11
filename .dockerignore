@@ -10,3 +10,6 @@ LICENSE
 .env*
 .dockerignore
 Dockerfile
+
+# Local account information and MCP sessions
+dev-op/

@@ -50,6 +50,8 @@ export interface Lesson {
   title: string
   type: 'video' | 'lesson' | 'assignment'
   status?: PublishStatus
+  /** ISO 8601 release time with a timezone, e.g. 2026-12-01T09:00:00+07:00. */
+  publishAt?: string
   content?: string
   videoUrl?: string
   completed?: boolean
@@ -86,7 +88,23 @@ export function isPublishedCourse(course: Course): boolean {
 }
 
 export function isPublishedLesson(lesson: Lesson): boolean {
-  return lesson.status !== 'draft'
+  if (lesson.status === 'draft') return false
+  if (lesson.publishAt === undefined) return true
+
+  // Require an explicit timezone so release times do not depend on the server.
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?(?:Z|[+-]\d{2}:\d{2})$/.test(lesson.publishAt)) {
+    return false
+  }
+
+  const publishTime = Date.parse(lesson.publishAt)
+  if (!Number.isFinite(publishTime)) return false
+
+  // Date.parse normalizes dates such as February 30 instead of rejecting them.
+  const datePart = lesson.publishAt.slice(0, 10)
+  const calendarDate = new Date(`${datePart}T00:00:00Z`)
+  if (calendarDate.toISOString().slice(0, 10) !== datePart) return false
+
+  return publishTime <= Date.now()
 }
 
 export interface LearningPath {

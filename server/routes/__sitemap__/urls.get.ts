@@ -43,7 +43,7 @@ export default defineSitemapEventHandler(() => {
       if (!isPublishedLesson(lesson)) continue
       urls.push(asSitemapUrl({
         loc: `/courses/${course.slug}/lessons/${lesson.slug}`,
-        lastmod: lesson.updatedAt || course.updatedAt,
+        lastmod: lesson.updatedAt || lesson.publishAt || course.updatedAt,
         changefreq: 'monthly',
         priority: 0.7,
       }))

@@ -1,6 +1,5 @@
 import type { Course } from '~/types/course'
-import { getAllLessons, isPublishedCourse } from '~/types/course'
-import allCourses from '~/data/courses'
+import { getAllLessons } from '~/types/course'
 
 /**
  * Format a duration in minutes into a human-readable string.
@@ -25,15 +24,14 @@ function getCourseDuration(course: Course): number {
 /**
  * Composable for accessing course catalogue data.
  *
- * Course content (lessons, descriptions, metadata) is bundled on the frontend
- * for instant access with zero network latency. The backend is only used for
- * student-specific actions (progress tracking, assignment submissions, etc.).
+ * Global route middleware loads the course outlines from the Nuxt server.
+ * Lesson bodies are fetched separately after the server checks publication.
  *
  * To add a new course, create a file in ~/data/courses/ and register it in
  * ~/data/courses/index.ts.
  */
 export function useCourses() {
-  const courses = ref<Course[]>(allCourses.filter(isPublishedCourse))
+  const courses = useState<Course[]>('course-catalogue', () => [])
 
   function getCourseBySlug(slug: string): Course | undefined {
     return courses.value.find(c => c.slug === slug)

@@ -49,6 +49,8 @@ export default defineNuxtConfig({
   sitemap: {
     sources: ['/__sitemap__/urls'],
     exclude: ['/auth/**', '/search'],
+    // Re-evaluate scheduled lessons instead of keeping a pre-release sitemap.
+    cacheMaxAgeSeconds: 0,
   },
 
   robots: {

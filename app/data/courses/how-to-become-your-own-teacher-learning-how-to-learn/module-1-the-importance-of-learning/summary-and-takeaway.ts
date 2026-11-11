@@ -10,13 +10,13 @@ const lesson: Lesson = {
   order: 7,
   hideCompletion: false,
   createdAt: '2026-09-22',
-  updatedAt: '2026-09-22',
+  updatedAt: '2026-11-11',
   content: `<div class="format-selector">
 <div class="format-notice">
   <span class="format-notice-icon">&#128161;</span>
   <div>
     <strong>Choose Your Learning Material</strong>
-    <p>This lesson is being produced in <strong>multiple formats</strong>. The lesson itself is the same in each one, so pick whichever suits your context right now. Formats still in production are marked below.</p>
+    <p>This lesson is available in <strong>multiple formats</strong>. The lesson itself is the same in each one, so pick whichever suits your context right now.</p>
   </div>
 </div>
 
@@ -89,45 +89,40 @@ const lesson: Lesson = {
 
 <div class="format-content" data-content="video" style="display:none;">
 <h2>&#127916; Video Version</h2>
-<p><em>The video version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
+<h3>Full Lesson Video</h3>
 <div class="video-embed">
-  <iframe title="LESSON TITLE lesson video" src="https://www.youtube-nocookie.com/embed/VIDEO_ID" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <iframe title="Summary and Takeaway full lesson video" src="https://www.youtube-nocookie.com/embed/38LBMJsVvK4" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
--->
+<p><em><a href="https://www.youtube.com/watch?v=38LBMJsVvK4" target="_blank" rel="noopener noreferrer">Watch the full video on YouTube</a>.</em></p>
+<h3>Short Overview</h3>
+<div class="video-embed">
+  <iframe title="Summary and Takeaway short video" src="https://www.youtube-nocookie.com/embed/NuswClWuKTI" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+<p><em><a href="https://www.youtube.com/watch?v=NuswClWuKTI" target="_blank" rel="noopener noreferrer">Watch the short video on YouTube</a>.</em></p>
 </div>
 
 <div class="format-content" data-content="audio" style="display:none;">
 <h2>&#127911; Audio Version</h2>
-<p><em>The audio version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <div class="audio-embed">
-  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/EPISODE_ID?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  <iframe title="Summary and Takeaway audio episode" style="border-radius:12px" src="https://open.spotify.com/embed/episode/0FfGLSvDFfV013Vy1PT77f?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
 </div>
-<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/EPISODE_ID" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
--->
+<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/0FfGLSvDFfV013Vy1PT77f" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
 </div>
 
 <div class="format-content" data-content="slides" style="display:none;">
 <h2>&#128202; Slides Version</h2>
-<p><em>The slide deck for this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <div class="slides-embed" style="width:100%;border-radius:8px;overflow:hidden;">
-  <iframe src="SLIDE_PDF_URL" width="100%" height="600" style="border:none;" title="LESSON TITLE slides"></iframe>
+  <iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/summary-and-takeaway/Becoming_Your_Own_Teacher.pdf" width="100%" height="600" style="border:none;" title="Weighing Anchor: A field manual for becoming your own teacher slides"></iframe>
 </div>
-<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Cannot see the slides? <a href="SLIDE_PDF_URL" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
--->
+<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Cannot see the slides? <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/summary-and-takeaway/Becoming_Your_Own_Teacher.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
 </div>
 
 <div class="format-content" data-content="infographic" style="display:none;">
 <h2>&#128444;&#65039; Infographic</h2>
-<p><em>The one-page infographic for this lesson is still in production. The Reading tab has the full lesson, including its diagrams.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the asset exists.
 <figure style="margin:0;text-align:center;">
-  <img src="/images/lessons/own-teacher/INFOGRAPHIC_FILE.png" alt="Single-page infographic summarising this lesson" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
-  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The whole lesson on one page.</figcaption>
+  <img src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/summary-and-takeaway/Becoming_Your_Own_Teacher_Infographic.png" alt="Infographic on becoming your own teacher, comparing the scale of formal education with the fit of self-teaching, the shelf life of principles, practices and tools, and three mindset traps: rejecting school, endlessly preparing and waiting for permission" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The whole lesson on one page. <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/summary-and-takeaway/Becoming_Your_Own_Teacher_Infographic.png" target="_blank" rel="noopener noreferrer">Open full size</a></figcaption>
 </figure>
--->
 </div>
 `,
   quiz: {

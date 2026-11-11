@@ -13,7 +13,8 @@
     "preview": "nuxt preview",
     "preview:cf": "wrangler dev",
     "deploy:cf": "wrangler deploy",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@nuxt/icon": "^2.2.1",
@@ -33,6 +34,7 @@
     "serialize-javascript": "^7.0.4"
   },
   "devDependencies": {
-    "@iconify-json/mdi": "^1.2.3"
+    "@iconify-json/mdi": "^1.2.3",
+    "jiti": "^2.6.1"
   }
 }

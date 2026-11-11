@@ -142,6 +142,38 @@ npm run deploy:cf
 
 The Cloudflare deployment now uses the Worker runtime with an asset binding, so all routes stay server-rendered instead of mixing static Pages output with edge execution.
 
+## Scheduling Lessons
+
+To release a lesson automatically, set `status: 'published'` and add `publishAt`
+in its lesson file under `app/data/courses/`:
+
+```ts
+status: 'published',
+publishAt: '2026-12-01T09:00:00+07:00', // 9 AM in Vietnam
+```
+
+Use an ISO 8601 date and time with an explicit timezone (`Z` for UTC or an offset
+such as `+07:00`). A missing timezone or invalid timestamp keeps the lesson
+unavailable. `createdAt` and `updatedAt` remain metadata and do not schedule releases.
+
+Before release, the outline shows the lesson as Planned. Its page and content API
+return 404, and it is excluded from lesson navigation and the sitemap. Lesson
+bodies, videos, and quizzes are loaded from the server only after publication;
+they are not bundled into browser JavaScript or included in course outlines.
+
+The server checks the time on each request. Once the time is reached, the lesson
+is available on the next visit, navigation, or reload without rebuilding or
+redeploying. Deploy the lesson with its schedule ahead of time. A lesson without
+`publishAt` keeps its existing behavior, and `status: 'draft'` always stays
+unavailable. If a course overrides lesson statuses in its `index.ts` (such as the
+HTML and React courses), ensure the scheduled lesson is also published there.
+
+Run `npm test` for release-time, timezone, draft, and content-access checks.
+
+## Publishing Lesson Media
+
+See [Publishing lesson media](docs/lesson-media-publishing.md) for the NotebookLM-to-YouTube/Spotify workflow, description and lesson-artwork conventions, public PDF/image hosting, embed validation, and the Summary and Takeaway release record.
+
 ## SEO Configuration
 
 This project is built for public, crawlable access:

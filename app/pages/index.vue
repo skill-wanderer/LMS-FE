@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { featuredPath, plannedPathGroups } from '~/data/paths'
-import allCourses from '~/data/courses'
-import { isPublishedCourse } from '~/types/course'
 
 useSeo({
   title: 'Skill-Wanderer Dojo — Free Open Learning Platform',
   description: 'Free, open learning on Skill-Wanderer Dojo. Start with Learning in the AI Era: the mindset, direction and ways of learning you need while AI changes everything.',
 })
 
-const { getCourseBySlug } = useCourses()
+const { courses, getCourseBySlug } = useCourses()
 const firstCourse = featuredPath.courses.find(course => course.slug && getCourseBySlug(course.slug))
 
 const features = [
@@ -49,7 +47,7 @@ const features = [
   },
 ]
 
-const publishedCourseCount = allCourses.filter(isPublishedCourse).length
+const publishedCourseCount = computed(() => courses.value.length)
 </script>
 
 <template>

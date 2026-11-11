@@ -19,13 +19,26 @@ if (!course) {
 }
 
 const allLessons = getAllLessons(course)
-const lesson = allLessons.find(l => l.slug === lessonSlug)
+const refreshOnNavigation = import.meta.client && !useNuxtApp().isHydrating
+const { data: lessonData, error: lessonError, refresh: refreshLesson } = await useFetch<Lesson>(
+  `/api/courses/${encodeURIComponent(courseSlug)}/lessons/${encodeURIComponent(lessonSlug)}`,
+  {
+    immediate: !refreshOnNavigation,
+    getCachedData: (key, nuxtApp) => nuxtApp.isHydrating ? nuxtApp.payload.data[key] : undefined,
+  },
+)
+if (refreshOnNavigation) await refreshLesson()
+const lesson = lessonData.value
 
-if (!lesson) {
-  throw createError({ statusCode: 404, statusMessage: 'Lesson not found' })
+if (lessonError.value) {
+  throw createError({
+    statusCode: lessonError.value.statusCode || 500,
+    statusMessage: lessonError.value.statusCode === 404 ? 'Lesson not published yet' : 'Unable to load lesson',
+  })
 }
 
-if (!isPublishedLesson(lesson)) {
+// The content API enforces the release using the server clock.
+if (!lesson) {
   throw createError({ statusCode: 404, statusMessage: 'Lesson not published yet' })
 }
 
@@ -38,7 +51,7 @@ useLessonSeo({
   courseTitle: course.title,
   courseSlug: courseSlug,
   lessonSlug: lessonSlug,
-  datePublished: lesson.createdAt || course.createdAt,
+  datePublished: lesson.publishAt || lesson.createdAt || course.createdAt,
   dateModified: lesson.updatedAt || course.updatedAt,
   videoUrl: firstVideoUrl,
   author: course.author ? { name: course.author.name, url: course.author.websiteUrl } : undefined,

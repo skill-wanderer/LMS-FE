@@ -22,3 +22,9 @@ logs
 .env
 .env.*
 !.env.example
+
+# LinkedIn post handoff: drafts and scheduling assets, local only
+linkedinPost/
+
+# Local account information, MCP helpers, and sessions
+/dev-op/
