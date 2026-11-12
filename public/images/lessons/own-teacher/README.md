@@ -44,6 +44,18 @@ Each lesson file contains the full scene prompt in an HTML comment directly abov
 | 19 | `summary-hero.png` | Summary and Takeaway | Chart of the route past six waypoints | ✅ Generated |
 | 20 | `summary-one-to-one.png` | " | One teacher for thirty, one teacher for one | ✅ Generated |
 
+### Module 2
+
+The opening lesson's three reading illustrations are generated and connected. The
+comment above each `<figure>` holds its scene prompt. The exact generation prompts
+and output sizes are recorded in [the generation notes](../../../../docs/image-generation/no-best-way-to-learn.md).
+
+| # | File name | Lesson | Shows | Status |
+| --- | --- | --- | --- | --- |
+| 21 | `no-best-way-hero.png` | There Is No Best Way to Learn, Only a Better One | Three terrains, each with the vehicle that suits it | ✅ Generated (1600×900) |
+| 22 | `no-best-way-three-fields.png` | " | Same learner in three fields, with different tools in each | ✅ Generated (1600×900) |
+| 23 | `no-best-way-seven-methods.png` | " | Seven method objects joined by one thread | ✅ Generated (1600×900) |
+
 ## Square Hero Images (1:1)
 
 1:1 square versions of each lesson's hero image for cards, social sharing, and square thumbnail displays.
@@ -57,6 +69,7 @@ Each lesson file contains the full scene prompt in an HTML comment directly abov
 | 5 | `more-fun-hero-square.png` | It Is More Productive, and It Is More Fun | ✅ Generated (1024×1024) |
 | 6 | `captain-hero-square.png` | There Is No Deadline: You Are the Captain | ✅ Generated (1024×1024) |
 | 7 | `summary-hero-square.png` | Summary and Takeaway | ✅ Generated (1024×1024) |
+| 8 | `no-best-way-hero-square.png` | There Is No Best Way to Learn, Only a Better One | ✅ Generated (1024×1024) |
 
 ## Notes
 
