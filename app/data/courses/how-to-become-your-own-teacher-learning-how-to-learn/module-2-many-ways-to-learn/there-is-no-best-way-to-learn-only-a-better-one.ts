@@ -10,13 +10,13 @@ const lesson: Lesson = {
   order: 8,
   hideCompletion: false,
   createdAt: '2026-11-12',
-  updatedAt: '2026-11-12',
+  updatedAt: '2026-11-19',
   content: `<div class="format-selector">
 <div class="format-notice">
   <span class="format-notice-icon">&#128161;</span>
   <div>
     <strong>Choose Your Learning Material</strong>
-    <p>This lesson is being produced in <strong>multiple formats</strong>. The lesson itself is the same in each one, so pick whichever suits your context right now. Formats still in production are marked below.</p>
+    <p>Use the reading, full video, or audio to work through the lesson. The short video, slides, and infographic give you a quick way to review the main ideas.</p>
   </div>
 </div>
 
@@ -132,52 +132,40 @@ const lesson: Lesson = {
 
 <div class="format-content" data-content="video" style="display:none;">
 <h2>&#127916; Video Version</h2>
-<p><em>The video version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embeds below once both videos exist.
 <h3>Full Lesson Video</h3>
 <div class="video-embed">
-  <iframe title="There Is No Best Way to Learn, Only a Better One full lesson video" src="https://www.youtube-nocookie.com/embed/FULL_VIDEO_ID" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <iframe title="There Is No Best Way to Learn, Only a Better One full lesson video" src="https://www.youtube-nocookie.com/embed/LuhOFumQbms" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
-<p><em><a href="https://www.youtube.com/watch?v=FULL_VIDEO_ID" target="_blank" rel="noopener noreferrer">Watch the full video on YouTube</a>.</em></p>
+<p><em><a href="https://www.youtube.com/watch?v=LuhOFumQbms" target="_blank" rel="noopener noreferrer">Watch the full video on YouTube</a>.</em></p>
 <h3>Short Overview</h3>
 <div class="video-embed">
-  <iframe title="There Is No Best Way to Learn, Only a Better One short video" src="https://www.youtube-nocookie.com/embed/SHORT_VIDEO_ID" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <iframe title="There Is No Best Way to Learn, Only a Better One short video" src="https://www.youtube-nocookie.com/embed/AribijCPWOU" width="100%" height="500" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
-<p><em><a href="https://www.youtube.com/watch?v=SHORT_VIDEO_ID" target="_blank" rel="noopener noreferrer">Watch the short video on YouTube</a>.</em></p>
--->
+<p><em><a href="https://www.youtube.com/shorts/AribijCPWOU" target="_blank" rel="noopener noreferrer">Watch the short video on YouTube</a>.</em></p>
 </div>
 
 <div class="format-content" data-content="audio" style="display:none;">
 <h2>&#127911; Audio Version</h2>
-<p><em>The audio version of this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the episode exists.
 <div class="audio-embed">
-  <iframe title="There Is No Best Way to Learn, Only a Better One audio episode" style="border-radius:12px" src="https://open.spotify.com/embed/episode/EPISODE_ID?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  <iframe title="There Is No Best Way to Learn, Only a Better One audio episode" style="border-radius:12px" src="https://open.spotify.com/embed/episode/4s6brHDPYQN6MU5Ds6Du0S?utm_source=generator" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
 </div>
-<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/EPISODE_ID" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
--->
+<p><em>Prefer the Spotify app? <a href="https://open.spotify.com/episode/4s6brHDPYQN6MU5Ds6Du0S" target="_blank" rel="noopener noreferrer">Open this episode on Spotify</a>.</em></p>
 </div>
 
 <div class="format-content" data-content="slides" style="display:none;">
 <h2>&#128202; Slides Version</h2>
-<p><em>The slide deck for this lesson is still in production. The Reading tab has the full lesson.</em></p>
-<!-- TODO: replace the paragraph above with the embed below once the deck is in the course asset repository.
 <div class="slides-embed" style="width:100%;border-radius:8px;overflow:hidden;">
-  <iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/there-is-no-best-way-to-learn-only-a-better-one/SLIDES_FILE.pdf" width="100%" height="600" style="border:none;" title="DECK TITLE slides"></iframe>
+  <iframe src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/there-is-no-best-way-to-learn-only-a-better-one/The_Physics_of_Learning.pdf" width="100%" height="600" style="border:none;" title="The Physics of Learning slide deck" loading="lazy"></iframe>
 </div>
-<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Cannot see the slides? <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/there-is-no-best-way-to-learn-only-a-better-one/SLIDES_FILE.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
--->
+<p style="margin-top:0.75rem;font-size:0.875rem;color:#6b7280;">Cannot see the slides? <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/there-is-no-best-way-to-learn-only-a-better-one/The_Physics_of_Learning.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a></p>
 </div>
 
 <div class="format-content" data-content="infographic" style="display:none;">
 <h2>&#128444;&#65039; Infographic</h2>
-<p><em>The one-page infographic for this lesson is still in production. The Reading tab has the full lesson, including its diagrams.</em></p>
-<!-- TODO: replace the paragraph above with the figure below once the infographic is in the course asset repository, and write the alt text from the image itself.
 <figure style="margin:0;text-align:center;">
-  <img src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/there-is-no-best-way-to-learn-only-a-better-one/INFOGRAPHIC_FILE.png" alt="INFOGRAPHIC ALT TEXT" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
-  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The whole lesson on one page. <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/there-is-no-best-way-to-learn-only-a-better-one/INFOGRAPHIC_FILE.png" target="_blank" rel="noopener noreferrer">Open full size</a></figcaption>
+  <img src="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/there-is-no-best-way-to-learn-only-a-better-one/Effective_Learning_Method_Guide.png" alt="Guide to choosing a learning method by where the knowledge lives, whether you need facts, skill or judgement, and how far you have progressed. Examples compare reading for marketing, watching and building for tech, and conversations and experiments for entrepreneurship." width="2752" height="1536" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  <figcaption style="margin-top:0.5rem;font-size:0.85rem;color:#6b7280;">The whole lesson on one page. <a href="https://cdn.jsdelivr.net/gh/skill-wanderer/How-to-Become-Your-Own-Teacher-Learning-How-to-Learn@main/there-is-no-best-way-to-learn-only-a-better-one/Effective_Learning_Method_Guide.png" target="_blank" rel="noopener noreferrer">Open full size</a></figcaption>
 </figure>
--->
 </div>
 `,
   quiz: {
